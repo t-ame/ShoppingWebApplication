@@ -1,14 +1,14 @@
 package com.java.exception;
 
-public class GeneralException extends Exception {
+public class DatabaseException extends Exception {
 
 	private static final long serialVersionUID = -655203852970332508L;
 
-	public GeneralException() {
+	public DatabaseException() {
 		super();
 	}
 
-	public GeneralException(String message) {
+	public DatabaseException(String message) {
 		super(message);
 	}
 

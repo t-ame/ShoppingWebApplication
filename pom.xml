@@ -45,6 +45,12 @@
 			<version>5.1.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -62,7 +68,8 @@
 				</configuration>
 			</plugin>
 
-			<!-- need maven-compiler-plugin: compile and maven-war-plugin: create a war file -->
+			<!-- need maven-compiler-plugin: compile and maven-war-plugin: create 
+				a war file -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
