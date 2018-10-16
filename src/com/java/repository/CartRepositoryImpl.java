@@ -6,7 +6,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
 
 @Repository("cartrep")
-@DependsOn("flyway")
+//@DependsOn("flyway")
 public class CartRepositoryImpl implements CartRepository {
 
 	@Autowired

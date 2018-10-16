@@ -4,7 +4,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class UserControllerImpl implements UserController{
+public class UserControllerImpl{
 
 	
 	

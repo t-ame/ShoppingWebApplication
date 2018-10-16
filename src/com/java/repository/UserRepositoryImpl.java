@@ -6,7 +6,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
 
 @Repository("userrep")
-@DependsOn("flyway")
+//@DependsOn("flyway")
 public class UserRepositoryImpl implements UserRepository{
 
 	@Autowired

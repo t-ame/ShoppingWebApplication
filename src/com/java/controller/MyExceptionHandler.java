@@ -1,5 +1,6 @@
 package com.java.controller;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,16 @@ public class MyExceptionHandler {
 		model.addObject("errorMsg", ex.getMessage());
 
 		return model;
+	}
+	
+	@ExceptionHandler(DataAccessException.class) //thrown by JdbcTemplate
+	public ModelAndView handleDataAccessException(DataAccessException ex) {
+
+		ModelAndView model = new ModelAndView("errorPage");
+		model.addObject("errMsg", ex.getMessage());
+
+		return model;
+
 	}
 
 	@ExceptionHandler(Exception.class)

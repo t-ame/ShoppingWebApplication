@@ -1,4 +1,4 @@
-package com.java.util;
+package com.java.config;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;

@@ -2,16 +2,25 @@ package com.java.components;
 
 public class User {
 
+	private int userId;
 	private String userName;
 	private String password;
 	private String firstName;
 	private String lastName;
 
 	enum Role {
-		ADMIN, CUSTOMER, VENDOR
+		ADMIN, CUSTOMER
 	}
 
 	private Role role;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int id) {
+		this.userId = id;
+	}
 
 	public String getUserName() {
 		return userName;

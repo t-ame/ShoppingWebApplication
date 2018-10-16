@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.java.util.MyDataSource;
+import com.java.config.MyDataSource;
 
 @Import(MyDataSource.class)
 @Configuration
@@ -28,15 +28,15 @@ public class SpringConfig {
 //		return cfg;
 //	}
 
-	@Bean(initMethod = "migrate", value = "flyway")
-	public Flyway getFlyway() {
-		Flyway flyway = new Flyway();
-		flyway.setBaselineOnMigrate(true);
-		flyway.setValidateOnMigrate(true);
-		flyway.setLocations("classpath:/migration");
-		flyway.setDataSource(ds);
-		return flyway;
-	}
+//	@Bean(initMethod = "migrate", value = "flyway")
+//	public Flyway getFlyway() {
+//		Flyway flyway = new Flyway();
+//		flyway.setBaselineOnMigrate(true);
+//		flyway.setValidateOnMigrate(true);
+//		flyway.setLocations("classpath:/migration");
+//		flyway.setDataSource(ds);
+//		return flyway;
+//	}
 
 	@Bean
 	public ViewResolver getResolver() {

@@ -5,19 +5,41 @@ import java.util.Set;
 
 public class Product {
 
-	private String name;
+	private int idproductId;
+	private int categoryId;
+	private String productName;
 	private String imageUrl;
-	private Map<String, Set<String>> Properties;
-	private float price;
-	private int rating;
+	private float basePrice;
+	private int productRating;
 	private int quantity;
+	private float productFrequency;
+	private String productDescription;
+//	private Set<Integer> categoryIds;
+//	private Map<String, Set<String>> Properties; // eg. color: red, green, brown... size: small, medium, large... etc.
 
-	public String getName() {
-		return name;
+
+	public int getIdproductId() {
+		return idproductId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setIdproductId(int idproductId) {
+		this.idproductId = idproductId;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	public String getImageUrl() {
@@ -28,28 +50,20 @@ public class Product {
 		this.imageUrl = imageUrl;
 	}
 
-	public Map<String, Set<String>> getProperties() {
-		return Properties;
+	public float getBasePrice() {
+		return basePrice;
 	}
 
-	public void setProperties(Map<String, Set<String>> properties) {
-		Properties = properties;
+	public void setBasePrice(float basePrice) {
+		this.basePrice = basePrice;
 	}
 
-	public float getPrice() {
-		return price;
+	public int getProductRating() {
+		return productRating;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setProductRating(int productRating) {
+		this.productRating = productRating;
 	}
 
 	public int getQuantity() {
@@ -58,6 +72,22 @@ public class Product {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public float getProductFrequency() {
+		return productFrequency;
+	}
+
+	public void setProductFrequency(float productFrequency) {
+		this.productFrequency = productFrequency;
+	}
+
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
 	}
 
 }

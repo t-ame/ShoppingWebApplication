@@ -1,5 +1,6 @@
 package com.java.components;
 
+import java.util.List;
 import java.util.Set;
 
 public class CartEntry {
@@ -7,9 +8,10 @@ public class CartEntry {
 	private String productName;
 	private int productId;
 	private int cartId;
+	private int userId;
 	private int quantity;
 	private float price;
-	private Set<String> productPopertyDetails;
+	private List<CartEntryDetails> cartEntryDetails;
 
 	public String getProductName() {
 		return productName;
@@ -51,12 +53,20 @@ public class CartEntry {
 		this.price = price;
 	}
 
-	public Set<String> getProductPopertyDetails() {
-		return productPopertyDetails;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setProductPopertyDetails(Set<String> productPopertyDetails) {
-		this.productPopertyDetails = productPopertyDetails;
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public List<CartEntryDetails> getCartEntryDetails() {
+		return cartEntryDetails;
+	}
+
+	public void setCartEntryDetails(List<CartEntryDetails> cartEntryDetails) {
+		this.cartEntryDetails = cartEntryDetails;
 	}
 
 }
