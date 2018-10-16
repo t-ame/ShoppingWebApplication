@@ -1,11 +1,14 @@
 package com.java.repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.java.components.ProductCategory;
@@ -17,10 +20,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 	@Autowired
 	BasicDataSource ds;
-
-	@Autowired
-	JdbcTemplate template = new JdbcTemplate(ds);
-
+	
 	@Override
 	public Product getProduct(int id) {
 		// TODO Auto-generated method stub

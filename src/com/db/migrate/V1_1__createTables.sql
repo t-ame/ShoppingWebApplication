@@ -38,7 +38,8 @@ userId int,
 userName varchar,
 password varchar,
 firstName varchar,
-lastName varchar
+lastName varchar,
+userRole varchar
 );
 
 create table addresses

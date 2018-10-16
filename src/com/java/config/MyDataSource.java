@@ -1,10 +1,12 @@
 package com.java.config;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration("datasource")
 @PropertySource("classpath:database.properties")
@@ -35,6 +37,11 @@ public class MyDataSource extends BasicDataSource {
 		ds.setMaxTotal(100);
 		ds.setMaxWaitMillis(3000);
 		return ds;
+	}
+	
+	@Bean
+	public JdbcTemplate getJdbcTemplate(@Autowired BasicDataSource ds) {
+		return new JdbcTemplate(ds);
 	}
 
 	public String getUrl() {

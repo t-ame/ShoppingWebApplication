@@ -8,7 +8,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 
-	enum Role {
+	public enum Role {
 		ADMIN, CUSTOMER
 	}
 
