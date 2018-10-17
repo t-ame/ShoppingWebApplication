@@ -7,6 +7,7 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private int mobileNumber;
 
 	public enum Role {
 		ADMIN, CUSTOMER
@@ -60,6 +61,14 @@ public class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public int getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(int mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 }

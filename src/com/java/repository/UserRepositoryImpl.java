@@ -31,6 +31,7 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setPassword(rs.getString("password"));
 			user.setUserName(rs.getString("userName"));
 			user.setUserId(rs.getInt("userId"));
+			user.setMobileNumber(rs.getInt("mobileNumber"));
 			if (rs.getString("userRole").equalsIgnoreCase("Admin")) {
 				user.setRole(User.Role.ADMIN);
 			} else {
@@ -46,9 +47,9 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	public void addUser(User user) {
-		String statement = "insert into userLogin(userName, password, firstName, lastName, userRole) values (?,?,?,?,?)";
+		String statement = "insert into userLogin(userName, password, firstName, lastName, userRole, mobileNumber) values (?,?,?,?,?,?)";
 		template.update(statement, user.getUserName(), user.getPassword(), user.getFirstName(), user.getLastName(),
-				user.getRole());
+				user.getRole(), user.getMobileNumber());
 	}
 
 }

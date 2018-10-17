@@ -50,6 +50,7 @@ password varchar,
 firstName varchar,
 lastName varchar,
 userRole varchar,
+mobileNumber int,
 PRIMARY KEY (userId)
 );
 
