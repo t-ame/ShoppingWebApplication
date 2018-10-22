@@ -1,9 +1,19 @@
 package com.java.components;
 
-public class Addresses {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private int userId;
-	private int addressId;
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity
+@Table(name = "ADDRESS_TABLE")
+@DynamicUpdate
+public class Address {
+
+	private long addressId;
 	private String addressLine1;
 	private String addressLine2;
 	private String city;
@@ -11,22 +21,18 @@ public class Addresses {
 	private String country;
 	private int zipcode;
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public int getAddressId() {
+	@Id
+	@GeneratedValue
+	@Column(name = "ADDRESS_ID")
+	public long getAddressId() {
 		return addressId;
 	}
 
-	public void setAddressId(int addressId) {
+	public void setAddressId(long addressId) {
 		this.addressId = addressId;
 	}
 
+	@Column(name = "LINE_ONE", nullable = false, length = 150)
 	public String getAddressLine1() {
 		return addressLine1;
 	}
@@ -35,6 +41,7 @@ public class Addresses {
 		this.addressLine1 = addressLine1;
 	}
 
+	@Column(name = "LINE_TWO", nullable = true, length = 150)
 	public String getAddressLine2() {
 		return addressLine2;
 	}
@@ -43,6 +50,7 @@ public class Addresses {
 		this.addressLine2 = addressLine2;
 	}
 
+	@Column(name = "ADDRESS_CITY", nullable = false, length = 50)
 	public String getCity() {
 		return city;
 	}
@@ -51,6 +59,7 @@ public class Addresses {
 		this.city = city;
 	}
 
+	@Column(name = "ADDRESS_STATE", nullable = false, length = 50)
 	public String getState() {
 		return state;
 	}
@@ -59,6 +68,7 @@ public class Addresses {
 		this.state = state;
 	}
 
+	@Column(name = "ADDRESS_COUNTRY", nullable = false, length = 50)
 	public String getCountry() {
 		return country;
 	}
@@ -67,6 +77,7 @@ public class Addresses {
 		this.country = country;
 	}
 
+	@Column(name = "ZIP_CODE", nullable = false)
 	public int getZipcode() {
 		return zipcode;
 	}

@@ -3,40 +3,50 @@ package com.java.components;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity
+@Table(name = "CART_ENTRY_TABLE")
+@DynamicUpdate
 public class CartEntry {
 
-	private String productName;
-	private int productId;
-	private int cartId;
-	private int userId;
+	private Product product;
+	private long cartEntryId;
 	private int quantity;
-	private float price;
-	private List<CartEntryDetails> cartEntryDetails;
+	private List<ProductDetail> cartEntryDetails;
 
-	public String getProductName() {
-		return productName;
+	@Id
+	@GeneratedValue
+	@Column(name = "CART_ENTRY_ID")
+	public long getCartEntryId() {
+		return cartEntryId;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setCartEntryId(long cartEntryId) {
+		this.cartEntryId = cartEntryId;
 	}
 
-	public int getProductId() {
-		return productId;
+	@OneToOne
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public int getCartId() {
-		return cartId;
-	}
-
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
-	}
-
+	@Column(name = "ENTRY_QUANTITY", nullable = false)
 	public int getQuantity() {
 		return quantity;
 	}
@@ -45,27 +55,14 @@ public class CartEntry {
 		this.quantity = quantity;
 	}
 
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public List<CartEntryDetails> getCartEntryDetails() {
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "CART_ENTRY_DETAILS", joinColumns = {
+			@JoinColumn(name = "CART_ENTRY_ID") }, inverseJoinColumns = { @JoinColumn(name = "PRODUCT_DETAIL_ID") })
+	public List<ProductDetail> getCartEntryDetails() {
 		return cartEntryDetails;
 	}
 
-	public void setCartEntryDetails(List<CartEntryDetails> cartEntryDetails) {
+	public void setCartEntryDetails(List<ProductDetail> cartEntryDetails) {
 		this.cartEntryDetails = cartEntryDetails;
 	}
 

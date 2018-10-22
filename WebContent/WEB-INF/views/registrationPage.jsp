@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
@@ -13,36 +13,69 @@
 	crossorigin="anonymous">
 <script
 	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<title>Login Page</title>
+<title>Registration Page</title>
 
 <link href="<c:url value="/style/styles.css" />" rel="stylesheet"
 	type="text/css">
 
 <!-- type="text/css"  -->
 
+<style type="text/css">
+/* body {
+	background-color: #525252;
+} */
+.centered-form {
+	margin-top: 60px;
+}
+
+.centered-form .panel {
+	background: rgba(255, 255, 255, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+</style>
+
 </head>
-
-
-
 <body>
 
 	<jsp:include page="./navbar.jsp" />
+	<!-- 
+	<h2>Registration</h2> -->
 
 
+	<!-- <form action=""> -->
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
 				<div class="card card-signin my-5">
 					<div class="card-body">
-						<h5 class="card-title text-center">Sign In</h5>
-						<form class="form-signin" action="./loginUser" method="post">
+						<h5 class="card-title text-center">Registration</h5>
+						<form class="form-signin" action="./registerUser" method="post">
 
 
 							<div class="errorMsg"><%=request.getAttribute("errorMsg") == null ? "" : request.getAttribute("errorMsg")%></div>
 							<%
 								request.setAttribute("errorMsg", "");
 							%>
-							
+
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+
+										<label for="first_name">First name</label> <input type="text"
+											name="firstName" id="first_name"
+											class="form-control input-sm" placeholder="First Name">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+
+										<label for="last_name">Last name</label> <input type="text"
+											id="last_name" class="form-control input-sm"
+											placeholder="Last Name" name="lastName">
+									</div>
+								</div>
+							</div>
+
 							<div class="form-label-group">
 								<label for="inputEmail">Email address</label> <input
 									type="email" id="inputEmail" class="form-control"
@@ -56,31 +89,31 @@
 									type="password" id="inputPassword" class="form-control"
 									placeholder="Password" required name="userPassword">
 							</div>
+<!-- 
+							<br>
+
+							<div class="form-label-group">
+								<label for="inputConfirmPassword">Confirm password</label> <input
+									type="password" id="inputConfirmPassword" class="form-control"
+									placeholder="Password confirmation" required
+									name="password_confirmation">
+							</div> -->
 
 							<br>
 
-							<div class="custom-control custom-checkbox mb-3">
-								<input type="checkbox" class="custom-control-input"
-									id="customCheck1"> <label class="custom-control-label"
-									for="customCheck1">Remember password</label>
-							</div>
+
 							<button class="btn btn-lg btn-primary btn-block text-uppercase"
-								type="submit">Sign in</button>
+								type="submit">Register</button>
 
-							<br>
-							<div style="text-align: center">
-							<a href="./register" style="color: blue; font-size: 15px">Register new user</a>
-							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-	
+
+
 	<jsp:include page="./footer.jsp" />
-	
+
 </body>
 </html>

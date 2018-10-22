@@ -1,37 +1,35 @@
 package com.java.components;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Immutable;
+
+@Entity
+@Table(name = "PRODUCT_DETAIL_TABLE")
+@DynamicUpdate
+@Immutable
 public class ProductDetail {
 
-	private int detailId;
-	private int productId;
-	private int groupId;
+	private long detailId;
 	private String detailValue;
-	private float priceIncrement;
 
-	public int getDetailId() {
+	@Id
+	@GeneratedValue
+	@Column(name = "PRODUCT_DETAIL_ID")
+	public long getDetailId() {
 		return detailId;
 	}
 
-	public void setDetailId(int detailId) {
+	public void setDetailId(long detailId) {
 		this.detailId = detailId;
 	}
 
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public int getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
-	}
-
+	@Column(name = "DETAIL_VALUE", nullable = false, length = 50)
 	public String getDetailValue() {
 		return detailValue;
 	}
@@ -40,12 +38,9 @@ public class ProductDetail {
 		this.detailValue = detailValue;
 	}
 
-	public float getPriceIncrement() {
-		return priceIncrement;
-	}
-
-	public void setPriceIncrement(float priceIncrement) {
-		this.priceIncrement = priceIncrement;
+	@Override
+	public String toString() {
+		return "[" + detailValue + "]";
 	}
 
 }

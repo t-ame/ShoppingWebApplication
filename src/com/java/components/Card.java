@@ -1,38 +1,48 @@
 package com.java.components;
 
-import java.time.LocalDate;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Immutable;
+
+@Entity
+@Table(name = "CARD_TABLE")
+@DynamicUpdate
+@Immutable
 public class Card {
 
-	private int cardId;
-	private int userId;
-	private String cardName;
-	private int cardNumber;
-	private LocalDate expiryDate;
-	private int cvv;
-
-	enum CardType {
+	public enum CardType {
 		DISCOVER, VISA, AMERICAN_EXPRESS
 	}
 
+	private long cardId;
+	private long cardNumber;
+	private int cvv;
+	private String cardName;
+	private String expiryDate;
+	private Address billingAddress;
 	CardType cardType;
 
-	public int getCardId() {
+	@Id
+	@GeneratedValue
+	@Column(name = "CARD_ID")
+	public long getCardId() {
 		return cardId;
 	}
 
-	public void setCardId(int cardId) {
+	public void setCardId(long cardId) {
 		this.cardId = cardId;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
+	@Column(name = "CARD_NAME", nullable = false, length = 100)
 	public String getCardName() {
 		return cardName;
 	}
@@ -41,22 +51,25 @@ public class Card {
 		this.cardName = cardName;
 	}
 
-	public int getCardNumber() {
+	@Column(name = "CARD_NO", nullable = false)
+	public long getCardNumber() {
 		return cardNumber;
 	}
 
-	public void setCardNumber(int cardNumber) {
+	public void setCardNumber(long cardNumber) {
 		this.cardNumber = cardNumber;
 	}
 
-	public LocalDate getExpiryDate() {
+	@Column(name = "EXP_DATE", nullable = false, length = 10)
+	public String getExpiryDate() {
 		return expiryDate;
 	}
 
-	public void setExpiryDate(LocalDate expiryDate) {
+	public void setExpiryDate(String expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 
+	@Column(name = "CARD_CVV", nullable = false)
 	public int getCvv() {
 		return cvv;
 	}
@@ -65,12 +78,23 @@ public class Card {
 		this.cvv = cvv;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "CARD_TYPE", nullable = false, length = 25)
 	public CardType getCardType() {
 		return cardType;
 	}
 
 	public void setCardType(CardType cardType) {
 		this.cardType = cardType;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	public Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 
 }

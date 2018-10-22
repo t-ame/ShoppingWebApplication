@@ -1,45 +1,52 @@
 package com.java.components;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Immutable;
+
+@Entity
+@Table(name = "ORDER_TABLE")
+@DynamicUpdate
+@Immutable
 public class Order {
 
-	private int userId;
-	private int orderId;
-	private int productId;
+	private long orderId;
 	private int quantity;
-	private int cardId;
-	private int addressId;
-	private int ProductDetailId;
-	private float price;
-	private LocalDate orderDate;
-	private List<OrderDetails> orderDetails;
+	private Product product;
+	private Date orderDate;
+	private boolean complete;
+	private List<ProductDetail> productDetails;
+	private String stringDetails="";
 
-	public int getUserId() {
-		return userId;
-	}
+//	private Card card;
+//	private Address shippingAddress;
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public int getOrderId() {
+	@Id
+	@GeneratedValue
+	@Column(name = "ORDER_ID")
+	public long getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(int orderId) {
+	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
 
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
+	@Column(name = "ORDER_QUANTITY", nullable = false)
 	public int getQuantity() {
 		return quantity;
 	}
@@ -48,52 +55,67 @@ public class Order {
 		this.quantity = quantity;
 	}
 
-	public int getCardId() {
-		return cardId;
+//	@OneToOne(orphanRemoval = false)
+//	public Card getCard() {
+//		return card;
+//	}
+//
+//	public void setCard(Card card) {
+//		this.card = card;
+//	}
+
+	@OneToOne(orphanRemoval = false)
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setCardId(int cardId) {
-		this.cardId = cardId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public int getAddressId() {
-		return addressId;
-	}
+//	@OneToOne(orphanRemoval = false)
+//	public Address getShippingAddress() {
+//		return shippingAddress;
+//	}
+//
+//	public void setShippingAddress(Address shippingAddress) {
+//		this.shippingAddress = shippingAddress;
+//	}
 
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
-
-	public int getProductDetailId() {
-		return ProductDetailId;
-	}
-
-	public void setProductDetailId(int productDetailId) {
-		ProductDetailId = productDetailId;
-	}
-
-	public LocalDate getOrderDate() {
+	@Column(name = "ORDER_DATE", nullable = false)
+	public Date getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(LocalDate orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
-	public float getPrice() {
-		return price;
+	@Column(name = "IS_COMPLETE", nullable = false, length = 10)
+	public boolean isComplete() {
+		return complete;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setComplete(boolean complete) {
+		this.complete = complete;
 	}
 
-	public List<OrderDetails> getOrderDetails() {
-		return orderDetails;
+	@OneToMany(orphanRemoval = false)
+	@JoinTable(name = "ORDER_PRODUCT_DETAIL", joinColumns = { @JoinColumn(name = "ORDER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "PRODUCT_DETAIL_ID") })
+	public List<ProductDetail> getProductDetails() {
+		return productDetails;
 	}
 
-	public void setOrderDetails(List<OrderDetails> orderDetails) {
-		this.orderDetails = orderDetails;
+	public void setProductDetails(List<ProductDetail> productDetails) {
+		this.productDetails = productDetails;
+		for(int i=0; i<productDetails.size(); ++i) {
+			this.stringDetails += productDetails.get(i).toString()+", ";
+		}
+	}
+
+	public String getStringDetails() {
+		return stringDetails;
 	}
 
 }

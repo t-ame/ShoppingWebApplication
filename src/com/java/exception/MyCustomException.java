@@ -1,14 +1,14 @@
 package com.java.exception;
 
-public class DatabaseException extends Exception {
+public class MyCustomException extends Exception {
 
 	private static final long serialVersionUID = -655203852970332508L;
 
-	public DatabaseException() {
+	public MyCustomException() {
 		super();
 	}
 
-	public DatabaseException(String message) {
+	public MyCustomException(String message) {
 		super(message);
 	}
 

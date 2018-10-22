@@ -1,58 +1,57 @@
 package com.java.components;
 
-public class User {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-	private int userId;
-	private String userName;
-	private String password;
-	private String firstName;
-	private String lastName;
-	private int mobileNumber;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.stereotype.Component;
+
+@Entity
+@Table(name = "LOGIN_TABLE")
+@DynamicUpdate
+public class User {
 
 	public enum Role {
 		ADMIN, CUSTOMER
 	}
 
+	@Id
+	@Column(name = "USER_EMAIL", nullable = false, length = 50)
+	private String userEmail;
+
+	@Column(name = "PASSWORD", nullable = false, length = 25)
+	private String userPassword;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "USER_ROLE", nullable = false, length = 20)
 	private Role role;
 
-	public int getUserId() {
-		return userId;
+	@OneToOne
+	@JoinColumn(name = "USER_DETAILS")
+	private UserDetails userDetails;
+
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setUserId(int id) {
-		this.userId = id;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserPassword() {
+		return userPassword;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
 	public Role getRole() {
@@ -63,12 +62,12 @@ public class User {
 		this.role = role;
 	}
 
-	public int getMobileNumber() {
-		return mobileNumber;
+	public UserDetails getUserDetails() {
+		return userDetails;
 	}
 
-	public void setMobileNumber(int mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setUserDetails(UserDetails user) {
+		this.userDetails = user;
 	}
 
 }

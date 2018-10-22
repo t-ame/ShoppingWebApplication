@@ -28,10 +28,32 @@
 
 <body>
 
+	<br>
+	
+	<pre>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</pre>
 
 
 
-	<div style="position: fixed; bottom: 0; left: 0; width: 100%">
+	<div style="position: relative; bottom: 0; left: 0; width: 100%">
 
 		<!-- Footer -->
 		<footer class="page-footer font-small blue pt-4"
@@ -47,7 +69,7 @@
 					<div class="col-md-6 mt-md-0 mt-3">
 
 						<!-- Content -->
-						<h5 class="text-uppercase">MyCart</h5>
+						<h5 class="text-uppercase"><a href="./home">MyCart</a></h5>
 						<p>Your one-stop shopping site with products for all your
 							wishes.</p>
 
