@@ -31,7 +31,7 @@ public class User {
 	private String userPassword;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "USER_ROLE", nullable = false, length = 20)
+	@Column(name = "USER_ROLE", nullable = true, length = 20)
 	private Role role;
 
 	@OneToOne
@@ -68,6 +68,12 @@ public class User {
 
 	public void setUserDetails(UserDetails user) {
 		this.userDetails = user;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userEmail=" + userEmail + ", userPassword=" + userPassword + ", role=" + role + ", userDetails="
+				+ userDetails + "]";
 	}
 
 }

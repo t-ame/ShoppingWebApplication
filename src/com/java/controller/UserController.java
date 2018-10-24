@@ -4,11 +4,14 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -21,48 +24,57 @@ import com.java.service.UserServiceImpl;
 import com.java.util.LastState;
 
 @Controller
-@SessionAttributes(names = { "user", "login", "userdetails"})
+@SessionAttributes(names = { "user", "login", "userdetails" })
 public class UserController {
-
 	
+	@ModelAttribute("user")
+	public User initUser() {
+		return new User();
+	}
+
+	@ModelAttribute("userdetails")
+	public UserDetails initUserDetails() {
+		return new UserDetails();
+	}
+
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
-	
-	@RequestMapping(path = "/loginRed")
-	public ModelAndView loginRedirect(HttpServletRequest req) throws MyCustomException {
-
-		ModelAndView mv = new ModelAndView("loginPage");
-		LastState laststate = new LastState();
-		laststate.setLastUri((String) req.getAttribute("lasturi"));
-		req.getSession(true).setAttribute("laststate", laststate);
-		
-		return mv;
-	}
 
 	@RequestMapping(path = "/loginUser", method = RequestMethod.POST)
-	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req) throws MyCustomException {
+	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp) throws MyCustomException {
 
-		ModelAndView mv = new ModelAndView("errorPage");
-		
-		user = userService.getUser(user.getUserEmail());
-		if(user.getUserEmail() != null) {
+		ModelAndView mv = new ModelAndView("redirect:errorPage");
+		LastState ls = (LastState) req.getSession().getAttribute("laststate");
+
+		String email = user.getUserEmail();
+		String password= user.getUserPassword();
+		user = userService.getUser(email);
+		if (user != null && user.getUserEmail() != null && user.getUserPassword().equals(password)) {
+//			System.out.println(user);
 			try {
-				req.getRequestDispatcher(((LastState)req.getAttribute("laststate")).getLastUri()).forward(req, null);
+				if (ls != null) {
+					System.out.println(ls.getLastUri());
+					req.getRequestDispatcher(ls.getLastUri()).forward(req, resp);
+				} else {
+					mv.setViewName("redirect:../../index");
+				}
 			} catch (ServletException | IOException e) {
-				throw new MyCustomException("Cannot forward request to previous page.");
+				throw new MyCustomException(e.getMessage());
 			}
 		} else {
+			req.getSession().removeAttribute("user");
 			mv.addObject("errorMsg", "Invalid username or password");
-			mv.setViewName("loginPage");
+			mv.setViewName("redirect:loginPage");
 		}
-		
+
 		return mv;
 	}
 
 	@RequestMapping(path = "/registerUser", method = RequestMethod.POST)
-	public ModelAndView registerUser(@ModelAttribute("user") User user, @ModelAttribute("userdetails") UserDetails details) {
-		ModelAndView mv = new ModelAndView("loginPage");
+	public ModelAndView registerUser(@ModelAttribute("user") User user,
+			@ModelAttribute("userdetails") UserDetails details) {
+		ModelAndView mv = new ModelAndView("redirect:loginPage");
 		user.setUserDetails(details);
 		userService.addUser(user);
 		return mv;
@@ -70,26 +82,42 @@ public class UserController {
 
 	@RequestMapping(value = "/deleteUser")
 	public ModelAndView deleteUser(@ModelAttribute("user") User user, HttpServletRequest req) throws MyCustomException {
-
+		ModelAndView mv = new ModelAndView("redirect:../../index");
 		userService.deleteUser(user);
 		try {
 			req.getRequestDispatcher("/home").forward(null, null);
 		} catch (ServletException | IOException e) {
-			throw new MyCustomException("Couldn't redirect to home page.");
+			throw new MyCustomException(e.getMessage());
 		}
-		
-		return null;
+
+		return mv;
 	}
 
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	public ModelAndView updateUser(@ModelAttribute("user") User user, @ModelAttribute("userdetails") UserDetails details) {
+	public ModelAndView updateUser(@ModelAttribute("user") User user,
+			@ModelAttribute("userdetails") UserDetails details) {
 
 		user.setUserDetails(details);
 		userService.updateUser(user);
-		
-		//NOT COMPLETE!!!
-		
+
+		// NOT COMPLETE!!!
+
 		return null;
 	}
+	
+	@RequestMapping(value = "/myAccount/{id}", method = RequestMethod.POST)
+	public ModelAndView userAccount(@ModelAttribute("user") User user,
+			@ModelAttribute("userdetails") UserDetails details, @PathVariable("id") long id) {
+
+//		user.setUserDetails(details);
+//		userService.updateUser(user);
+		
+		
+
+		// NOT COMPLETE!!!
+
+		return null;
+	}
+	
 
 }

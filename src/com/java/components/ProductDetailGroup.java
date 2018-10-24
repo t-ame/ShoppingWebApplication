@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -45,7 +46,7 @@ public class ProductDetailGroup {
 		this.groupName = groupName;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "PRODUCT_DETAIL_GROUPING", joinColumns = { @JoinColumn(name = "PRODUCT_DETAIL_GROUP_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "PRODUCT_DETAIL_ID") })
 	public Set<ProductDetail> getDetailValues() {

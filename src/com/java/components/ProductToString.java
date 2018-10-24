@@ -3,6 +3,7 @@ package com.java.components;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -15,8 +16,11 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 public class ProductToString {
 
+	@Id
 	private long descriptionId;
 	private String description;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Product product;
 	private String catName;
 
@@ -47,7 +51,6 @@ public class ProductToString {
 		this.description = description;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
 	public Product getProduct() {
 		return product;
 	}

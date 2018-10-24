@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService{
 	ProductSorter psorter = new ProductSorter();
 
 	@Override
-	public Product getProduct(int id) {
+	public Product getProduct(long id) {
 		return productRepository.getProduct(id);
 	}
 

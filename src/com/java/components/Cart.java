@@ -68,4 +68,9 @@ public class Cart {
 		cartEntries.add(entry);
 	}
 
+	@Override
+	public String toString() {
+		return "Cart [cartId=" + cartId + ", cartEntries=" + cartEntries + "]";
+	}
+
 }

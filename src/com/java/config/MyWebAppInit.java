@@ -24,11 +24,13 @@ public class MyWebAppInit implements WebApplicationInitializer {
 		rootContext.setServletContext(servletContext);
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 
-		Dynamic servletOne = servletContext.addServlet("myServlet", new DispatcherServlet());
 		FilterRegistration.Dynamic filter = servletContext.addFilter( "loginFilter", new LoginFilter());
 		FilterRegistration.Dynamic filter2 = servletContext.addFilter( "errorHandlerFilter", new ErrorHandlerFilter());
-		filter.addMappingForUrlPatterns(null, true, "/proceedToCheckout","checkout","");
+		filter.addMappingForUrlPatterns(null, true, "/proceedToCheckout");
+//		,"/checkout"
 		filter2.addMappingForUrlPatterns(null, true, "/*");
+		
+		Dynamic servletOne = servletContext.addServlet("myServlet", new DispatcherServlet());
 		servletOne.addMapping("/");
 		servletOne.setAsyncSupported(true);
 		servletOne.setInitParameter("contextConfigLocation", "com.java.config.SpringConfig");

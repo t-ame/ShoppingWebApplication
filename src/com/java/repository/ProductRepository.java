@@ -7,7 +7,7 @@ import com.java.components.Product;
 
 public interface ProductRepository {
 
-	public Product getProduct(int id);
+	public Product getProduct(long id);
 
 //	public List<String> getProductNames(String substring);
 	

@@ -113,6 +113,10 @@ public class Order {
 			this.stringDetails += productDetails.get(i).toString()+", ";
 		}
 	}
+	
+	public void setStringDetails(String string) {
+		this.stringDetails = string;
+	}
 
 	public String getStringDetails() {
 		return stringDetails;

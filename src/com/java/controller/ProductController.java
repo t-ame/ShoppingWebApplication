@@ -22,35 +22,43 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productservice")
 	ProductServiceImpl productService;
-	
-	
-	@RequestMapping(value="/searchProduct", method=RequestMethod.POST)
-	public ModelAndView searchProduct( HttpServletRequest req) throws MyCustomException {
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/searchProduct")
+	public ModelAndView searchProduct(HttpServletRequest req) throws MyCustomException {
+
+//		System.out.println("Inside searchProduct");
 
 		ModelAndView mv = new ModelAndView("displaySearchedProducts");
 		String keys = (String) req.getParameter("searchKeys");
 		String className = (String) req.getParameter("className");
 		List<Product> products = null;
-		if(className.equalsIgnoreCase("all")) {
-			products = productService.getProductsWithName(keys);
-			mv.addObject("products", products);
-		} else {
-			try {
-				products = productService.getProductsCategoryWithName((Class<? extends Product>) Class.forName(className), keys);
-			} catch (ClassNotFoundException e) {
-				throw new MyCustomException("Could not display products for category "+className+ " "+ e.getMessage());
+		if (className != null && keys != null) {
+			if (className.equalsIgnoreCase("all")) {
+				products = productService.getProductsWithName(keys);
+				mv.addObject("products", products);
+			} else {
+				try {
+					Class<? extends Product> c = (Class<? extends Product>) Class.forName("com.java.components."+className);
+					products = productService
+							.getProductsCategoryWithName(c, keys);
+				} catch (ClassNotFoundException e) {
+					throw new MyCustomException(e.getMessage());
+				}
 			}
 		}
-
-		if(products == null) {
-			mv.addObject("searchMsg", "No products found.");
-		}
-		//IMPLEMENT PAGINATION...
 		
+		System.out.println(products);
+		
+		if (products == null || products.size()<=0) {
+			mv.addObject("searchMsg", "Search did not yield any results.");
+		}
+		// IMPLEMENT PAGINATION...
+
 		return mv;
 	}
-	
-	@RequestMapping(value="/categoryProducts/{className}", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/categoryProducts/{className}", method = RequestMethod.POST)
 	public ModelAndView categoryProduct(@PathVariable("className") String className) throws MyCustomException {
 
 		ModelAndView mv = new ModelAndView("displaySearchedProducts");
@@ -58,34 +66,28 @@ public class ProductController {
 		try {
 			products = productService.getProductsFromCategory((Class<? extends Product>) Class.forName(className));
 		} catch (ClassNotFoundException e) {
-			throw new MyCustomException("Could not display products for category "+className+ " "+ e.getMessage());
+			throw new MyCustomException("Could not display products for category " + className + " " + e.getMessage());
 		}
 
-		if(products == null) {
-			mv.addObject("searchMsg", "No products found.");
-		}
-		
 		mv.addObject("products", products);
-		
-		//IMPLEMENT PAGINATION...
-		
+
+		// IMPLEMENT PAGINATION...
+
 		return mv;
 	}
-	
-	@RequestMapping(value="/displayProduct/{id}")
-	public ModelAndView displayProduct(@PathVariable("id") int id) {
-		
+
+	@RequestMapping(value = "/displayProduct/{id}")
+	public ModelAndView displayProduct(@PathVariable("id") long id) {
+
 		ModelAndView mv = new ModelAndView("displayProduct");
 		Product product = productService.getProduct(id);
 		mv.addObject("product", product);
 
-		if(product == null) {
+		if (product == null) {
 			mv.addObject("displayMsg", "No product found.");
 		}
-		
+
 		return mv;
 	}
 
-	
-	
 }

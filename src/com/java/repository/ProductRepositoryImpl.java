@@ -21,7 +21,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 	SessionFactory sf;
 
 	@Override
-	public Product getProduct(int id) {
+	public Product getProduct(long id) {
 		Session session = sf.openSession();
 		Product p = session.get(Product.class, id);
 		session.close();
@@ -33,24 +33,27 @@ public class ProductRepositoryImpl implements ProductRepository {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-	
-	
 
 	@Override
 	public List<Product> getProductsWithName(String substring) {
 		List<Product> products = new ArrayList<>();
-		String qparam = " description is like %";
-		String[] searchKeys = substring.split(" ");
+		String qparam = "where";
+		if (substring.equals("")) {
+			qparam = "";
+		} else {
+			String[] searchKeys = substring.split(" ");
 
-		for (int i = 0; i < searchKeys.length; ++i) {
-			qparam += searchKeys[i] + "% or description is like %";
+			for (int i = 0; i < searchKeys.length; ++i) {
+				qparam += " description like '%" + searchKeys[i] + "%'";
+				if (i < searchKeys.length - 1)
+					qparam += " or";
+			}
 		}
-		
 		Session session = sf.openSession();
-		Query<ProductToString> query = session.createQuery("from ProductToString where" + qparam);
+		Query<ProductToString> query = session.createQuery("from ProductToString " + qparam);
 		List<ProductToString> productDesc = query.list();
-		
-		for(int i=0; i<productDesc.size(); ++i) {
+
+		for (int i = 0; i < productDesc.size(); ++i) {
 			products.add(productDesc.get(i).getProduct());
 		}
 		session.close();
@@ -62,7 +65,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 		List<Product> products = new ArrayList<>();
 		
 		Session session = sf.openSession();
-		Query<Product> query = session.createQuery("from "+catclass.getSimpleName());
+		Query<Product> query = session.createQuery("from " + catclass.getSimpleName());
 		products = query.list();
 		session.close();
 		return products;
@@ -71,20 +74,25 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Override
 	public List<Product> getProductsCategoryWithName(Class<? extends Product> catclass, String substring) {
 		List<Product> products = new ArrayList<>();
-		String qparam = " description is like %";
-		String[] searchKeys = substring.split(" ");
+		String qparam = "where";
+		if (substring.equals("")) {
+			qparam = "";
+		} else {
+			String[] searchKeys = substring.split(" ");
 
-		for (int i = 0; i < searchKeys.length; ++i) {
-			qparam += searchKeys[i] + "% or description is like %";
+			for (int i = 0; i < searchKeys.length; ++i) {
+				qparam += " description like '%" + searchKeys[i] + "%'";
+				if (i < searchKeys.length - 1)
+					qparam += " or";
+			}
+			if (!qparam.equals(""))
+				qparam += " and catName=" + catclass.getSimpleName();
 		}
-		
-		qparam += " and catName="+catclass.getSimpleName();
-		
 		Session session = sf.openSession();
-		Query<ProductToString> query = session.createQuery("from ProductToString where" + qparam);
+		Query<ProductToString> query = session.createQuery("from ProductToString " + qparam);
 		List<ProductToString> productDesc = query.list();
-		
-		for(int i=0; i<productDesc.size(); ++i) {
+
+		for (int i = 0; i < productDesc.size(); ++i) {
 			products.add(productDesc.get(i).getProduct());
 		}
 		session.close();

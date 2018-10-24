@@ -8,7 +8,7 @@ import com.java.components.ProductCategory;
 public interface ProductService {
 
 
-	public Product getProduct(int id);
+	public Product getProduct(long id);
 
 //	public List<String> getProductNames(String substring);
 

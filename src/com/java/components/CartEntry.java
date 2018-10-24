@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class CartEntry {
 	private Product product;
 	private long cartEntryId;
 	private int quantity;
-	private List<ProductDetail> cartEntryDetails;
+	private List<String> cartEntryDetails;
 
 	@Id
 	@GeneratedValue
@@ -55,15 +56,22 @@ public class CartEntry {
 		this.quantity = quantity;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "CART_ENTRY_DETAILS", joinColumns = {
-			@JoinColumn(name = "CART_ENTRY_ID") }, inverseJoinColumns = { @JoinColumn(name = "PRODUCT_DETAIL_ID") })
-	public List<ProductDetail> getCartEntryDetails() {
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "CART_ENTRY_DETAILS", joinColumns = {
+//			@JoinColumn(name = "CART_ENTRY_ID") }, inverseJoinColumns = { @JoinColumn(name = "PRODUCT_DETAIL_ID") })
+	@ElementCollection
+	public List<String> getCartEntryDetails() {
 		return cartEntryDetails;
 	}
 
-	public void setCartEntryDetails(List<ProductDetail> cartEntryDetails) {
+	public void setCartEntryDetails(List<String> cartEntryDetails) {
 		this.cartEntryDetails = cartEntryDetails;
+	}
+
+	@Override
+	public String toString() {
+		return "CartEntry [product=" + product + ", cartEntryId=" + cartEntryId + ", quantity=" + quantity
+				+ ", cartEntryDetails=" + cartEntryDetails + "]";
 	}
 
 }

@@ -25,10 +25,10 @@ import com.java.components.ProductDetail;
 import com.java.components.ProductDetailGroup;
 import com.java.components.UserDetails;
 
-@Import(MyWebMvcConfigurer.class)
+//@Import(MyWebMvcConfigurer.class)
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.java")
+@ComponentScan(basePackages = {"com.java.components","com.java.controller","com.java.repository","com.java.service"})
 public class SpringConfig {
 	public SpringConfig() {
 		super();

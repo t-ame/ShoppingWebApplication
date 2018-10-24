@@ -11,7 +11,10 @@ public class LastState {
 	public void setLastUri(String lastUri) {
 		this.lastUri = lastUri;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "LastState [" + lastUri + "]";
+	}
+
 }

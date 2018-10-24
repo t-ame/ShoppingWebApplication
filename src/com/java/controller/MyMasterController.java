@@ -8,23 +8,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.java.components.Cart;
 import com.java.components.User;
 import com.java.components.UserDetails;
 import com.java.exception.MyCustomException;
 
 @Controller
 @ControllerAdvice
-@SessionAttributes(names = { "user", "userdetails" })
+@SessionAttributes(names = { "user", "userdetails", "cart"})
 public class MyMasterController {
-
-	@ModelAttribute("user")
-	public User initUser() {
-		return new User();
-	}
-
-	@ModelAttribute("userdetails")
-	public UserDetails initUserDetails() {
-		return new UserDetails();
+	
+	@ModelAttribute("cart")
+	public Cart initCart() {
+		return new Cart();
 	}
 
 	@ExceptionHandler(MyCustomException.class)

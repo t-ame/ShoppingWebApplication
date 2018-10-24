@@ -27,10 +27,20 @@ public class LoginFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 
 		HttpSession session = req.getSession(true);
+//		req.getContextPath().indexOf('/', 1);
 		User user = (User) session.getAttribute("user");
 		if (user == null || user.getUserEmail() == null) {
 			LastState st = new LastState();
-			st.setLastUri(req.getRequestURI());
+			int i = req.getContextPath().indexOf('/', 1);
+			System.out.println(i);
+			System.out.println(req.getContextPath());
+			System.out.println(req.getRequestURI());
+			if(i == -1) {
+				st.setLastUri(req.getRequestURI());
+			} else {
+				st.setLastUri(req.getRequestURI().substring(i));
+			}
+			System.out.println(st);
 			session.setAttribute("laststate", st);
 			req.getRequestDispatcher("/login").forward(req, resp);
 		}

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.java.components.Cart;
@@ -20,7 +22,7 @@ import com.java.exception.MyCustomException;
 import com.java.service.UserServiceImpl;
 
 @Controller
-@SessionAttributes(names = { "user" })
+@SessionAttributes(names = { "user", "cart" })
 public class UtilityController {
 
 	@Autowired
@@ -38,27 +40,34 @@ public class UtilityController {
 	}
 
 	@RequestMapping("/logout")
-	public ModelAndView doLogin(HttpServletRequest request) throws MyCustomException {
+	public ModelAndView doLogout(HttpServletRequest request, HttpServletResponse response, SessionStatus status) throws MyCustomException {
 
 		HttpSession session = request.getSession();
 		if (session != null) {
 			User user = (User) session.getAttribute("user");
-			Cart cart = (Cart) session.getAttribute("user");
-			UserDetails details = user.getUserDetails();
+			Cart cart = (Cart) session.getAttribute("cart");
 			if (user != null && user.getUserEmail() != null) {
-				if (details != null) {
-					details.setCart(cart);
-				} else {
-					details = new UserDetails();
-					details.setCart(cart);
+				UserDetails details = user.getUserDetails();
+				
+				System.out.println(details);
+				
+				if (cart != null && cart.getCartEntries().size() > 0) {
+					if (details != null) {
+						details.setCart(cart);
+					} else {
+						details = new UserDetails();
+						details.setCart(cart);
+					}
+					user.setUserDetails(details);
 				}
-				user.setUserDetails(details);
 				userService.updateUser(user);
-				
-				//FIGURE OUT HOW TO INVALIDATE SESSION!!! CHECK SOHAN'S CODE!!!
-				
+				session.setAttribute("user", null);
+				session.setAttribute("userdetails", null);
+				session.setAttribute("cart", null);
+
+				status.setComplete();
 				try {
-					request.getRequestDispatcher("/home").forward(request, null);
+					request.getRequestDispatcher("/home").forward(request, response);
 				} catch (ServletException | IOException e) {
 					throw new MyCustomException("Could not redirect to home page.");
 				}

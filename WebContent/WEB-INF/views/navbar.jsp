@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false" import="com.java.components.Cart"%>
+	pageEncoding="UTF-8" isELIgnored="false"
+	import="com.java.components.Cart, com.java.components.User"%>
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
 <html lang="en">
 <head>
 <!-- Required meta tags -->
@@ -16,14 +18,20 @@
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous"> -->
 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+	crossorigin="anonymous">
+
+
 <!-- 
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"> -->
 
 
-<link href="<c:url value="/style/styles.css" />" rel="stylesheet">
+<link href="<c:url value="/style/styles.css" />" rel="stylesheet" />
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 
 <title>...</title>
@@ -56,76 +64,158 @@
 
 <body>
 
-<% int cartNo = request.getAttribute("cart") == null ? 0 : ((Cart)request.getAttribute("cart")).getCartEntries().size(); %>
 
-	<div id="container">
+	<header class="section-header">
+
+
+		<%
+			int cartNo = request.getAttribute("cart") == null ? 0
+					: ((Cart) request.getAttribute("cart")).getCartEntries().size();
+		%>
+
+		<!-- <div id="container">
 		<div id="header"></div>
 		<div id="body"></div>
 		<div id="footer"></div>
-	</div>
+	</div> -->
 
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-		<button type="button" id="sidebarCollapse" class="btn btn-info">
-			<i class="fa fa-align-justify"></i>
-			<!--  <span>toggle sidebar</span> -->
-		</button>
+			<!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
+				<i class="fa fa-align-justify"></i>
+				 <span>toggle sidebar</span>
+			</button> -->
 
-		<!--<a class="navbar-brand" href="#">Navbar</a> -->
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNav" aria-controls="navbarNav"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ml-auto" style="display: flex">
-				<li class="nav-item active"><a class="nav-link" href="./home"
-					style="font-size: x-large"><span
-						style="font-family: 'Comic Sans MS'; color: yellow">My</span><span
-						style="font-family: 'Comic Sans MS'; color: #007bff">Cart</span> <span
-						class="sr-only">(current)</span> </a></li>
+			<!--<a class="navbar-brand" href="#">Navbar</a> -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto" style="display: flex">
+					<li class="nav-item active"><a class="nav-link" href="./home"
+						style="font-size: x-large"><span
+							style="font-family: 'Comic Sans MS'; color: yellow">My</span><span
+							style="font-family: 'Comic Sans MS'; color: #007bff">Cart</span>
+							<span class="sr-only">(current)</span> </a></li>
 
-				<li class="nav-item"><pre>										</pre></li>
-
+					<li class="nav-item"><pre>										</pre></li>
+					<%-- 
 				<%
 					if (session.getAttribute("user") == null) {
 				%>
 				<li class="nav-item"><pre>	</pre></li>
 				<%
 					}
-				%>
-
-				<li class="nav-item"><a class="nav-link" href="#">Features</a>
-				</li>
-
-				<li class="nav-item"><a class="nav-link" href="#">Features</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-
-				<li class="nav-item"><a class="nav-link" href="#"><i
-						class="fa" style="font-size: 24px">&#xf07a;</i><span
-						class='badge badge-warning' id='lblCartCount'> <%=cartNo%> </span></a></li>
+				%>  --%>
 
 
+					 <li class="nav-item"><pre>		</pre></li>
+<!-- 
+					<li class="nav-item"><a class="nav-link" href="#">Features</a>
+					</li>
 
-				<%
-					if (session.getAttribute("user") != null) {
-				%>
+					<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li> -->
 
-				<li class="nav-item"><a class="nav-link"
-					href="./displayAccount">My Account</a></li>
-				<li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
-				<%
-					} else {
-				%>
-				<li class="nav-item"><a class="nav-link" href="./login">Login/Register</a></li>
-				<%
-					}
-				%>
-			</ul>
-		</div>
-	</nav>
+					<li class="nav-item"><a class="nav-link" href="./cart"><i
+							class="fa" style="font-size: 24px">&#xf07a;</i><span
+							class='badge badge-warning' id='lblCartCount'> <%=cartNo%>
+						</span></a></li>
+
+					<%
+						User user = (User) session.getAttribute("user");
+					%>
+
+					<%
+						if (user != null && user.getUserEmail() != null) {
+					%>
+
+					<li class="nav-item"><a class="nav-link"
+						href="./displayAccount"><tag:message code="myAccount"></tag:message></a></li>
+					<li class="nav-item"><a class="nav-link" href="./logout"><tag:message
+								code="logout"></tag:message></a></li>
+					<%
+						} else {
+					%>
+					<li class="nav-item"><a class="nav-link" href="./login"><tag:message
+								code="loginRegister"></tag:message></a></li>
+					<%
+						}
+					%>
+					<li class="nav-item dropdown show"><a
+						class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <tag:message code="language"></tag:message>
+					</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown"
+							aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" href="?language=en">English</a> <a
+								class="dropdown-item" href="?language=es">Espanol</a>
+						</div></li>
+
+					<li class="nav-item"><pre>	</pre></li>
+
+				</ul>
+			</div>
+		</nav>
+
+		<section class="header-main">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-13-24 col-sm-12 order-3 order-lg-2">
+						<form action="./searchProduct">
+							<div class="input-group w-100">
+								<select style="width: 30px;" class="custom-select"
+									id="SearchOption" name="className">
+									<option value="All" selected><tag:message code="all"></tag:message></option>
+									<option value="Electronics"><tag:message
+											code="electronics"></tag:message></option>
+									<option value="Clothing"><tag:message code="clothing"></tag:message></option>
+									<option value="Outdoors"><tag:message code="outdoors"></tag:message></option>
+									<option value="Home"><tag:message code="home"></tag:message></option>
+									<option value="Books"><tag:message code="books"></tag:message></option>
+								</select> <input type="text" class="form-control" style="width: 60%;"
+									placeholder="<tag:message code="search"></tag:message>" name="searchKeys" />
+
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+						<!-- search-wrap .end// -->
+					</div>
+					<!-- col.// -->
+				</div>
+				<!-- row.// -->
+			</div>
+			<!-- container.// -->
+		</section>
+		<!-- header-main .// -->
+	</header>
+	<!-- section-header.// -->
+
+
+
+	<br>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+		integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+		crossorigin="anonymous"></script>
+
 
 </body>
 </html>

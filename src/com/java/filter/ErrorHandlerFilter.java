@@ -7,6 +7,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,11 +18,13 @@ public class ErrorHandlerFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
+		System.out.println(((HttpServletRequest)arg0).getContextPath());
 		try {
 			arg2.doFilter(arg0, arg1);
 		} catch (Exception ex) {
-			arg0.setAttribute("errorMessage", ex);
-			arg0.getRequestDispatcher("/WEB-INF/views/jsp/errorPage.jsp").forward(arg0, arg1);
+			arg0.setAttribute("errorMsg", ex.getMessage());
+			ex.printStackTrace();
+			arg0.getRequestDispatcher("/WEB-INF/views/errorPage.jsp").forward(arg0, arg1);
 		}
 	}
 

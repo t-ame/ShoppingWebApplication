@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -55,7 +56,7 @@ public class Product {
 		this.productId = productId;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "PRODUCT_DETAILS", joinColumns = { @JoinColumn(name = "PRODUCT_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "PRODUCT_DETAIL_GROUP_ID") })
 	public List<ProductDetailGroup> getProductDetails() {

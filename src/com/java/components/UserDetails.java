@@ -40,6 +40,13 @@ public class UserDetails {
 	private List<Order> orders;
 	private Cart cart;
 	
+	@Override
+	public String toString() {
+		return "UserDetails [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", gender="
+				+ gender + ", mobileNumber=" + mobileNumber + ", cards=" + cards + ", addresses=" + addresses
+				+ ", orders=" + orders + ", cart=" + cart + "]";
+	}
+
 	private User user;
 
 	public UserDetails() {
@@ -78,7 +85,7 @@ public class UserDetails {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "USER_GENDER", nullable = false, length = 20)
+	@Column(name = "USER_GENDER", nullable = true, length = 20)
 	public Gender getGender() {
 		return gender;
 	}
@@ -87,7 +94,7 @@ public class UserDetails {
 		this.gender = gender;
 	}
 
-	@Column(name = "MOBILE_NO", nullable = false)
+	@Column(name = "MOBILE_NO", nullable = true)
 	public long getMobileNumber() {
 		return mobileNumber;
 	}
@@ -96,7 +103,7 @@ public class UserDetails {
 		this.mobileNumber = mobileNumber;
 	}
 
-	@OneToOne(mappedBy="userDetails")
+	@OneToOne(mappedBy="userDetails", cascade=CascadeType.ALL)
 	public User getUser() {
 		return user;
 	}
@@ -127,7 +134,7 @@ public class UserDetails {
 		this.addresses = addresses;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
 	public Cart getCart() {
 		return cart;
 	}

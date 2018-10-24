@@ -8,26 +8,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.java.components.Address;
+import com.java.components.Books;
 import com.java.components.Card;
 import com.java.components.Cart;
 import com.java.components.CartEntry;
+import com.java.components.Clothing;
+import com.java.components.Electronics;
+import com.java.components.Home;
 import com.java.components.Order;
+import com.java.components.Outdoors;
 import com.java.components.Product;
 import com.java.components.ProductDetail;
 import com.java.components.ProductDetailGroup;
 import com.java.components.ProductToString;
 import com.java.components.User;
 import com.java.components.UserDetails;
-import com.java.filter.ErrorHandlerFilter;
-import com.java.filter.LoginFilter;
 
 @Configuration("datasource")
-@PropertySource("classpath:database.properties")
+//@PropertySource("classpath:database.properties")
+@Import(MyWebMvcConfigurer.class)
 @EnableWebMvc
 public class RootConfig {
 
@@ -70,17 +77,22 @@ public class RootConfig {
 
 		org.hibernate.cfg.Configuration config = new org.hibernate.cfg.Configuration()
 				.addPackage("com.java.components"); // package containing the entity classes.
-		config.setProperty(Environment.HBM2DDL_AUTO, "create");
+		config.setProperty(Environment.HBM2DDL_AUTO, "update");
 		config.addAnnotatedClass(Address.class).addAnnotatedClass(Card.class).addAnnotatedClass(ProductToString.class)
-				.addAnnotatedClass(Cart.class).addAnnotatedClass(CartEntry.class)
-				.addAnnotatedClass(ProductDetailGroup.class).addAnnotatedClass(Order.class)
-				.addAnnotatedClass(ProductDetail.class).addAnnotatedClass(Product.class).addAnnotatedClass(User.class)
-				.addAnnotatedClass(UserDetails.class);
+				.addAnnotatedClass(Cart.class).addAnnotatedClass(CartEntry.class).addAnnotatedClass(Electronics.class)
+				.addAnnotatedClass(Clothing.class).addAnnotatedClass(Outdoors.class).addAnnotatedClass(Home.class)
+				.addAnnotatedClass(Books.class).addAnnotatedClass(ProductDetailGroup.class)
+				.addAnnotatedClass(Order.class).addAnnotatedClass(ProductDetail.class).addAnnotatedClass(Product.class)
+				.addAnnotatedClass(User.class).addAnnotatedClass(UserDetails.class);
 		config.setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
 		config.setProperty("hibernate.connection.username", username);
+		System.out.println(username);
 		config.setProperty("hibernate.connection.password", password);
+		System.out.println(password);
 		config.setProperty("hibernate.connection.url", url);
+		System.out.println(url);
 		config.setProperty("hibernate.connection.driver_class", driverName);
+		System.out.println(driverName);
 		config.setProperty(Environment.SHOW_SQL, "true");
 		StandardServiceRegistryBuilder rb = new StandardServiceRegistryBuilder().applySettings(config.getProperties());
 		System.out.println("Service being done.");
@@ -98,7 +110,7 @@ public class RootConfig {
 		else
 			return sessionFactory;
 	}
-	
+
 //	@Bean("loginfilter")
 //	public LoginFilter getLoginFilter() {
 //		LoginFilter filter = new LoginFilter();
@@ -110,6 +122,13 @@ public class RootConfig {
 //		ErrorHandlerFilter filter = new ErrorHandlerFilter();
 //		return filter;
 //	}
+	
+	@Bean("ps")
+	public static PropertySourcesPlaceholderConfigurer getConfigurer() {
+		PropertySourcesPlaceholderConfigurer cfg = new PropertySourcesPlaceholderConfigurer();
+		cfg.setLocation(new ClassPathResource("database.properties"));
+		return cfg;
+	}
 
 	public String getUrl() {
 		return url;
