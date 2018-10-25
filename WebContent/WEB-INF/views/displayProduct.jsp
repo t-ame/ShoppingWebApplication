@@ -1,7 +1,7 @@
 <%@page import="java.util.Iterator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.util.List, java.util.Set, com.java.components.Product, com.java.components.ProductDetailGroup, com.java.components.ProductDetail"
+	import="java.util.List, java.util.Set, java.util.Iterator, com.java.components.Product, com.java.components.ProductDetailGroup, com.java.components.ProductDetail"
 	isELIgnored="false"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -41,7 +41,7 @@
 		<div class="container">
 
 			<%
-				Product product = (Product) request.getAttribute("products");
+				Product product = (Product) request.getAttribute("product");
 			%>
 
 			<%
@@ -92,7 +92,7 @@
 				<div class="card bg-light mb-3">
 					<div class="card-body">
 						<a href="" data-toggle="modal" data-target="#productModal"> <img
-							class="img-fluid" src="<%=product.getImageUrl()%>" /> <!-- <p class="text-center">Zoom</p> -->
+							class="img-fluid" src="../../<%=product.getImageUrl()%>" />
 						</a>
 					</div>
 				</div>
@@ -104,22 +104,26 @@
 					<div class="card-body">
 						<p class="price">
 							$<%=product.getUnitPrice()%></p>
-						<form method="get"
-							action="./addToCart/<%=product.getProductId()%>">
+						<form 
+							action="<%= request.getContextPath() %>/addToCart/<%=product.getProductId()%>">
 
 
 							<%
-								List<ProductDetailGroup> dg = product.getProductDetails();
+								Set<ProductDetailGroup> dg = product.getProductDetails();
 									int dgsize = dg.size();
-									for (int j = 0; j < dgsize; ++j) {
-										Set<ProductDetail> pd = dg.get(j).getDetailValues();
+
+									Iterator<ProductDetailGroup> pdit = dg.iterator();
+
+									while (pdit.hasNext()) {
+										ProductDetailGroup git = pdit.next();
+										Set<ProductDetail> pd = git.getDetailValues();
 							%>
 
 							<div class="form-group">
-								<label for="colors"><%=dg.get(j).getGroupName()%></label> <select
+								<label for="colors"><%=git.getGroupName()%></label> <select
 									class="custom-select" id="colors"
-									name="<%=dg.get(j).getGroupName()%>">
-									<option selected>Select</option>
+									name="<%=git.getGroupName()%>" required>
+									<option selected disabled value="">Select</option>
 
 
 									<%
@@ -164,7 +168,7 @@
 								class="btn btn-success btn-lg btn-block text-uppercase"> <i
 								class="fa fa-shopping-cart"></i> <tag:message code="addToCart"></tag:message>
 							</a> --%>
-							<button class="btn btn-success btn-lg btn-block text-uppercase">
+							<button type="submit" class="btn btn-success btn-lg btn-block text-uppercase">
 								<i class="fa fa-shopping-cart"></i>
 								<tag:message code="addToCart"></tag:message>
 							</button>

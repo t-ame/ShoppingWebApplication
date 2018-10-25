@@ -1,5 +1,6 @@
 package com.java.components;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,6 +26,17 @@ public class ProductDetailGroup {
 	private int groupId;
 	private String groupName;
 	private Set<ProductDetail> detailValues;
+
+	public ProductDetailGroup() {
+		super();
+		detailValues = new HashSet<>();
+	}
+
+	public ProductDetailGroup(String groupName, Set<ProductDetail> detailValues) {
+		super();
+		this.groupName = groupName;
+		this.detailValues = detailValues;
+	}
 
 	@Id
 	@GeneratedValue

@@ -35,9 +35,9 @@ public class UserDetails {
 	private String lastName;
 	private Gender gender;
 	private long mobileNumber;
-	private List<Card> cards;
-	private List<Address> addresses;
-	private List<Order> orders;
+	private Set<Card> cards;
+	private Set<Address> addresses;
+	private Set<Order> orders;
 	private Cart cart;
 	
 	@Override
@@ -51,8 +51,8 @@ public class UserDetails {
 
 	public UserDetails() {
 		super();
-		this.cards = new ArrayList<>();
-		this.addresses = new ArrayList<>();
+		this.cards = new HashSet<>();
+		this.addresses = new HashSet<>();
 	}
 
 	@Id
@@ -112,25 +112,25 @@ public class UserDetails {
 		this.user = user;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "USER_CARDS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CARD_ID") })
-	public List<Card> getCards() {
+	public Set<Card> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<Card> cards) {
+	public void setCards(Set<Card> cards) {
 		this.cards = cards;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ADDRESS_ID") })
-	public List<Address> getAddresses() {
+	public Set<Address> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(List<Address> addresses) {
+	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
 	}
 
@@ -143,19 +143,23 @@ public class UserDetails {
 		this.cart = cart;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "USER_ORDERS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ORDER_ID") })
-	public List<Order> getOrders() {
+	public Set<Order> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
 	}
 
 	public void addOrders(List<Order> orders) {
 		this.orders.addAll(orders);
+	}
+
+	public void addAddress(Address address) {
+		this.addresses.add(address);
 	}
 	
 }

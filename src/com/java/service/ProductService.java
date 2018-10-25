@@ -11,11 +11,13 @@ public interface ProductService {
 	public Product getProduct(long id);
 
 //	public List<String> getProductNames(String substring);
-
-	public List<Product> getProductsWithName(String substring);
-
-	public List<Product> getProductsFromCategory(Class<? extends Product> catclass);
 	
-	public List<Product> getProductsCategoryWithName(Class<? extends Product> catclass, String substring);
+	public void addProduct(Product product);
+
+	public List<Product> getProductsWithName(String substring, int page);
+
+	public List<Product> getProductsFromCategory(String catclass, int page);
+	
+	public List<Product> getProductsCategoryWithName(String catclass, String substring, int page);
 	
 }

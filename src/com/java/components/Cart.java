@@ -54,6 +54,10 @@ public class Cart {
 		cartEntries.add(entry);
 	}
 	
+	public void addEntries(List<CartEntry> entries) {
+		cartEntries.addAll(entries);
+	}
+	
 	public void removeFromCart(CartEntry entry) {
 		cartEntries.remove(entry);
 	}

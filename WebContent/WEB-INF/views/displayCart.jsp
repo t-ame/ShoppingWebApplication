@@ -29,7 +29,7 @@
 
 
 	<%
-		Cart cart = (Cart) request.getAttribute("cart");
+		Cart cart = (Cart) session.getAttribute("cart");
 	%>
 
 	<section class="jumbotron text-center">
@@ -54,6 +54,7 @@
 
 			float total = 0;
 			Product p = null;
+			int count =0;
 	%>
 
 	<div class="container mb-4">
@@ -82,7 +83,7 @@
 								for (CartEntry entry : entries) {
 										p = entry.getProduct();
 										if (p != null) {
-											total += p.getUnitPrice();
+											total += p.getUnitPrice()*entry.getQuantity();
 							%>
 
 							<tr>
@@ -93,10 +94,10 @@
 								<td><input class="form-control" type="text"
 									value="<%=entry.getQuantity()%>" /></td>
 								<td class="text-right">$<%=p.getUnitPrice() * entry.getQuantity()%></td>
-								<td class="text-right"><button
+								<td class="text-right"><a href="<%= request.getContextPath() %>/removeFromCart/<%= count++ %>"
 										class="btn btn-sm btn-danger">
 										<i class="fa fa-trash"></i>
-									</button></td>
+									</a></td>
 							</tr>
 
 							<%
@@ -140,11 +141,11 @@
 			<div class="col mb-2">
 				<div class="row">
 					<div class="col-sm-12  col-md-6">
-						<a href="./home" class="btn btn-block btn-light"><tag:message
+						<a href="<%= request.getContextPath() %>/home" class="btn btn-block btn-light"><tag:message
 								code="continueShopping"></tag:message></a>
 					</div>
 					<div class="col-sm-12 col-md-6 text-right">
-						<a href="./proceedToCheckout"
+						<a href="<%= request.getContextPath() %>/proceedToCheckout"
 							class="btn btn-lg btn-block btn-success text-uppercase"> <tag:message
 								code="checkout"></tag:message></a>
 					</div>

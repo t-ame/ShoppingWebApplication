@@ -28,7 +28,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	}
 
 	@Bean("messageSource")
-	public ResourceBundleMessageSource getMessageSource() {
+	public static ResourceBundleMessageSource getMessageSource() {
 		ResourceBundleMessageSource src = new ResourceBundleMessageSource();
 		src.addBasenames("locale");
 		src.setDefaultEncoding("UTF-8");
@@ -39,7 +39,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	public LocaleChangeInterceptor getLocaleChangeInterceptor() {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 		interceptor.setParamName("language");
-		System.out.println("locale");
+//		System.out.println("locale");
 		return interceptor;
 	}
 
@@ -68,12 +68,15 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addRedirectViewController("/add", "/addProduct");
+//		registry.addRedirectViewController("/add", "/addProduct");
+		registry.addRedirectViewController("/", "../../index");
 		registry.addViewController("/login").setViewName("loginPage");
 		registry.addViewController("/register").setViewName("registrationPage");
 		registry.addViewController("/home").setViewName("../../index");
+//		registry.addViewController("/").setViewName("../../index");
 		registry.addViewController("/cart").setViewName("displayCart");
 		registry.addViewController("/checkout").setViewName("paymentPage");
+		registry.addViewController("/add").setViewName("addProduct");
 	}
 
 }

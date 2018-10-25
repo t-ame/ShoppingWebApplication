@@ -6,6 +6,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -34,7 +35,7 @@ public class User {
 	@Column(name = "USER_ROLE", nullable = true, length = 20)
 	private Role role;
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "USER_DETAILS")
 	private UserDetails userDetails;
 

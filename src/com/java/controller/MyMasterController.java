@@ -15,13 +15,9 @@ import com.java.exception.MyCustomException;
 
 @Controller
 @ControllerAdvice
-@SessionAttributes(names = { "user", "userdetails", "cart"})
+//@SessionAttributes(names = { "user", "userdetails", "cart"})
 public class MyMasterController {
 	
-	@ModelAttribute("cart")
-	public Cart initCart() {
-		return new Cart();
-	}
 
 	@ExceptionHandler(MyCustomException.class)
 	public ModelAndView handleCustomException(MyCustomException ex) {

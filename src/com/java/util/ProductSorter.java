@@ -23,7 +23,7 @@ public class ProductSorter implements Comparator<Product> {
 				if (desc1.contains(keys[i])) {
 					++first;
 				}
-				if (desc2.contains(keys[1])) {
+				if (desc2.contains(keys[i])) {
 					++second;
 				}
 			}

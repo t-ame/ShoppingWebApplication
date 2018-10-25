@@ -1,11 +1,10 @@
 package com.java.components;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -34,7 +33,7 @@ public class Product {
 	private int stockQuantity;
 	private float productFrequency;
 	private String productDescription;
-	private List<ProductDetailGroup> productDetails;
+	private Set<ProductDetailGroup> productDetails;
 
 	@Column(name = "CATEGORY_NAME", nullable = false, length = 50)
 	public String getCatName() {
@@ -59,11 +58,11 @@ public class Product {
 	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "PRODUCT_DETAILS", joinColumns = { @JoinColumn(name = "PRODUCT_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "PRODUCT_DETAIL_GROUP_ID") })
-	public List<ProductDetailGroup> getProductDetails() {
+	public Set<ProductDetailGroup> getProductDetails() {
 		return productDetails;
 	}
 
-	public void setProductDetails(List<ProductDetailGroup> productDetails) {
+	public void setProductDetails(Set<ProductDetailGroup> productDetails) {
 		this.productDetails = productDetails;
 	}
 
@@ -132,7 +131,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "[ " + productName + ", " + productDescription
+		return "[ " + productName 
 				+ ", " + productDetails + " ]";
 	}
 

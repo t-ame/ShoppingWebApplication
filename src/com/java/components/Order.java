@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Order {
 	private Product product;
 	private Date orderDate;
 	private boolean complete;
-	private List<ProductDetail> productDetails;
+	private List<String> productDetails;
 	private String stringDetails="";
 
 //	private Card card;
@@ -100,14 +101,15 @@ public class Order {
 		this.complete = complete;
 	}
 
-	@OneToMany(orphanRemoval = false)
-	@JoinTable(name = "ORDER_PRODUCT_DETAIL", joinColumns = { @JoinColumn(name = "ORDER_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "PRODUCT_DETAIL_ID") })
-	public List<ProductDetail> getProductDetails() {
+//	@OneToMany(orphanRemoval = false)
+//	@JoinTable(name = "ORDER_PRODUCT_DETAIL", joinColumns = { @JoinColumn(name = "ORDER_ID") }, inverseJoinColumns = {
+//			@JoinColumn(name = "PRODUCT_DETAIL_ID") })
+	@ElementCollection
+	public List<String> getProductDetails() {
 		return productDetails;
 	}
 
-	public void setProductDetails(List<ProductDetail> productDetails) {
+	public void setProductDetails(List<String> productDetails) {
 		this.productDetails = productDetails;
 		for(int i=0; i<productDetails.size(); ++i) {
 			this.stringDetails += productDetails.get(i).toString()+", ";

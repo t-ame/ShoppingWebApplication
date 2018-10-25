@@ -59,128 +59,61 @@
 
 			<div class="col-lg-3">
 
+				<%
+					String conPath = request.getContextPath();
+				%>
+
 				<h1 class="my-4">MyCart</h1>
 				<div class="list-group">
-					<a href="#" class="list-group-item"><tag:message
-							code="electronics"></tag:message></a> <a href="#"
-						class="list-group-item"><tag:message code="clothing"></tag:message></a>
-					<a href="#" class="list-group-item"><tag:message
-							code="outdoors"></tag:message></a> <a href="#"
+					<a href="<%=conPath %>/categoryProducts/Electronics" class="list-group-item"><tag:message
+							code="electronics"></tag:message></a> <a
+						href="<%=conPath %>/categoryProducts/Clothing" class="list-group-item"><tag:message
+							code="clothing"></tag:message></a> <a
+						href="<%=conPath %>/categoryProducts/Outdoors" class="list-group-item"><tag:message
+							code="outdoors"></tag:message></a> <a href="<%=conPath %>/categoryProducts/Home"
 						class="list-group-item"><tag:message code="home"></tag:message></a>
-					<a href="#" class="list-group-item"><tag:message code="home"></tag:message></a>
+					<a href="<%=conPath %>/categoryProducts/Books" class="list-group-item"><tag:message
+							code="books"></tag:message></a>
 				</div>
 
 			</div>
-			<!-- /.col-lg-3 -->
 
 			<div class="col-lg-9">
-			
+
 
 				<%
 					List<Product> products = (List<Product>) request.getAttribute("products");
 
 					int psize = products == null ? 0 : products.size();
-					int complete = 0;
-					int rem =0;
+					/* int complete = 0;
+					int rem = 0;
 					if (psize != 0) {
 						complete = psize / 3;
 						rem = psize % 3;
-					}
+					} */
 				%>
 
 
 
 				<div class="row">
+
+					<div class="searchMsg"><%=request.getAttribute("searchMsg") == null ? "" : request.getAttribute("searchMsg")%></div>
+					<%
+						request.setAttribute("searchMsg", "");
 				
-				<div class="searchMsg"><%=request.getAttribute("searchMsg") == null ? "" : request.getAttribute("searchMsg")%></div>
-				<%
-					request.setAttribute("searchMsg", "");
-				%>
-				
-<%-- 
-					<%
-						for (int i = 0; i < complete; ++i) {
-
-							for (int j = 0; j < 3; ++j) {
-
-								Product prod = products.get(3 * i + j);
-					%>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="./displayProduct/<%=prod.getProductId()%>"><img class="card-img-top"
-								src="<%=prod.getImageUrl()%>" alt="" width="700" height="400"></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="./displayProduct/<%=prod.getProductId()%>"><%=prod.getProductName()%></a>
-								</h4>
-								<h5>
-									$<%=prod.getUnitPrice()%></h5>
-								<p class="card-text"><%=prod.getProductDescription()%></p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted"> 
-									<%
-									 	for (int p = 0; p < prod.getProductRating(); ++p) {
-									 %> &#9733; <%
-									 	}
-									 %>
-								</small>
-							</div>
-						</div>
-					</div>
-
-
-					<%
-						}
-						}
-					%>
-					<%
-						for (int i = complete; i < complete + rem; ++i) {
-							Product prod = products.get(i);
-					%>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="./displayProduct/<%=prod.getProductId()%>"><img class="card-img-top"
-								src="<%=prod.getImageUrl()%>" alt="" width="700" height="400"></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="./displayProduct/<%=prod.getProductId()%>"><%=prod.getProductName()%></a>
-								</h4>
-								<h5>
-									$<%=prod.getUnitPrice()%></h5>
-								<p class="card-text"><%=prod.getProductDescription()%></p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted"> 
-									<%
-									 	for (int p = 0; p < prod.getProductRating(); ++p) {
-									 %> &#9733; <%
-									 	}
-									 %>
-								</small>
-							</div>
-						</div>
-					</div>
-
-					<%
-						}
-					%> --%>
-
-					<%
-						Product prod =null;
+						Product prod = null;
 						for (int i = 0; i < psize; ++i) {
-								prod = products.get(i );
+							prod = products.get(i);
 					%>
 
 					<div class="col-lg-4 col-md-6 mb-4">
 						<div class="card h-100">
-							<a href="./displayProduct/<%=prod.getProductId()%>"><img class="card-img-top"
-								src="<%=prod.getImageUrl()%>" alt="" width="700" height="400"></a>
+							<a href="<%= request.getContextPath() %>/displayProduct/<%=prod.getProductId()%>"><img
+								class="card-img-top" src="<%=prod.getImageUrl()%>" alt=""
+								width="700" height="400"></a>
 							<div class="card-body">
 								<h4 class="card-title">
-									<a href="./displayProduct/<%=prod.getProductId()%>"><%=prod.getProductName()%></a>
+									<a href="<%= request.getContextPath() %>/displayProduct/<%=prod.getProductId()%>"><%=prod.getProductName()%></a>
 								</h4>
 								<h5>
 									$<%=prod.getUnitPrice()%></h5>
@@ -202,151 +135,36 @@
 						}
 					%>
 
-<!-- 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item One</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Two</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
-									sit amet.</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Three</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Four</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Five</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
-									sit amet.</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Six</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div> -->
-
 				</div>
-					<!-- /.row -->
-
-				</div>
-				<!-- /.col-lg-9 -->
+				<!-- /.row -->
 
 			</div>
-			<!-- /.row -->
+			<!-- /.col-lg-9 -->
 
 		</div>
-		<!-- /.container -->
+		<!-- /.row -->
+
+	</div>
+	<!-- /.container -->
 
 
-		<jsp:include page="./footer.jsp" />
 
 
-		<!-- Bootstrap core JavaScript -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-			crossorigin="anonymous"></script>
+	<jsp:include page="./footer.jsp" />
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>

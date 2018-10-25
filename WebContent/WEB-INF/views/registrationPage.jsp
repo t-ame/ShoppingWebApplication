@@ -50,7 +50,7 @@
 				<div class="card card-signin my-5">
 					<div class="card-body">
 						<h5 class="card-title text-center"><tag:message code="registration"></tag:message></h5>
-						<form class="form-signin" action="./registerUser" method="post">
+						<form class="form-signin" action="<%= request.getContextPath() %>/registerUser" method="post">
 
 
 							<div class="errorMsg"><%=request.getAttribute("errorMsg") == null ? "" : request.getAttribute("errorMsg")%></div>

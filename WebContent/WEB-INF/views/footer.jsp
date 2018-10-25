@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,9 +60,8 @@
 					<div class="col-md-6 mt-md-0 mt-3">
 
 						<!-- Content -->
-						<h5 class="text-uppercase"><a href="./home">MyCart</a></h5>
-						<p>Your one-stop shopping site with products for all your
-							wishes.</p>
+						<h5 class="text-uppercase"><a href="<%= request.getContextPath() %>/home">MyCart</a></h5>
+						<p><tag:message code="myCartInfo"></tag:message></p>
 
 					</div>
 
@@ -75,12 +75,12 @@
 					<div class="col-md-3 mb-md-0 mb-3">
 
 						<!-- Links -->
-						<h5 class="text-uppercase">Get To Know Us</h5>
+						<h5 class="text-uppercase"><tag:message code="getToKnowUs"></tag:message></h5>
 
 						<ul class="list-unstyled">
-							<li><a href="#!" style="color: white">About MyCart</a></li>
-							<li><a href="#!" style="color: white">Services</a></li>
-							<li><a href="#!" style="color: white">Careers</a></li>
+							<li><a href="#!" style="color: white"><tag:message code="about"></tag:message> MyCart</a></li>
+							<li><a href="#!" style="color: white"><tag:message code="services"></tag:message></a></li>
+							<li><a href="#!" style="color: white"><tag:message code="careers"></tag:message></a></li>
 						</ul>
 
 					</div>
@@ -89,12 +89,12 @@
 					<div class="col-md-3 mb-md-0 mb-3">
 
 						<!-- Links -->
-						<h5 class="text-uppercase">Let Us Help You</h5>
+						<h5 class="text-uppercase"><tag:message code="letUsHelp"></tag:message></h5>
 
 						<ul class="list-unstyled">
-							<li><a href="#!" style="color: white">Your Account</a></li>
-							<li><a href="#!" style="color: white">Your Orders</a></li>
-							<li><a href="#!" style="color: white">Help</a></li>
+							<li><a href="<%= request.getContextPath() %>/profile" style="color: white"><tag:message code="myAccount"></tag:message></a></li>
+							<li><a href="#!" style="color: white"><tag:message code="myOrders"></tag:message></a></li>
+							<li><a href="#!" style="color: white"><tag:message code="help"></tag:message></a></li>
 						</ul>
 
 					</div>
@@ -109,7 +109,7 @@
 
 			<!-- Copyright -->
 			<div class="footer-copyright text-center py-3">
-				© 2018 Copyright: <a href="#" style="color: white"> MyCart.com</a>
+				© 2018 <tag:message code="copyright"></tag:message>: <a href="#" style="color: white"> MyCart.com</a>
 			</div>
 			<!-- Copyright -->
 

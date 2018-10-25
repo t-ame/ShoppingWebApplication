@@ -47,24 +47,11 @@ public class UtilityController {
 			User user = (User) session.getAttribute("user");
 			Cart cart = (Cart) session.getAttribute("cart");
 			if (user != null && user.getUserEmail() != null) {
-				UserDetails details = user.getUserDetails();
-				
-				System.out.println(details);
-				
-				if (cart != null && cart.getCartEntries().size() > 0) {
-					if (details != null) {
-						details.setCart(cart);
-					} else {
-						details = new UserDetails();
-						details.setCart(cart);
-					}
-					user.setUserDetails(details);
+				System.out.println("utility "+user);
+				if (cart != null) {
+					userService.updateCart(user, cart);
 				}
-				userService.updateUser(user);
-				session.setAttribute("user", null);
-				session.setAttribute("userdetails", null);
-				session.setAttribute("cart", null);
-
+				session.removeAttribute("user");
 				status.setComplete();
 				try {
 					request.getRequestDispatcher("/home").forward(request, response);

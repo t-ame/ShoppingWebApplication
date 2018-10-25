@@ -17,6 +17,17 @@ public class ProductDetail {
 
 	private long detailId;
 	private String detailValue;
+	
+
+	public ProductDetail() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ProductDetail(String detailValue) {
+		super();
+		this.detailValue = detailValue;
+	}
 
 	@Id
 	@GeneratedValue

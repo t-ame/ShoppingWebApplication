@@ -26,26 +26,31 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> getProductsWithName(String substring) {
-		List<Product> plist = productRepository.getProductsWithName(substring);
+	public List<Product> getProductsWithName(String substring, int page) {
+		List<Product> plist = productRepository.getProductsWithName(substring, page);
 		psorter.setSearchkeys(substring);
 		plist.sort(psorter);
 		return plist;
 	}
 
 	@Override
-	public List<Product> getProductsFromCategory(Class<? extends Product> catclass) {
-		List<Product> plist = productRepository.getProductsFromCategory(catclass);
+	public List<Product> getProductsFromCategory(String catclass, int page) {
+		List<Product> plist = productRepository.getProductsFromCategory(catclass, page);
 		plist.sort(psorter);
 		return plist;
 	}
 
 	@Override
-	public List<Product> getProductsCategoryWithName(Class<? extends Product> catclass, String substring) {
-		List<Product> plist = productRepository.getProductsFromCategory(catclass);
+	public List<Product> getProductsCategoryWithName(String catclass, String substring, int page) {
+		List<Product> plist = productRepository.getProductsCategoryWithName(catclass, substring, page);
 		psorter.setSearchkeys(substring);
 		plist.sort(psorter);
 		return plist;
+	}
+
+	@Override
+	public void addProduct(Product product) {
+		productRepository.addProduct(product);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.java.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.java.components.Address;
+import com.java.components.Cart;
 import com.java.components.User;
 import com.java.components.UserDetails;
 import com.java.exception.MyCustomException;
@@ -24,9 +26,9 @@ import com.java.service.UserServiceImpl;
 import com.java.util.LastState;
 
 @Controller
-@SessionAttributes(names = { "user", "login", "userdetails" })
+@SessionAttributes(names = { "user", "login", "userdetails", "address", "cart" })
 public class UserController {
-	
+
 	@ModelAttribute("user")
 	public User initUser() {
 		return new User();
@@ -37,27 +39,41 @@ public class UserController {
 		return new UserDetails();
 	}
 
+	@ModelAttribute("address")
+	public Address initAddress() {
+		return new Address();
+	}
+
+	@ModelAttribute("cart")
+	public Cart initCart() {
+		return new Cart();
+	}
+
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
 
 	@RequestMapping(path = "/loginUser", method = RequestMethod.POST)
-	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp) throws MyCustomException {
+	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp)
+			throws MyCustomException {
 
-		ModelAndView mv = new ModelAndView("redirect:errorPage");
-		LastState ls = (LastState) req.getSession().getAttribute("laststate");
+		ModelAndView mv = new ModelAndView("errorPage");
+		HttpSession session = req.getSession();
+		LastState ls = (LastState) session.getAttribute("laststate");
 
 		String email = user.getUserEmail();
-		String password= user.getUserPassword();
+		String password = user.getUserPassword();
 		user = userService.getUser(email);
 		if (user != null && user.getUserEmail() != null && user.getUserPassword().equals(password)) {
-//			System.out.println(user);
+			System.out.println("login  " + user);
+			session.setAttribute("userdetails", user.getUserDetails());
+			session.setAttribute("cart", user.getUserDetails().getCart());
 			try {
 				if (ls != null) {
-					System.out.println(ls.getLastUri());
+//					System.out.println(ls.getLastUri());
 					req.getRequestDispatcher(ls.getLastUri()).forward(req, resp);
 				} else {
-					mv.setViewName("redirect:../../index");
+					mv.setViewName("../../index");
 				}
 			} catch (ServletException | IOException e) {
 				throw new MyCustomException(e.getMessage());
@@ -65,7 +81,7 @@ public class UserController {
 		} else {
 			req.getSession().removeAttribute("user");
 			mv.addObject("errorMsg", "Invalid username or password");
-			mv.setViewName("redirect:loginPage");
+			mv.setViewName("loginPage");
 		}
 
 		return mv;
@@ -74,7 +90,7 @@ public class UserController {
 	@RequestMapping(path = "/registerUser", method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("user") User user,
 			@ModelAttribute("userdetails") UserDetails details) {
-		ModelAndView mv = new ModelAndView("redirect:loginPage");
+		ModelAndView mv = new ModelAndView("loginPage");
 		user.setUserDetails(details);
 		userService.addUser(user);
 		return mv;
@@ -104,20 +120,49 @@ public class UserController {
 
 		return null;
 	}
-	
-	@RequestMapping(value = "/myAccount/{id}", method = RequestMethod.POST)
-	public ModelAndView userAccount(@ModelAttribute("user") User user,
-			@ModelAttribute("userdetails") UserDetails details, @PathVariable("id") long id) {
 
-//		user.setUserDetails(details);
-//		userService.updateUser(user);
-		
-		
+	@RequestMapping(value = "/profile")
+	public ModelAndView userAccount(HttpServletRequest req) {
 
-		// NOT COMPLETE!!!
+		ModelAndView mv = new ModelAndView("profilePage");
 
-		return null;
+		HttpSession session = req.getSession();
+		if (session != null && session.getAttribute("user") != null
+				&& ((User) session.getAttribute("user")).getUserEmail() != null) {
+			User user = (User) session.getAttribute("user");
+
+			if (user.getUserDetails() == null || user.getUserDetails().getUserId() <= 0) {
+				user = userService.getUser(user.getUserEmail());
+			}
+			mv.addObject("user", user);
+		} else {
+			mv.addObject("errorMsg", "Cannot access profile when not logged in.");
+			mv.setViewName("errorPage");
+		}
+
+		return mv;
 	}
-	
+
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+	public ModelAndView updateProfile(@ModelAttribute("user") User user,
+			@ModelAttribute("userdetails") UserDetails details, @ModelAttribute("address") Address address,
+			HttpServletRequest req, HttpServletResponse resp) {
+
+		String gender = req.getParameter("genders");
+		if (user != null && user.getUserEmail() != null && user.getUserPassword() != null && user.getUserEmail() != ""
+				&& user.getUserPassword() != "" && details != null) {
+			details.setAddresses(new HashSet<>());
+			details.addAddress(address);
+			if (gender.equalsIgnoreCase("female")) {
+				details.setGender(UserDetails.Gender.FEMALE);
+			} else {
+				details.setGender(UserDetails.Gender.MALE);
+			}
+			user.setUserDetails(details);
+			userService.updateUser(user);
+		}
+
+		return new ModelAndView("../../index");
+	}
 
 }

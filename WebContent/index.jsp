@@ -41,15 +41,21 @@
 
 			<div class="col-lg-3">
 
+				<%
+					String conPath = request.getContextPath();
+				%>
+
 				<h1 class="my-4">MyCart</h1>
 				<div class="list-group">
-					<a href="#" class="list-group-item"><tag:message
-							code="electronics"></tag:message></a> <a href="#"
-						class="list-group-item"><tag:message code="clothing"></tag:message></a>
-					<a href="#" class="list-group-item"><tag:message
-							code="outdoors"></tag:message></a> <a href="#"
+					<a href="<%=conPath %>/categoryProducts/Electronics" class="list-group-item"><tag:message
+							code="electronics"></tag:message></a> <a
+						href="<%=conPath %>/categoryProducts/Clothing" class="list-group-item"><tag:message
+							code="clothing"></tag:message></a> <a
+						href="<%=conPath %>/categoryProducts/Outdoors" class="list-group-item"><tag:message
+							code="outdoors"></tag:message></a> <a href="<%=conPath %>/categoryProducts/Home"
 						class="list-group-item"><tag:message code="home"></tag:message></a>
-					<a href="#" class="list-group-item"><tag:message code="home"></tag:message></a>
+					<a href="<%=conPath %>/categoryProducts/Books" class="list-group-item"><tag:message
+							code="books"></tag:message></a>
 				</div>
 
 			</div>
@@ -68,17 +74,17 @@
 					<div class="carousel-inner" role="listbox">
 						<div class="carousel-item active">
 							<img class="d-block img-fluid"
-								src="<c:url value="../../images/man-sport-climbing-rock-face.jpg" />"
-								width=900 height=350 alt="First slide">
+								src="images/man-sport-climbing-rock-face.jpg" width=900
+								height=350 alt="First slide">
 						</div>
 						<div class="carousel-item">
 							<img class="d-block img-fluid"
-								src="<c:url value="/images/woman-on-computer-istock.jpg" />"
-								width=900 height=350 alt="Second slide">
+								src="images/woman-on-computer-istock.jpg" width=900 height=350
+								alt="Second slide">
 						</div>
 						<div class="carousel-item">
 							<img class="d-block img-fluid"
-								src="<c:url value="/images/women-spend-more-money-when-shopping-together-1050x700.jpg" />"
+								src="images/women-spend-more-money-when-shopping-together-1050x700.jpg"
 								width=900 height=350 alt="Third slide">
 						</div>
 					</div>
@@ -93,7 +99,7 @@
 					</a>
 				</div>
 
-				<div class="row">
+				<!-- <div class="row">
 
 					<div class="col-lg-4 col-md-6 mb-4">
 						<div class="card h-100">
@@ -210,15 +216,15 @@
 							</div>
 						</div>
 					</div>
-
-				</div>
-				<!-- /.row -->
-
+ -->
 			</div>
-			<!-- /.col-lg-9 -->
+			<!-- /.row -->
 
 		</div>
-		<!-- /.row -->
+		<!-- /.col-lg-9 -->
+
+	</div>
+	<!-- /.row -->
 
 	</div>
 	<!-- /.container -->

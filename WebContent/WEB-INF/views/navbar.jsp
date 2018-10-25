@@ -71,6 +71,7 @@
 		<%
 			int cartNo = request.getAttribute("cart") == null ? 0
 					: ((Cart) request.getAttribute("cart")).getCartEntries().size();
+		String conPath = request.getContextPath();
 		%>
 
 		<!-- <div id="container">
@@ -95,7 +96,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto" style="display: flex">
-					<li class="nav-item active"><a class="nav-link" href="./home"
+					<li class="nav-item active"><a class="nav-link" href="<%=conPath %>/home"
 						style="font-size: x-large"><span
 							style="font-family: 'Comic Sans MS'; color: yellow">My</span><span
 							style="font-family: 'Comic Sans MS'; color: #007bff">Cart</span>
@@ -119,9 +120,10 @@
 
 					<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li> -->
 
-					<li class="nav-item"><a class="nav-link" href="./cart"><i
+					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/cart"><i
 							class="fa" style="font-size: 24px">&#xf07a;</i><span
-							class='badge badge-warning' id='lblCartCount'> <%=cartNo%>
+							class='badge badge-warning' id='lblCartCount'> <%=session.getAttribute("cart") == null ? 0
+									: ((Cart) session.getAttribute("cart")).getCartEntries().size()%>
 						</span></a></li>
 
 					<%
@@ -131,15 +133,16 @@
 					<%
 						if (user != null && user.getUserEmail() != null) {
 					%>
-
 					<li class="nav-item"><a class="nav-link"
-						href="./displayAccount"><tag:message code="myAccount"></tag:message></a></li>
-					<li class="nav-item"><a class="nav-link" href="./logout"><tag:message
+						href="#"><tag:message code="myOrders"></tag:message></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=conPath %>/profile"><tag:message code="myAccount"></tag:message></a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/logout"><tag:message
 								code="logout"></tag:message></a></li>
 					<%
 						} else {
 					%>
-					<li class="nav-item"><a class="nav-link" href="./login"><tag:message
+					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/login"><tag:message
 								code="loginRegister"></tag:message></a></li>
 					<%
 						}
@@ -165,7 +168,7 @@
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-lg-13-24 col-sm-12 order-3 order-lg-2">
-						<form action="./searchProduct">
+						<form action="<%=conPath %>/searchProduct">
 							<div class="input-group w-100">
 								<select style="width: 30px;" class="custom-select"
 									id="SearchOption" name="className">

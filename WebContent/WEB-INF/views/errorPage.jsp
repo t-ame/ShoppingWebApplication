@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
 <html lang="en">
 <head>
 <!-- Required meta tags -->
@@ -47,13 +48,13 @@
 					<h1>Oops!</h1>
 					<div class="error-details">
 						<h4>
-							An error occured: <br/> <span
+							<tag:message code="anErrorOccured"></tag:message>: <br/> <span
 								style="color: red; font-size: 20px">${errorMsg}<%=request.getAttribute("errorMsg") == null ? "" : request.getAttribute("errorMsg")%></span>
 						</h4>
 					</div>
 					<div class="error-actions">
 						<a href="./home" class="btn btn-primary btn-sm"><span
-							class="glyphicon glyphicon-home"></span> Take Me Home </a>
+							class="glyphicon glyphicon-home"></span> <tag:message code="takeMeHome"></tag:message> </a>
 					</div>
 				</div>
 			</div>

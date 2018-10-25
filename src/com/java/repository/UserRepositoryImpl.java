@@ -31,25 +31,40 @@ public class UserRepositoryImpl implements UserRepository {
 	public User getUser(String email) {
 		User user = new User();
 		Session session = sf.openSession();
-//		st = session.get(User.class, email);
-//		if (st != null) {
-//			UserDetails ud = st.getUserDetails();
-//			ud.getCart();
-//		}
 		
-		user = session.createQuery("select u from User u join fetch u.userDetails where u.userEmail='"+email+"'", User.class).uniqueResult();
+		user = session.get(User.class, email);
+		
+//		user = session.createQuery("select u from User u join fetch u.userDetails where u.userEmail='"+email+"'", User.class).uniqueResult();
+		System.out.println("from get method "+user);
 
-		System.out.println(user);
+//		System.out.println(user);
 		
 		session.close();
 		return user;
 	}
 
+	public void updateCart(User user, Cart cart) {
+		Session session = sf.openSession();
+		session.beginTransaction();
+		user = session.get(User.class, user.getUserEmail());
+		UserDetails ud = user.getUserDetails();
+		if(ud != null) {
+			if(ud.getCart() != null) {
+				ud.getCart().addEntries(cart.getCartEntries());
+			} else {
+				ud.setCart(cart);
+			}
+		}
+		session.update(user);
+		session.getTransaction().commit();
+		System.out.println("from update cart method "+user);
+		session.close();
+	}
+	
 	public void updateUser(User user) {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		System.out.println(user);
-		updateUserDetails(user.getUserDetails(), session);
+		System.out.println("update "+user);
 		session.update(user);
 		session.getTransaction().commit();
 		session.close();
@@ -79,48 +94,10 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	public void updateUserDetails(UserDetails userD, Session session) {
-//		Cart cart = userD.getCart();
-//		List<Order> orders = userD.getOrders();
-//		List<Address> addresses = userD.getAddresses();
-//		List<Card> cards = userD.getCards();
-//		UserDetails old
-//		if (cart != null) {
-//			if (session.get(UserDetails.class, userD.getUserId()).getCart() != null) {
-//				session.update(cart);
-//			} else {
-//				session.save(cart);
-//			}
-//		}
-//		if (orders != null) {
-//			List<Order> oldOrders = session.get(UserDetails.class, userD.getUserId()).getOrders();
-//			if (oldOrders != null) {
-//				oldOrders.addAll(orders);
-//			}
-//			for (int i = 0; i < orders.size(); ++i)
-//				session.save(orders.get(i));
-//			userD.setOrders(oldOrders);
-//		}
-//		if (addresses != null) {
-//			List<Address> oldAddresses = session.get(UserDetails.class, userD.getUserId()).getAddresses();
-//			if (oldAddresses != null) {
-//				oldAddresses.addAll(addresses);
-//			}
-//			for (int i = 0; i < addresses.size(); ++i)
-//				session.save(addresses.get(i));
-//			userD.setAddresses(oldAddresses);
-//		}
-//		if (cards != null) {
-//			List<Card> oldCards = session.get(UserDetails.class, userD.getUserId()).getCards();
-//			if (oldCards != null) {
-//				oldCards.addAll(cards);
-//			}
-//			for (int i = 0; i < cards.size(); ++i)
-//				session.save(cards.get(i));
-//			userD.setCards(oldCards);
-//			;
-//		}
-		if(userD != null)
-			session.update(userD);
+		if(userD != null) {
+			session.saveOrUpdate(userD);
+			
+		}
 	}
 
 	public void deleteUserDetails(UserDetails userD, Session session) {
