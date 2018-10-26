@@ -1,6 +1,5 @@
 package com.java.components;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +20,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.java.util.MobileNumberConstraint;
+
 @Entity
 @Table(name = "USER_TABLE")
 @DynamicUpdate
@@ -34,7 +35,10 @@ public class UserDetails {
 	private String firstName;
 	private String lastName;
 	private Gender gender;
+	
+//	@MobileNumberConstraint
 	private long mobileNumber;
+	
 	private Set<Card> cards;
 	private Set<Address> addresses;
 	private Set<Order> orders;

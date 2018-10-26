@@ -142,12 +142,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Electronics");
-		prod.setImageUrl("images/iphone.jpeg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/iphone_new.jpg");
+		prod.setProductFrequency(200);
 		prod.setProductName("iPhone 6s");
 		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setStockQuantity(500);
+		prod.setUnitPrice(800);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -175,12 +175,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Electronics");
-		prod.setImageUrl("images/iphone.jpeg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/macbook.jpeg");
+		prod.setProductFrequency(300);
 		prod.setProductName("Macbook Pro");
 		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setStockQuantity(280);
+		prod.setUnitPrice(1500);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -208,12 +208,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Electronics");
-		prod.setImageUrl("images/iphone.jpeg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/samsung.jpg");
+		prod.setProductFrequency(100);
 		prod.setProductName("Samsung s6. with earphones and charger");
-		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setProductRating(4);
+		prod.setStockQuantity(300);
+		prod.setUnitPrice(500);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -257,12 +257,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Clothing");
-		prod.setImageUrl("images/booties.jpeg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/chunky.jpg");
+		prod.setProductFrequency(50);
 		prod.setProductName("Chunky heeled Booties with chains");
 		prod.setProductRating(5);
 		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setUnitPrice(80);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -291,12 +291,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Clothing");
-		prod.setImageUrl("images/booties.jpeg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/patterned-shirt.jpg");
+		prod.setProductFrequency(35);
 		prod.setProductName("Patterned shirt with huge buckle");
-		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setProductRating(3);
+		prod.setStockQuantity(300);
+		prod.setUnitPrice(50);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -325,12 +325,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Clothing");
-		prod.setImageUrl("images/booties.jpeg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/denim.jpg");
+		prod.setProductFrequency(150);
 		prod.setProductName("Levi Denim pants with huge zippers");
-		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setProductRating(4);
+		prod.setStockQuantity(400);
+		prod.setUnitPrice(300);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -364,9 +364,9 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Books");
-		prod.setImageUrl("images/javascriptbook.jpg");
+		prod.setImageUrl("images/the_reckoning.jpg");
 		prod.setProductFrequency(20);
-		prod.setProductName("A Summer Night by J.P. Schuler");
+		prod.setProductName("The reckoning by John Grisham");
 		prod.setProductRating(5);
 		prod.setStockQuantity(200);
 		prod.setUnitPrice(100);
@@ -389,12 +389,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Books");
-		prod.setImageUrl("images/javascriptbook.jpg");
-		prod.setProductFrequency(20);
-		prod.setProductName("The Woman by the Window by R.T. Jar");
-		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setImageUrl("images/a_little_life.jpg");
+		prod.setProductFrequency(80);
+		prod.setProductName("A little life by Hanya Yanagihara");
+		prod.setProductRating(4);
+		prod.setStockQuantity(150);
+		prod.setUnitPrice(40);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -414,12 +414,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Books");
-		prod.setImageUrl("images/javascriptbook.jpg");
-		prod.setProductFrequency(20);
-		prod.setProductName("Jump into your job with a lot of gusto by Mi Yun");
+		prod.setImageUrl("images/salvage-bonesl.jpg");
+		prod.setProductFrequency(30);
+		prod.setProductName("Salvage the bones by Jesmyn ward");
 		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setStockQuantity(100);
+		prod.setUnitPrice(150);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -447,12 +447,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Outdoors");
-		prod.setImageUrl("images/mountaingear.jpg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/Climbing-Rope.png");
+		prod.setProductFrequency(45);
 		prod.setProductName("Thick rope for mountain climbing");
 		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setStockQuantity(400);
+		prod.setUnitPrice(60);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -473,12 +473,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Outdoors");
-		prod.setImageUrl("images/mountaingear.jpg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/shears.jpg");
+		prod.setProductFrequency(25);
 		prod.setProductName("Gardening shears.");
 		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setStockQuantity(250);
+		prod.setUnitPrice(50);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"
@@ -498,12 +498,12 @@ public class ProductController {
 		prod = new Product();
 		prod.setProductDetails(pg);
 		prod.setCatName("Outdoors");
-		prod.setImageUrl("images/mountaingear.jpg");
-		prod.setProductFrequency(20);
+		prod.setImageUrl("images/jacket.jpg");
+		prod.setProductFrequency(10);
 		prod.setProductName("Winter jacket with extra removable cover layer");
-		prod.setProductRating(5);
-		prod.setStockQuantity(200);
-		prod.setUnitPrice(100);
+		prod.setProductRating(4);
+		prod.setStockQuantity(50);
+		prod.setUnitPrice(150);
 		prod.setProductDescription("Lorem ipsum dolor sit amet, consectetur\n"
 				+ "									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor\n"
 				+ "									sit amet. Lorem ipsum dolor sit amet, consectetur\n"

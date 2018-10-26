@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
@@ -33,8 +34,7 @@ import com.java.components.User;
 import com.java.components.UserDetails;
 
 @Configuration("datasource")
-//@PropertySource("classpath:database.properties")
-@Import(MyWebMvcConfigurer.class)
+@Import({MyWebMvcConfigurer.class, DbMigrationConfig.class})
 @EnableWebMvc
 public class RootConfig {
 
@@ -103,7 +103,6 @@ public class RootConfig {
 	}
 
 	@Bean
-//	@DependsOn("ds")
 	public SessionFactory getSessionFactory() {
 		if (sessionFactory == null)
 			return initializeFactory();
@@ -111,22 +110,30 @@ public class RootConfig {
 			return sessionFactory;
 	}
 
-//	@Bean("loginfilter")
-//	public LoginFilter getLoginFilter() {
-//		LoginFilter filter = new LoginFilter();
-//		return filter;
-//	}
-//	
-//	@Bean("errorfilter")
-//	public ErrorHandlerFilter getErrorFilter() {
-//		ErrorHandlerFilter filter = new ErrorHandlerFilter();
-//		return filter;
-//	}
-	
+	@Profile("dev")
 	@Bean("ps")
-	public static PropertySourcesPlaceholderConfigurer getConfigurer() {
+	public static PropertySourcesPlaceholderConfigurer getConfigurerDev() {
+//		System.out.println("dev ps");
 		PropertySourcesPlaceholderConfigurer cfg = new PropertySourcesPlaceholderConfigurer();
-		cfg.setLocation(new ClassPathResource("database.properties"));
+		cfg.setLocation(new ClassPathResource("database-dev.properties"));
+		return cfg;
+	}
+
+	@Profile("test")
+	@Bean("ps")
+	public static PropertySourcesPlaceholderConfigurer getConfigurerTest() {
+//		System.out.println("test ps");
+		PropertySourcesPlaceholderConfigurer cfg = new PropertySourcesPlaceholderConfigurer();
+		cfg.setLocation(new ClassPathResource("database-test.properties"));
+		return cfg;
+	}
+	
+	@Profile("prod")
+	@Bean("ps")
+	public static PropertySourcesPlaceholderConfigurer getConfigurerProd() {
+//		System.out.println("prod ps");
+		PropertySourcesPlaceholderConfigurer cfg = new PropertySourcesPlaceholderConfigurer();
+		cfg.setLocation(new ClassPathResource("database-prod.properties"));
 		return cfg;
 	}
 

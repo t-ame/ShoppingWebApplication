@@ -47,7 +47,7 @@ public class UtilityController {
 			User user = (User) session.getAttribute("user");
 			Cart cart = (Cart) session.getAttribute("cart");
 			if (user != null && user.getUserEmail() != null) {
-				System.out.println("utility "+user);
+//				System.out.println("utility "+user);
 				if (cart != null) {
 					userService.updateCart(user, cart);
 				}
@@ -65,6 +65,5 @@ public class UtilityController {
 		return mv;
 	}
 
-//	@RequestMapping("")
 
 }
