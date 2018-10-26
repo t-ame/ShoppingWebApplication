@@ -111,8 +111,9 @@ public class Order {
 
 	public void setProductDetails(List<String> productDetails) {
 		this.productDetails = productDetails;
-		for(int i=0; i<productDetails.size(); ++i) {
-			this.stringDetails += productDetails.get(i).toString()+", ";
+		int size = productDetails.size();
+		for(int i=0; i<size; ++i) {
+			this.stringDetails += productDetails.get(i).toString()+ (i>=size-1? "": ", ");
 		}
 	}
 	

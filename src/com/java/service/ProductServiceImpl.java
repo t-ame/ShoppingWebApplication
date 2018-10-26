@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.java.components.Product;
-import com.java.components.ProductCategory;
 import com.java.repository.ProductRepositoryImpl;
 import com.java.util.ProductSorter;
+import com.java.util.PurchaseStatus;
 
 @Service("productservice")
 public class ProductServiceImpl implements ProductService{
@@ -51,6 +51,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void addProduct(Product product) {
 		productRepository.addProduct(product);
+	}
+	
+	public boolean purchaseProduct(Product product, int quantity) {
+		return productRepository.purchaseProduct(product, quantity);
 	}
 
 }

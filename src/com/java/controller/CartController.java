@@ -3,6 +3,7 @@ package com.java.controller;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,7 @@ import com.java.components.UserDetails;
 import com.java.exception.MyCustomException;
 import com.java.service.ProductServiceImpl;
 import com.java.service.UserServiceImpl;
+import com.java.util.OrderSorter;
 
 @Controller
 @SessionAttributes(names = { "cart", "user" })
@@ -39,14 +41,9 @@ public class CartController {
 	@Qualifier("productservice")
 	ProductServiceImpl productService;
 
-//	@Autowired
-//	@Qualifier("orderservice")
-//	OrderServiceImpl orderService;
-	
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
-
 
 	@RequestMapping(value = "/addToCart/{id}")
 	public ModelAndView addToCart(@PathVariable("id") long id, HttpServletRequest req, HttpServletResponse resp) {
@@ -84,38 +81,40 @@ public class CartController {
 	}
 
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
-	public ModelAndView payForProducts(HttpServletRequest req, HttpServletResponse resp)
-			throws MyCustomException {
+	public ModelAndView payForProducts(HttpServletRequest req, HttpServletResponse resp) throws MyCustomException {
 
 		ModelAndView mv = new ModelAndView("displayCart");
 
 		HttpSession session = req.getSession();
-		if (session != null && session.getAttribute("cart") != null && session.getAttribute("user") != null) {
+		if (session != null && session.getAttribute("cart") != null && session.getAttribute("user") != null
+				&& ((User) session.getAttribute("user")).getUserEmail() != null) {
 			User user = (User) session.getAttribute("user");
+			UserDetails details = (UserDetails) session.getAttribute("userdetails");
 			Cart cart = (Cart) session.getAttribute("cart");
 			List<CartEntry> entries = cart.getCartEntries();
-			Set<Order> orders = new HashSet<>();
-			Order order = new Order();
-			
-			for(CartEntry entry : entries) {
-				order.setComplete(false);
-				order.setOrderDate(Date.valueOf(LocalDate.now()));
-				order.setProduct(entry.getProduct());
-				order.setQuantity(entry.getQuantity());
-				order.setProductDetails(entry.getCartEntryDetails());
-				orders.add(order);
-			}
-			
-			UserDetails details = user.getUserDetails();
-			if(details == null) {
-				details=new UserDetails();
-			}
-			details.setUserId(userService.getUser(user.getUserEmail()).getUserDetails().getUserId());
+			List<Order> orders = new ArrayList<>();
+			Order order = null;
 
-			details.setOrders(orders);
+			for (CartEntry entry : entries) {
+				if (productService.purchaseProduct(entry.getProduct(), entry.getQuantity())) {
+					order = new Order();
+					order.setComplete(false);
+					order.setOrderDate(Date.valueOf(LocalDate.now()));
+					order.setProduct(entry.getProduct());
+					order.setQuantity(entry.getQuantity());
+					order.setProductDetails(entry.getCartEntryDetails());
+					orders.add(order);
+				}
+			}
+			if (details == null) {
+				throw new MyCustomException("User not logged in or no products in the cart");
+			}
 			user.setUserDetails(details);
-			userService.updateUser(user);
+			userService.updateOrders(user, orders);
+			cart.getCartEntries().clear();
+			session.setAttribute("cart", cart);
 			
+			mv.addObject("paymentSuccess", "Successfully purchased products.");
 		} else {
 			throw new MyCustomException("User not logged in or no products in the cart");
 		}
@@ -127,10 +126,10 @@ public class CartController {
 	public ModelAndView removeFromCart(@PathVariable("index") int index, HttpServletRequest req) {
 		ModelAndView mv = new ModelAndView("displayCart");
 		HttpSession session = req.getSession();
-		
-		if(session != null) {
-			Cart cart = (Cart)session.getAttribute("cart");
-			if(cart != null && cart.getCartEntries() != null && cart.getCartEntries().size()>index) {
+
+		if (session != null) {
+			Cart cart = (Cart) session.getAttribute("cart");
+			if (cart != null && cart.getCartEntries() != null && cart.getCartEntries().size() > index) {
 				cart.getCartEntries().remove(index);
 				session.setAttribute("cart", cart);
 			}
@@ -139,4 +138,61 @@ public class CartController {
 		return mv;
 	}
 
+	@RequestMapping(value = "/clearCart")
+	public ModelAndView clearCart(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView("displayCart");
+		HttpSession session = req.getSession();
+		if (session != null) {
+			session.setAttribute("cart", new Cart());
+		}
+		return mv;
+	}
+
+	@RequestMapping(value = "/proceedToCheckout")
+	public ModelAndView checkoutCart(HttpServletRequest req) throws MyCustomException {
+		ModelAndView mv = new ModelAndView("paymentPage");
+		HttpSession session = req.getSession();
+
+		if (session != null && session.getAttribute("user") != null) {
+			User user = (User) session.getAttribute("user");
+
+			// FETCH CARD DETAILS
+
+		} else {
+			throw new MyCustomException("User not logged in, cannot proceed to payment");
+		}
+
+		// DO MORE WITH CARDS AND ADDRESSES
+
+		return mv;
+	}
+
+
+
+	@RequestMapping(value = "/displayHistory")
+	public ModelAndView displayHistory(HttpServletRequest req) throws MyCustomException {
+		ModelAndView mv = new ModelAndView("orderHistory");
+		HttpSession session = req.getSession();
+		if (session != null) {
+			User user = (User) session.getAttribute("user");
+			user = userService.getUser(user.getUserEmail());
+			UserDetails details = user.getUserDetails();
+			Set<Order> orders = null;
+			System.out.println(details);
+			if(details != null) {
+				orders = details.getOrders();
+				System.out.println(orders);
+			} else {
+				orders = new HashSet<>();
+			}
+			List<Order> sortedOrders = new ArrayList<>(orders);
+			Collections.sort(sortedOrders, new OrderSorter());
+			mv.addObject("orders", sortedOrders);
+		} else {
+			throw new MyCustomException("User not logged in.");
+		}
+		return mv;
+	}
+
+	
 }

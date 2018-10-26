@@ -18,7 +18,7 @@ public class ErrorHandlerFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
-		System.out.println(((HttpServletRequest)arg0).getContextPath());
+//		System.out.println(((HttpServletRequest)arg0).getContextPath());
 		try {
 			arg2.doFilter(arg0, arg1);
 		} catch (Exception ex) {

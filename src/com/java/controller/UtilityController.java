@@ -43,7 +43,7 @@ public class UtilityController {
 	public ModelAndView doLogout(HttpServletRequest request, HttpServletResponse response, SessionStatus status) throws MyCustomException {
 
 		HttpSession session = request.getSession();
-		if (session != null) {
+		if (session != null && session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			Cart cart = (Cart) session.getAttribute("cart");
 			if (user != null && user.getUserEmail() != null) {
@@ -52,7 +52,7 @@ public class UtilityController {
 					userService.updateCart(user, cart);
 				}
 				session.removeAttribute("user");
-				status.setComplete();
+				session.removeAttribute("userdetails");
 				try {
 					request.getRequestDispatcher("/home").forward(request, response);
 				} catch (ServletException | IOException e) {

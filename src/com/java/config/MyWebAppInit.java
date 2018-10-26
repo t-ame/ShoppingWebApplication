@@ -26,7 +26,7 @@ public class MyWebAppInit implements WebApplicationInitializer {
 
 		FilterRegistration.Dynamic filter = servletContext.addFilter( "loginFilter", new LoginFilter());
 		FilterRegistration.Dynamic filter2 = servletContext.addFilter( "errorHandlerFilter", new ErrorHandlerFilter());
-		filter.addMappingForUrlPatterns(null, true, "/proceedToCheckout","/checkout", "/profile", "/updateProfile");
+		filter.addMappingForUrlPatterns(null, true, "/proceedToCheckout","/checkout", "/profile", "/updateProfile", "/pay", "/displayHistory");
 //		,"/checkout"
 		filter2.addMappingForUrlPatterns(null, true, "/*");
 		

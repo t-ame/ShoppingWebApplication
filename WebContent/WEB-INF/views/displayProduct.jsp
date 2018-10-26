@@ -9,9 +9,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport"
+<!-- <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Bootstrap-ecommerce by Vosidiy">
+<meta name="author" content="Bootstrap-ecommerce by Vosidiy"> -->
 
 
 <link href="<c:url value="/style/homepage.css"/>" rel="stylesheet" />
@@ -92,7 +92,9 @@
 				<div class="card bg-light mb-3">
 					<div class="card-body">
 						<a href="" data-toggle="modal" data-target="#productModal"> <img
-							class="img-fluid" src="../../<%=product.getImageUrl()%>" />
+							class="img-fluid"
+							src="<%=request.getContextPath()%>/<%=product.getImageUrl()%>"
+							style="width: 400px; height: 500px" />
 						</a>
 					</div>
 				</div>
@@ -104,8 +106,13 @@
 					<div class="card-body">
 						<p class="price">
 							$<%=product.getUnitPrice()%></p>
-						<form 
-							action="<%= request.getContextPath() %>/addToCart/<%=product.getProductId()%>">
+						<p class="price">
+							<tag:message code="only"></tag:message>
+							<%=product.getStockQuantity()%>
+							<tag:message code="inStock"></tag:message>
+						</p>
+						<form
+							action="<%=request.getContextPath()%>/addToCart/<%=product.getProductId()%>">
 
 
 							<%
@@ -123,7 +130,7 @@
 								<label for="colors"><%=git.getGroupName()%></label> <select
 									class="custom-select" id="colors"
 									name="<%=git.getGroupName()%>" required>
-									<option selected disabled value="">Select</option>
+									<option selected disabled value=""><tag:message code="select"></tag:message></option>
 
 
 									<%
@@ -164,11 +171,9 @@
 									</div>
 								</div>
 							</div>
-							<%-- <a href="./addToCart/<%= product.getProductId() %>"
-								class="btn btn-success btn-lg btn-block text-uppercase"> <i
-								class="fa fa-shopping-cart"></i> <tag:message code="addToCart"></tag:message>
-							</a> --%>
-							<button type="submit" class="btn btn-success btn-lg btn-block text-uppercase">
+							
+							<button type="submit"
+								class="btn btn-success btn-lg btn-block text-uppercase">
 								<i class="fa fa-shopping-cart"></i>
 								<tag:message code="addToCart"></tag:message>
 							</button>

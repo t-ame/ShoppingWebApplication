@@ -93,7 +93,7 @@
 
 						<ul class="list-unstyled">
 							<li><a href="<%= request.getContextPath() %>/profile" style="color: white"><tag:message code="myAccount"></tag:message></a></li>
-							<li><a href="#!" style="color: white"><tag:message code="myOrders"></tag:message></a></li>
+							<li><a href="<%= request.getContextPath() %>/displayHistory" style="color: white"><tag:message code="myOrders"></tag:message></a></li>
 							<li><a href="#!" style="color: white"><tag:message code="help"></tag:message></a></li>
 						</ul>
 

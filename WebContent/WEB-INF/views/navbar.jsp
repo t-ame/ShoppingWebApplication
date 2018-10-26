@@ -12,11 +12,6 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<!-- 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous"> -->
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
@@ -24,12 +19,8 @@
 	crossorigin="anonymous">
 
 
-<!-- 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"> -->
 
-
-<link href="<c:url value="/style/styles.css" />" rel="stylesheet" />
+<link rel="stylesheet"  href="<c:url value="/style/styles.css" />"/>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -74,21 +65,8 @@
 		String conPath = request.getContextPath();
 		%>
 
-		<!-- <div id="container">
-		<div id="header"></div>
-		<div id="body"></div>
-		<div id="footer"></div>
-	</div> -->
-
-
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-			<!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
-				<i class="fa fa-align-justify"></i>
-				 <span>toggle sidebar</span>
-			</button> -->
-
-			<!--<a class="navbar-brand" href="#">Navbar</a> -->
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarNav" aria-controls="navbarNav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -102,23 +80,12 @@
 							style="font-family: 'Comic Sans MS'; color: #007bff">Cart</span>
 							<span class="sr-only">(current)</span> </a></li>
 
-					<li class="nav-item"><pre>										</pre></li>
-					<%-- 
-				<%
-					if (session.getAttribute("user") == null) {
-				%>
-				<li class="nav-item"><pre>	</pre></li>
-				<%
-					}
-				%>  --%>
+					<li class="nav-item"><pre>								</pre></li>
+				
 
 
 					 <li class="nav-item"><pre>		</pre></li>
-<!-- 
-					<li class="nav-item"><a class="nav-link" href="#">Features</a>
-					</li>
 
-					<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li> -->
 
 					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/cart"><i
 							class="fa" style="font-size: 24px">&#xf07a;</i><span
@@ -134,7 +101,7 @@
 						if (user != null && user.getUserEmail() != null) {
 					%>
 					<li class="nav-item"><a class="nav-link"
-						href="#"><tag:message code="myOrders"></tag:message></a></li>
+						href="<%= request.getContextPath() %>/displayHistory"><tag:message code="myOrders"></tag:message></a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="<%=conPath %>/profile"><tag:message code="myAccount"></tag:message></a></li>
 					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/logout"><tag:message

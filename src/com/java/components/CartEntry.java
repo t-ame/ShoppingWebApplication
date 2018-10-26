@@ -56,9 +56,6 @@ public class CartEntry {
 		this.quantity = quantity;
 	}
 
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "CART_ENTRY_DETAILS", joinColumns = {
-//			@JoinColumn(name = "CART_ENTRY_ID") }, inverseJoinColumns = { @JoinColumn(name = "PRODUCT_DETAIL_ID") })
 	@ElementCollection
 	public List<String> getCartEntryDetails() {
 		return cartEntryDetails;

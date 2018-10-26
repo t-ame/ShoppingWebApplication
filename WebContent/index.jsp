@@ -21,8 +21,9 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
 
-<link rel="stylesheet" href="style/styles.css">
+<!-- <link rel="stylesheet" href="style/styles.css"> -->
 
+<link href="/WEB-INF/views/style/styles.css"  rel="stylesheet" />
 
 <title>Home Page</title>
 </head>
@@ -47,15 +48,16 @@
 
 				<h1 class="my-4">MyCart</h1>
 				<div class="list-group">
-					<a href="<%=conPath %>/categoryProducts/Electronics" class="list-group-item"><tag:message
-							code="electronics"></tag:message></a> <a
-						href="<%=conPath %>/categoryProducts/Clothing" class="list-group-item"><tag:message
-							code="clothing"></tag:message></a> <a
-						href="<%=conPath %>/categoryProducts/Outdoors" class="list-group-item"><tag:message
-							code="outdoors"></tag:message></a> <a href="<%=conPath %>/categoryProducts/Home"
+					<a href="<%=conPath%>/categoryProducts/Electronics"
+						class="list-group-item"><tag:message code="electronics"></tag:message></a>
+					<a href="<%=conPath%>/categoryProducts/Clothing"
+						class="list-group-item"><tag:message code="clothing"></tag:message></a>
+					<a href="<%=conPath%>/categoryProducts/Outdoors"
+						class="list-group-item"><tag:message code="outdoors"></tag:message></a>
+					<a href="<%=conPath%>/categoryProducts/Home"
 						class="list-group-item"><tag:message code="home"></tag:message></a>
-					<a href="<%=conPath %>/categoryProducts/Books" class="list-group-item"><tag:message
-							code="books"></tag:message></a>
+					<a href="<%=conPath%>/categoryProducts/Books"
+						class="list-group-item"><tag:message code="books"></tag:message></a>
 				</div>
 
 			</div>
@@ -99,132 +101,73 @@
 					</a>
 				</div>
 
-				<!-- <div class="row">
+				<div class="row">
 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item One</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
+					<div>
+						<a href="<%=conPath%>/categoryProducts/Electronics"> <img
+							alt="Electronics" src="images/Computers.jpg" width=900 height=200>
+						</a>
+
+						<h4>
+							<tag:message code="electronics"></tag:message>
+						</h4>
+
 					</div>
 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Two</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
-									sit amet.</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
+					<div>
+						<a href="<%=conPath%>/categoryProducts/Clothing"> <img
+							alt="Clothing" src="images/best-online-mens-clothing-stores.jpg"
+							width=900 height=200>
+						</a>
+
+						<h4>
+							<tag:message code="clothing"></tag:message>
+						</h4>
+
 					</div>
 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Three</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
+					<div>
+						<a href="<%=conPath%>/categoryProducts/Outdoors"> <img
+							alt="Outdoors" src="images/OutdoorGear.png" width=900 height=200>
+						</a>
+
+						<h4>
+							<tag:message code="outdoors"></tag:message>
+						</h4>
+
 					</div>
 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Four</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
+					<div>
+						<a href="<%=conPath%>/categoryProducts/Home"> <img alt="Home"
+							src="images/kitchen-appliances.png" width=900 height=200>
+						</a>
+
+						<h4>
+							<tag:message code="home"></tag:message>
+						</h4>
+
 					</div>
 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Five</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
-									sit amet.</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
+					<div>
+						<a href="<%=conPath%>/categoryProducts/Books"> <img
+							alt="Books" src="images/1*YLlZ96J3p8GFkIh1USVMzg.jpeg" width=900
+							height=200></a>
+
+						<h4>
+							<tag:message code="books"></tag:message>
+						</h4>
+
 					</div>
 
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Six</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
- -->
+
+				</div>
+				<!-- /.row -->
+
 			</div>
-			<!-- /.row -->
+			<!-- /.col-lg-9 -->
 
 		</div>
-		<!-- /.col-lg-9 -->
-
-	</div>
-	<!-- /.row -->
+		<!-- /.row -->
 
 	</div>
 	<!-- /.container -->

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.java.components.Address;
 import com.java.components.Cart;
+import com.java.components.CartEntry;
 import com.java.components.User;
 import com.java.components.UserDetails;
 import com.java.exception.MyCustomException;
@@ -67,10 +68,20 @@ public class UserController {
 		if (user != null && user.getUserEmail() != null && user.getUserPassword().equals(password)) {
 			System.out.println("login  " + user);
 			session.setAttribute("userdetails", user.getUserDetails());
-			session.setAttribute("cart", user.getUserDetails().getCart());
+			
+			Cart cart = (Cart) session.getAttribute("cart");
+			if(cart != null) {
+				cart.addEntries(user.getUserDetails().getCart().getCartEntries());
+			} else {
+				cart = user.getUserDetails().getCart();
+			}
+			for(CartEntry entry:cart.getCartEntries()) {
+				entry.setCartEntryId(0);
+			}
+			session.setAttribute("cart", cart);
+			
 			try {
 				if (ls != null) {
-//					System.out.println(ls.getLastUri());
 					req.getRequestDispatcher(ls.getLastUri()).forward(req, resp);
 				} else {
 					mv.setViewName("../../index");
@@ -159,7 +170,7 @@ public class UserController {
 				details.setGender(UserDetails.Gender.MALE);
 			}
 			user.setUserDetails(details);
-			userService.updateUser(user);
+			userService.updateUser(user, address);
 		}
 
 		return new ModelAndView("../../index");
