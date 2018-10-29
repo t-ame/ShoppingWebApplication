@@ -19,7 +19,7 @@
 
 <title>Profile</title>
 
-<link rel="stylesheet"  href="<c:url value="/style/payment.css" />"/>
+<link rel="stylesheet" href="<c:url value="/style/payment.css" />" />
 </head>
 <body>
 
@@ -58,7 +58,9 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-md-12">
-								<h4><tag:message code="yourProfile"></tag:message></h4>
+								<h4>
+									<tag:message code="yourProfile"></tag:message>
+								</h4>
 								<hr>
 							</div>
 						</div>
@@ -86,43 +88,59 @@
 						<div class="row">
 							<div class="col-md-12">
 								<form action="./updateProfile" method="post">
+
+									<div class="errorMsg"><%=request.getAttribute("formError") == null ? "" : request.getAttribute("formError")%></div>
+									<%
+										request.setAttribute("formError", "");
+									%>
+
 									<div class="form-group row">
-										<label for="email" class="col-4 col-form-label"><tag:message code="email"></tag:message></label>
+										<label for="email" class="col-4 col-form-label"><tag:message
+												code="email"></tag:message></label>
 										<div class="col-8">
-											<input id="email" name="userEmail" placeholder="<tag:message code="email"></tag:message>"
+											<input id="email" name="userEmail"
+												placeholder="<tag:message code="email"></tag:message>"
 												class="form-control here" required="required" type="text"
 												value="<%=user.getUserEmail()%>">
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="firstName" class="col-4 col-form-label"><tag:message code="firstName"></tag:message></label>
+										<label for="firstName" class="col-4 col-form-label"><tag:message
+												code="firstName"></tag:message></label>
 										<div class="col-8">
-											<input id="name" name="firstName" placeholder="<tag:message code="firstName"></tag:message>"
+											<input id="name" name="firstName"
+												placeholder="<tag:message code="firstName"></tag:message>"
 												class="form-control here" type="text"
 												value="<%=ud.getFirstName()%>">
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="lastname" class="col-4 col-form-label"><tag:message code="lastName"></tag:message></label>
+										<label for="lastname" class="col-4 col-form-label"><tag:message
+												code="lastName"></tag:message></label>
 										<div class="col-8">
-											<input id="lastname" name="lastName" placeholder="<tag:message code="lastName"></tag:message>"
+											<input id="lastname" name="lastName"
+												placeholder="<tag:message code="lastName"></tag:message>"
 												class="form-control here" type="text"
 												value="<%=ud.getLastName()%>">
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="newpass" class="col-4 col-form-label"><tag:message code="password"></tag:message></label>
+										<label for="newpass" class="col-4 col-form-label"><tag:message
+												code="password"></tag:message></label>
 										<div class="col-8">
 											<input id="newpass" name="userPassword"
-												placeholder="<tag:message code="password"></tag:message>" class="form-control here"
-												type="password" value="<%=user.getUserPassword()%>">
+												placeholder="<tag:message code="password"></tag:message>"
+												class="form-control here" type="password"
+												value="<%=user.getUserPassword()%>">
 										</div>
 									</div>
 
 									<div class="form-group row">
-										<label for="email" class="col-4 col-form-label"><tag:message code="mobileNumber"></tag:message></label>
+										<label for="email" class="col-4 col-form-label"><tag:message
+												code="mobileNumber"></tag:message></label>
 										<div class="col-8">
-											<input id="email" name="mobileNumber" placeholder="<tag:message code="mobileNumber"></tag:message>"
+											<input id="email" name="mobileNumber"
+												placeholder="<tag:message code="mobileNumber"></tag:message>"
 												class="form-control here" required="required" type="tel"
 												value="<%=ud.getMobileNumber()%>">
 										</div>
@@ -130,8 +148,8 @@
 
 
 									<div class="form-group row">
-										<label for="gender" class="col-4 col-form-label"><tag:message code="gender"></tag:message>
-										</label>
+										<label for="gender" class="col-4 col-form-label"><tag:message
+												code="gender"></tag:message> </label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input
 												class="form-check-input" type="radio" name="genders"
@@ -160,47 +178,64 @@
 											value="<%=ad.getAddressId()%>">
 
 										<div class="col-md-12">
-											<h4><tag:message code="address"></tag:message></h4>
+											<h4>
+												<tag:message code="address"></tag:message>
+											</h4>
 											<hr>
 										</div>
 
 										<!-- full-name input-->
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message code="addressLine"></tag:message> 1</label>
+											<label for="firstName" class="col-4 col-form-label"><tag:message
+													code="addressLine"></tag:message> 1</label>
 											<div class="col-8">
 												<input id="name" name="addressLine1"
 													class="form-control here" type="text"
-													value="<%=ad.getAddressLine1() == null ? "" : ad.getAddressLine1()%>" required>
-												<p class="help-block"><tag:message code="streetAddress"></tag:message>, c/o</p>
+													value="<%=ad.getAddressLine1() == null ? "" : ad.getAddressLine1()%>"
+													required>
+												<p class="help-block">
+													<tag:message code="streetAddress"></tag:message>
+													, c/o
+												</p>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message code="addressLine"></tag:message> 2</label>
+											<label for="firstName" class="col-4 col-form-label"><tag:message
+													code="addressLine"></tag:message> 2</label>
 											<div class="col-8">
 												<input id="name" name="addressLine2"
-													class="form-control here" type="text" placeholder="<tag:message code="optional"></tag:message>"
+													class="form-control here" type="text"
+													placeholder="<tag:message code="optional"></tag:message>"
 													value="<%=ad.getAddressLine2() == null ? "" : ad.getAddressLine2()%>">
-												<p class="help-block"> <tag:message code="apartment"></tag:message>, etc.</p>
+												<p class="help-block">
+													<tag:message code="apartment"></tag:message>
+													, etc.
+												</p>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message code="cityTown"></tag:message></label>
+											<label for="firstName" class="col-4 col-form-label"><tag:message
+													code="cityTown"></tag:message></label>
 											<div class="col-8">
 												<input id="name" name="city" class="form-control here"
 													type="text"
-													value="<%=ad.getCity() == null ? "" : ad.getCity()%>" required>
+													value="<%=ad.getCity() == null ? "" : ad.getCity()%>"
+													required>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message code="stateRegion"></tag:message></label>
+											<label for="firstName" class="col-4 col-form-label"><tag:message
+													code="stateRegion"></tag:message></label>
 											<div class="col-8">
 												<input id="name" name="state" class="form-control here"
 													type="text"
-													value="<%=ad.getState() == null ? "" : ad.getState()%>" required>
+													value="<%=ad.getState() == null ? "" : ad.getState()%>"
+													required>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message code="zipcode"></tag:message></label>
+											<label for="firstName" class="col-4 col-form-label"><tag:message
+													code="zipcode"></tag:message></label>
 											<div class="col-8">
 												<input id="name" name="zipcode" class="form-control here"
 													type="number" value="<%=ad.getZipcode()%>" required>
@@ -209,10 +244,12 @@
 
 										<!-- country select -->
 										<div class="form-group row">
-											<label for="country" class="col-4 col-form-label"><tag:message code="country"></tag:message></label>
+											<label for="country" class="col-4 col-form-label"><tag:message
+													code="country"></tag:message></label>
 											<div class="controls">
 												<select id="country" name="country" class=" col-8" required>
-													<option value="" selected disabled><tag:message code="select"></tag:message></option>
+													<option value="" selected disabled><tag:message
+															code="select"></tag:message></option>
 													<option value="AF">Afghanistan</option>
 													<option value="AL">Albania</option>
 													<option value="DZ">Algeria</option>
@@ -466,7 +503,9 @@
 
 									<div class="form-group row">
 										<div class="offset-4 col-8">
-											<button name="submit" type="submit" class="btn btn-primary"><tag:message code="updateProfile"></tag:message></button>
+											<button name="submit" type="submit" class="btn btn-primary">
+												<tag:message code="updateProfile"></tag:message>
+											</button>
 										</div>
 									</div>
 								</form>

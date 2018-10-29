@@ -9,9 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Immutable;
+import org.springframework.lang.NonNull;
+
+import com.java.util.CcardDateConstraint;
 
 @Entity
 @Table(name = "CARD_TABLE")
@@ -24,9 +28,17 @@ public class Card {
 	}
 
 	private long cardId;
+	@NonNull
+	@NotBlank
 	private long cardNumber;
+	@NonNull
+	@NotBlank
 	private int cvv;
+	@NonNull
+	@NotBlank
 	private String cardName;
+	
+	@CcardDateConstraint
 	private String expiryDate;
 	private Address billingAddress;
 	CardType cardType;

@@ -17,8 +17,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.lang.NonNull;
 
 import com.java.util.MobileNumberConstraint;
 
@@ -32,11 +34,14 @@ public class UserDetails {
 	}
 
 	private long userId;
+
+	@NotBlank
 	private String firstName;
+
+	@NotBlank
 	private String lastName;
 	private Gender gender;
 	
-//	@MobileNumberConstraint
 	private long mobileNumber;
 	
 	private Set<Card> cards;

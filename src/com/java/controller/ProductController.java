@@ -12,12 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.java.components.Books;
-import com.java.components.Clothing;
-import com.java.components.Electronics;
-import com.java.components.Outdoors;
 import com.java.components.Product;
 import com.java.components.ProductDetail;
 import com.java.components.ProductDetailGroup;
@@ -91,6 +90,33 @@ public class ProductController {
 		}
 
 		return mv;
+	}
+
+	@RequestMapping(value = "/productNames", method = RequestMethod.GET)
+	public @ResponseBody List<Product> displayNames(@RequestParam("searchKeys") String keys) {
+
+		List<Product> products = null;
+
+		products = productService.getProductsWithName(keys, 0);
+
+//		, @RequestParam("className") String className
+
+//		if (className != null) {
+//			if (className.equalsIgnoreCase("all")) {
+//				products = productService.getProductsWithName(keys, 0);
+//			} else {
+//				products = productService.getProductsCategoryWithName(className, keys, 0);
+//			}
+//		}
+
+//		String response = "<ul style=\"list-style-type: none\">";
+//
+//		for(Product prod : products) {
+//			response += "<li>"+prod.getProductName()+"</li>";
+//		}
+//		response += "</ul>";
+
+		return products;
 	}
 
 	@RequestMapping(value = "/addProduct")

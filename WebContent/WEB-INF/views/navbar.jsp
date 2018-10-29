@@ -13,6 +13,11 @@
 
 <!-- Bootstrap CSS -->
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script> -->
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
@@ -48,6 +53,12 @@
 	vertical-align: top;
 	margin-left: -10px;
 }
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden; font-size:22px}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #3399FF; }
+
 </style>
 
 </head>
@@ -87,7 +98,7 @@
 					 <li class="nav-item"><pre>		</pre></li>
 
 
-					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/cart"><i
+					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/addToCart/displaycart"><i
 							class="fa" style="font-size: 24px">&#xf07a;</i><span
 							class='badge badge-warning' id='lblCartCount'> <%=session.getAttribute("cart") == null ? 0
 									: ((Cart) session.getAttribute("cart")).getCartEntries().size()%>
@@ -147,7 +158,7 @@
 									<option value="Home"><tag:message code="home"></tag:message></option>
 									<option value="Books"><tag:message code="books"></tag:message></option>
 								</select> <input type="text" class="form-control" style="width: 60%;"
-									placeholder="<tag:message code="search"></tag:message>" name="searchKeys" />
+									placeholder="<tag:message code="search"></tag:message>" name="searchKeys" id="searchKeys"/>
 
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="submit">
@@ -171,6 +182,34 @@
 
 
 	<br>
+	
+	
+<script>
+  $(document).ready(function() {
+	  
+	  console.log('Hello');
+
+	/* $('#searchKeys').autocomplete({
+		serviceUrl: '${pageContext.request.contextPath}/productNames',
+		paramName: "searchKeys",
+		delimiter: ",",
+	   transformResult: function(response) {
+		    	
+		return {      	
+		  //must convert json to javascript object before process
+		  suggestions: $.map($.parseJSON(response), function(item) {
+		            	
+		      return { value: item.productName, data: item.productId };
+		   })
+		            
+		 };
+		        
+            }
+		    
+	 }); */
+				
+  });
+  </script>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -185,6 +224,7 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
 		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 		crossorigin="anonymous"></script>
+
 
 
 </body>

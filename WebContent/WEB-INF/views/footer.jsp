@@ -139,6 +139,33 @@
 
 
 
+<script>
+  $(document).ready(function() {
+	  
+	  console.log('Hello');
+
+	/* $('#searchKeys').autocomplete({
+		serviceUrl: '${pageContext.request.contextPath}/productNames',
+		paramName: "searchKeys",
+		delimiter: ",",
+	   transformResult: function(response) {
+		    	
+		return {      	
+		  //must convert json to javascript object before process
+		  suggestions: $.map($.parseJSON(response), function(item) {
+		            	
+		      return { value: item.productName, data: item.productId };
+		   })
+		            
+		 };
+		        
+            }
+		    
+	 }); */
+				
+  });
+  </script>
+
 
 
 </body>

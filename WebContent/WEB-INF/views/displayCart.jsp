@@ -29,7 +29,8 @@
 
 
 	<%
-		Cart cart = (Cart) session.getAttribute("cart");
+		/* Cart cart = (Cart) session.getAttribute("cart"); */
+		Cart cart = (Cart) request.getAttribute("cart");
 	%>
 
 	<h3 style="color: green; font-size: 25px">
@@ -70,6 +71,11 @@
 			<div class="col-12">
 				<div class="table-responsive">
 
+					<div class="errorMsg"><%=request.getAttribute("errorMsg") == null ? "" : request.getAttribute("errorMsg")%></div>
+					<%
+						request.setAttribute("errorMsg", "");
+					%>
+
 
 					<table class="table table-striped">
 						<thead>
@@ -97,9 +103,11 @@
 							<tr>
 								<td><img src="https://dummyimage.com/50x50/55595c/fff" />
 								</td>
-								<td><a href="<%=request.getContextPath()%>/displayProduct/<%=p.getProductId()%>"><%=p.getProductName()%></a></td>
+								<td><a
+									href="<%=request.getContextPath()%>/displayProduct/<%=p.getProductId()%>"><%=p.getProductName()%></a></td>
 								<td><%=p.getStockQuantity() < entry.getQuantity() ? "Out of stock" : "In stock"%></td>
-								<td><input class="form-control" type="text"
+								<td><input class="form-control" type="text" id=""
+									onchange="quantityChange(this.value, <%=count%>)"
 									value="<%=entry.getQuantity()%>" /></td>
 								<td class="text-right">$<%=p.getUnitPrice() * entry.getQuantity()%></td>
 								<td class="text-right"><a
@@ -119,7 +127,7 @@
 								<td></td>
 								<td></td>
 								<td><tag:message code="subTotal"></tag:message></td>
-								<td class="text-right">$<%=total%></td>
+								<td class="text-right">$<%=Math.round(total * 100) / 100%></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -173,6 +181,19 @@
 
 	<jsp:include page="./footer.jsp" />
 
+
+	<script type="text/javascript">
+
+function quantityChange(value, id) {
+		var form = $('<form action="${pageContext.request.contextPath}/updateCartItem">' + 
+		    '<input type="hidden" name="index" value="' + id + '">' +
+		    '<input type="hidden" name="quantity" value="' + value + '">' +
+		    '</form>');
+			$(document.body).append(form);
+			form.submit();
+	}
+	
+</script>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

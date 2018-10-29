@@ -2,17 +2,17 @@ package com.java.controller;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.CacheControl;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,7 +55,15 @@ public class UserController {
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
+	
 
+	@RequestMapping(path = "/loggedin", method = RequestMethod.POST)
+	public ModelAndView loggedIn(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp) {
+//		ModelAndView mv = new ModelAndView("../../index");
+		
+		return new ModelAndView("../../index");
+	}
+			
 	@RequestMapping(path = "/loginUser", method = RequestMethod.POST)
 	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp)
 			throws MyCustomException {
@@ -70,23 +78,23 @@ public class UserController {
 		if (user != null && user.getUserEmail() != null && user.getUserPassword().equals(password)) {
 			System.out.println("login  " + user);
 			session.setAttribute("userdetails", user.getUserDetails());
-			
+
 			Cart cart = (Cart) session.getAttribute("cart");
-			if(cart != null) {
+			if (cart != null) {
 				cart.addEntries(user.getUserDetails().getCart().getCartEntries());
 			} else {
 				cart = user.getUserDetails().getCart();
 			}
-			for(CartEntry entry:cart.getCartEntries()) {
+			for (CartEntry entry : cart.getCartEntries()) {
 				entry.setCartEntryId(0);
 			}
 			session.setAttribute("cart", cart);
-			
+
 			try {
 				if (ls != null) {
 					req.getRequestDispatcher(ls.getLastUri()).forward(req, resp);
 				} else {
-					mv.setViewName("../../index");
+					mv.setViewName("redirect:loggedin");
 				}
 			} catch (ServletException | IOException e) {
 				throw new MyCustomException(e.getMessage());
@@ -110,15 +118,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/deleteUser")
-	public ModelAndView deleteUser(@ModelAttribute("user") User user, HttpServletRequest req) throws MyCustomException {
-		ModelAndView mv = new ModelAndView("redirect:../../index");
+	public ModelAndView deleteUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp)
+			throws MyCustomException {
+		ModelAndView mv = new ModelAndView("redirect:loggedin");
 		userService.deleteUser(user);
-		try {
-			req.getRequestDispatcher("/home").forward(null, null);
-		} catch (ServletException | IOException e) {
-			throw new MyCustomException(e.getMessage());
-		}
 
+		req.getSession().removeAttribute("user");
+		
 		return mv;
 	}
 
@@ -158,8 +164,17 @@ public class UserController {
 
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
 	public ModelAndView updateProfile(@ModelAttribute("user") User user,
-			@ModelAttribute("userdetails") UserDetails details, @ModelAttribute("address") Address address,
-			HttpServletRequest req, HttpServletResponse resp) {
+			@Valid @ModelAttribute("userdetails") UserDetails details, @ModelAttribute("address") Address address,
+			HttpServletRequest req, HttpServletResponse resp, BindingResult result) throws MyCustomException {
+
+		if (result.hasErrors()) {
+			req.setAttribute("formError", result.getAllErrors());
+			try {
+				req.getRequestDispatcher("/profile").forward(req, resp);
+			} catch (ServletException | IOException e) {
+				throw new MyCustomException(e.getMessage());
+			}
+		}
 
 		String gender = req.getParameter("genders");
 		if (user != null && user.getUserEmail() != null && user.getUserPassword() != null && user.getUserEmail() != ""
@@ -174,8 +189,7 @@ public class UserController {
 			user.setUserDetails(details);
 			userService.updateUser(user, address);
 		}
-
-		return new ModelAndView("../../index");
+		return new ModelAndView("redirect:profile");
 	}
 
 }

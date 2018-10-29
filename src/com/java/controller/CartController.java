@@ -15,12 +15,17 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.java.components.Address;
+import com.java.components.Card;
 import com.java.components.Cart;
 import com.java.components.CartEntry;
 import com.java.components.Order;
@@ -44,11 +49,20 @@ public class CartController {
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
+	
+	@RequestMapping(value="/addToCart/displaycart")
+	public ModelAndView addToCart(HttpServletRequest req, HttpServletResponse resp) {
+		ModelAndView mv = new ModelAndView("displayCart");
+		
+		mv.addObject("cart", req.getSession().getAttribute("cart"));
+		
+		return mv;
+	}
 
 	@RequestMapping(value = "/addToCart/{id}")
 	public ModelAndView addToCart(@PathVariable("id") long id, HttpServletRequest req, HttpServletResponse resp) {
 
-		ModelAndView mv = new ModelAndView("displayCart");
+		ModelAndView mv = new ModelAndView("redirect:displaycart");
 
 		Product product = productService.getProduct(id);
 		HttpSession session = req.getSession(true);
@@ -81,7 +95,7 @@ public class CartController {
 	}
 
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
-	public ModelAndView payForProducts(HttpServletRequest req, HttpServletResponse resp) throws MyCustomException {
+	public ModelAndView payForProducts(@ModelAttribute Card card, @ModelAttribute Address address, HttpServletRequest req, HttpServletResponse resp) throws MyCustomException {
 
 		ModelAndView mv = new ModelAndView("displayCart");
 
@@ -124,7 +138,7 @@ public class CartController {
 
 	@RequestMapping(value = "/removeFromCart/{index}")
 	public ModelAndView removeFromCart(@PathVariable("index") int index, HttpServletRequest req) {
-		ModelAndView mv = new ModelAndView("displayCart");
+		ModelAndView mv = new ModelAndView("redirect:displaycart");
 		HttpSession session = req.getSession();
 
 		if (session != null) {
@@ -194,5 +208,55 @@ public class CartController {
 		return mv;
 	}
 
+	@RequestMapping(value="/updateCartItem")
+	public ModelAndView changeCart(@RequestParam("index") int index, @RequestParam("quantity") String qty, HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView("redirect:addToCart/displaycart");
+		HttpSession session = req.getSession();
+
+		int quantity  = 0;
+		
+		System.out.println(index + " "+ qty);
+		
+		if(qty.matches(".*\\D+.*")) {
+			mv.addObject("errorMsg", "Quantity must be numeric");
+			return mv;
+		} else {
+			quantity = Integer.parseInt(qty);
+		}
+		
+		if (session != null) {
+			
+			Cart cart = (Cart) session.getAttribute("cart");
+			if (cart != null && cart.getCartEntries() != null && cart.getCartEntries().size() > index) {
+				if(quantity <= 0) {
+					cart.getCartEntries().remove(index);
+				} else {
+					CartEntry entry = cart.getCartEntries().get(index);
+					cart.getCartEntries().remove(index);
+					entry.setQuantity(quantity);
+					cart.getCartEntries().add(index, entry);
+				}
+				session.setAttribute("cart", cart);
+			}
+		}
+		
+		return mv;
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
