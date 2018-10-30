@@ -33,8 +33,8 @@
 <style type="text/css">
 .card-text {
 	width: 177px;
-  /* margin: 0 0 1em 0; */
- /*  overflow: hidden; */
+	/* margin: 0 0 1em 0; */
+	/*  overflow: hidden; */
 }
 
 .card-text span {
@@ -71,15 +71,15 @@
 
 				<h1 class="my-4">MyCart</h1>
 				<div class="list-group">
-					<a href="<%=conPath%>/categoryProducts/Electronics"
+					<a href="<%=conPath%>/categoryProducts/Electronics?page=1"
 						class="list-group-item"><tag:message code="electronics"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Clothing"
+					<a href="<%=conPath%>/categoryProducts/Clothing?page=1"
 						class="list-group-item"><tag:message code="clothing"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Outdoors"
+					<a href="<%=conPath%>/categoryProducts/Outdoors?page=1"
 						class="list-group-item"><tag:message code="outdoors"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Home"
+					<a href="<%=conPath%>/categoryProducts/Home?page=1"
 						class="list-group-item"><tag:message code="home"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Books"
+					<a href="<%=conPath%>/categoryProducts/Books?page=1"
 						class="list-group-item"><tag:message code="books"></tag:message></a>
 				</div>
 
@@ -92,6 +92,7 @@
 					List<Product> products = (List<Product>) request.getAttribute("products");
 
 					int psize = products == null ? 0 : products.size();
+					int batchSize = 9;
 				%>
 
 
@@ -111,8 +112,9 @@
 						<div class="card h-100">
 							<a
 								href="<%=request.getContextPath()%>/displayProduct/<%=prod.getProductId()%>"><img
-								class="card-img-top" src="<%= request.getContextPath() %>/<%=prod.getImageUrl()%>" alt=""
-								width=700 height=400></a>
+								class="card-img-top"
+								src="<%=request.getContextPath()%>/<%=prod.getImageUrl()%>"
+								alt="" width=700 height=400></a>
 							<div class="card-body">
 								<h4 class="card-title">
 									<a
@@ -142,6 +144,34 @@
 
 				</div>
 				<!-- /.row -->
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item ${page == 1 ? 'disabled' : ''}"><a
+							class="page-link"
+							href="${pageUrl}?page=${page-1}&className=${className == null ? '' : className}&searchKeys=${keys == null ? '' : keys}"
+							tabindex="-1"> <tag:message code="previousPage"></tag:message>
+						</a></li>
+						<%
+							int totalPage = (int) request.getAttribute("totalPage");
+							for (int i = 1; i <= totalPage; i++) {
+						%>
+						<li class="page-item ${page == i ? 'disabled' : ''}"><a
+							class="page-link"
+							href="${pageUrl}?page=<%=i %>&className=${className == null ? '' : className}&searchKeys=${keys == null ? '' : keys}"><%=i%></a>
+						</li>
+						<%
+							}
+						%>
+						<li class="page-item ${page >= totalPage ? 'disabled' : ''}">
+							<a class="page-link"
+							href="${pageUrl}?page=${page+1}&className=${className == null ? '' : className}&searchKeys=${keys == null ? '' : keys}">
+								<tag:message code="nextPage"></tag:message>
+						</a>
+						</li>
+					</ul>
+				</nav>
+
 
 			</div>
 			<!-- /.col-lg-9 -->

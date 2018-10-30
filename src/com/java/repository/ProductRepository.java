@@ -21,4 +21,8 @@ public interface ProductRepository {
 
 	public List<Product> getProductsCategoryWithName(String catclass, String substring, int page);
 
+	int getPageCount(String catclass, String substring);
+
+	boolean purchaseProduct(Product product, int quantity);
+
 }

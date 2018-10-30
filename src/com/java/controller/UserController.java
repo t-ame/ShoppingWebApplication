@@ -57,7 +57,7 @@ public class UserController {
 	private UserServiceImpl userService;
 	
 
-	@RequestMapping(path = "/loggedin", method = RequestMethod.POST)
+	@RequestMapping(path = "/loggedin")
 	public ModelAndView loggedIn(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp) {
 //		ModelAndView mv = new ModelAndView("../../index");
 		
@@ -80,10 +80,15 @@ public class UserController {
 			session.setAttribute("userdetails", user.getUserDetails());
 
 			Cart cart = (Cart) session.getAttribute("cart");
-			if (cart != null) {
+			if (cart != null&& user.getUserDetails() != null && user.getUserDetails().getCart() != null) {
 				cart.addEntries(user.getUserDetails().getCart().getCartEntries());
 			} else {
-				cart = user.getUserDetails().getCart();
+				if(user.getUserDetails() != null ) {
+					cart = user.getUserDetails().getCart();
+				}
+				if(cart == null) {
+					cart = new Cart();
+				}
 			}
 			for (CartEntry entry : cart.getCartEntries()) {
 				entry.setCartEntryId(0);
@@ -111,7 +116,7 @@ public class UserController {
 	@RequestMapping(path = "/registerUser", method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("user") User user,
 			@ModelAttribute("userdetails") UserDetails details) {
-		ModelAndView mv = new ModelAndView("loginPage");
+		ModelAndView mv = new ModelAndView("redirect:login");
 		user.setUserDetails(details);
 		userService.addUser(user);
 		return mv;

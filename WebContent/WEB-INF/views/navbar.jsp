@@ -146,7 +146,8 @@
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-lg-13-24 col-sm-12 order-3 order-lg-2">
-						<form action="<%=conPath %>/searchProduct">
+						<form action="<%=conPath %>/searchProduct?page=1">
+						<input type="hidden" name="page" value="1">
 							<div class="input-group w-100">
 								<select style="width: 30px;" class="custom-select"
 									id="SearchOption" name="className">

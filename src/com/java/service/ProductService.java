@@ -21,5 +21,7 @@ public interface ProductService {
 	public List<Product> getProductsCategoryWithName(String catclass, String substring, int page);
 	
 	public boolean purchaseProduct(Product product, int quantity);
+
+	int getPageCount(String catclass, String substring);
 	
 }

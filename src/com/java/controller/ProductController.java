@@ -32,7 +32,7 @@ public class ProductController {
 
 //	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/searchProduct")
-	public ModelAndView searchProduct(HttpServletRequest req) throws MyCustomException {
+	public ModelAndView searchProduct(@RequestParam("page") int page, HttpServletRequest req) throws MyCustomException {
 
 		ModelAndView mv = new ModelAndView("displaySearchedProducts");
 		String keys = (String) req.getParameter("searchKeys");
@@ -40,14 +40,20 @@ public class ProductController {
 		List<Product> products = null;
 		if (className != null) {
 			if (className.equalsIgnoreCase("all")) {
-				products = productService.getProductsWithName(keys, 0);
+				products = productService.getProductsWithName(keys, page);
 			} else {
-				products = productService.getProductsCategoryWithName(className, keys, 0);
+				products = productService.getProductsCategoryWithName(className, keys, page);
 			}
 			mv.addObject("products", products);
 		}
-		mv.addObject("pageUrl", "/searchProduct/");
-		mv.addObject("currPage", 0);
+		
+		System.out.println(keys + " " + className);
+		
+		mv.addObject("keys", keys == null || keys.equals("") ? null : keys.replace(' ', '+'));
+		mv.addObject("className", className);
+		mv.addObject("totalPage", productService.getPageCount(className, keys));
+		mv.addObject("pageUrl", req.getRequestURI());
+		mv.addObject("page", page);
 
 		if (products == null || products.size() <= 0) {
 			mv.addObject("searchMsg", "Search did not yield any results.");
@@ -56,18 +62,22 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/categoryProducts/{className}")
-	public ModelAndView categoryProduct(@PathVariable("className") String className, HttpServletRequest req)
+	public ModelAndView categoryProduct(@RequestParam("page") int page, @PathVariable("className") String className, HttpServletRequest req)
 			throws MyCustomException {
 
 		ModelAndView mv = new ModelAndView("displaySearchedProducts");
+		
 		List<Product> products = null;
 		if (className != null) {
-			products = productService.getProductsFromCategory(className, 0);
+			products = productService.getProductsFromCategory(className, page);
 			mv.addObject("products", products);
 		}
-		mv.addObject("pageUrl", "/categoryProducts/" + className + "/");
-		mv.addObject("currPage", 0);
-
+		mv.addObject("totalPage", productService.getPageCount(className, null));
+		mv.addObject("pageUrl", req.getRequestURI());
+		mv.addObject("page", page);
+		mv.addObject("class", null);
+		mv.addObject("keys", null);
+		
 		if (products == null || products.size() <= 0) {
 			mv.addObject("searchMsg", "Search did not yield any results.");
 		}

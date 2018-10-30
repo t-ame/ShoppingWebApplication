@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.java.components.Product;
@@ -14,17 +15,15 @@ import com.java.util.ProductSorter;
 import com.java.util.PurchaseStatus;
 
 @Service("productservice")
-@EnableTransactionManagement(proxyTargetClass=true)
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	@Qualifier("productrep")
 	ProductRepositoryImpl productRepository;
-	
+
 	ProductSorter psorter = new ProductSorter();
 
 	@Override
-	@Transactional(readOnly=true, transactionManager="hibtxmanager")
 	public Product getProduct(long id) {
 		return productRepository.getProduct(id);
 	}
@@ -56,10 +55,16 @@ public class ProductServiceImpl implements ProductService{
 	public void addProduct(Product product) {
 		productRepository.addProduct(product);
 	}
-	
+
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean purchaseProduct(Product product, int quantity) {
 		return productRepository.purchaseProduct(product, quantity);
+	}
+
+	@Override
+	public int getPageCount(String catclass, String substring) {
+		return productRepository.getPageCount(catclass, substring);
 	}
 
 }

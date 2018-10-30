@@ -52,7 +52,8 @@ public class UserRepositoryImpl implements UserRepository {
 			Cart temp = ud.getCart();
 			ud.setCart(cart);
 //			session.delete(temp);
-			session.evict(temp);
+			if(temp != null)
+				session.evict(temp);
 		}
 		session.update(user);
 		session.getTransaction().commit();
@@ -171,7 +172,8 @@ public class UserRepositoryImpl implements UserRepository {
 			Cart temp = ud.getCart();
 			ud.setCart(new Cart());
 			ud.addOrders(orders);
-			session.delete(temp);
+			if(temp != null)
+				session.delete(temp);
 		}
 		session.update(user);
 		session.getTransaction().commit();

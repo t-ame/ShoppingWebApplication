@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -34,6 +35,9 @@ public class Product {
 	private float productFrequency;
 	private String productDescription;
 	private Set<ProductDetailGroup> productDetails;
+	
+	@Version
+	private int version;
 
 	@Column(name = "CATEGORY_NAME", nullable = false, length = 50)
 	public String getCatName() {
@@ -133,6 +137,14 @@ public class Product {
 	public String toString() {
 		return "[ " + productName 
 				+ ", " + productDetails + " ]";
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }

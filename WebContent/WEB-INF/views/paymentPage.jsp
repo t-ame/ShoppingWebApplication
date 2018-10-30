@@ -52,15 +52,15 @@
 
 				<h1 class="my-4">MyCart</h1>
 				<div class="list-group">
-					<a href="<%=conPath%>/categoryProducts/Electronics"
+					<a href="<%=conPath%>/categoryProducts/Electronics?page=1"
 						class="list-group-item"><tag:message code="electronics"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Clothing"
+					<a href="<%=conPath%>/categoryProducts/Clothing?page=1"
 						class="list-group-item"><tag:message code="clothing"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Outdoors"
+					<a href="<%=conPath%>/categoryProducts/Outdoors?page=1"
 						class="list-group-item"><tag:message code="outdoors"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Home"
+					<a href="<%=conPath%>/categoryProducts/Home?page=1"
 						class="list-group-item"><tag:message code="home"></tag:message></a>
-					<a href="<%=conPath%>/categoryProducts/Books"
+					<a href="<%=conPath%>/categoryProducts/Books?page=1"
 						class="list-group-item"><tag:message code="books"></tag:message></a>
 				</div>
 
