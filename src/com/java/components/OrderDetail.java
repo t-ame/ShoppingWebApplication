@@ -1,6 +1,6 @@
 package com.java.components;
 
-public class OrderDetails {
+public class OrderDetail {
 
 	private int orderId;
 	private String detailName;

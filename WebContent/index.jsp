@@ -104,7 +104,7 @@
 				<div class="row">
 
 					<div>
-						<a href="<%=conPath%>/categoryProducts/Electronics"> <img
+						<a href="<%=conPath%>/categoryProducts/Electronics?page=1"> <img
 							alt="Electronics" src="images/Computers.jpg" width=900 height=200>
 						</a>
 
@@ -115,7 +115,7 @@
 					</div>
 
 					<div>
-						<a href="<%=conPath%>/categoryProducts/Clothing"> <img
+						<a href="<%=conPath%>/categoryProducts/Clothing?page=1"> <img
 							alt="Clothing" src="images/best-online-mens-clothing-stores.jpg"
 							width=900 height=200>
 						</a>
@@ -127,7 +127,7 @@
 					</div>
 
 					<div>
-						<a href="<%=conPath%>/categoryProducts/Outdoors"> <img
+						<a href="<%=conPath%>/categoryProducts/Outdoors?page=1"> <img
 							alt="Outdoors" src="images/OutdoorGear.png" width=900 height=200>
 						</a>
 
@@ -138,7 +138,7 @@
 					</div>
 
 					<div>
-						<a href="<%=conPath%>/categoryProducts/Home"> <img alt="Home"
+						<a href="<%=conPath%>/categoryProducts/Home?page=1"> <img alt="Home"
 							src="images/kitchen-appliances.png" width=900 height=200>
 						</a>
 
@@ -149,7 +149,7 @@
 					</div>
 
 					<div>
-						<a href="<%=conPath%>/categoryProducts/Books"> <img
+						<a href="<%=conPath%>/categoryProducts/Books?page=1"> <img
 							alt="Books" src="images/1*YLlZ96J3p8GFkIh1USVMzg.jpeg" width=900
 							height=200></a>
 

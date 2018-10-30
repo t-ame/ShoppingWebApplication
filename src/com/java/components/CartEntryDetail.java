@@ -1,6 +1,6 @@
 package com.java.components;
 
-public class CartEntryDetails {
+public class CartEntryDetail {
 
 	private int cartId;
 	private int productdetailId;
