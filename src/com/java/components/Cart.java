@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,7 @@ public class Cart {
 
 	private long cartId;
 	private List<CartEntry> cartEntries;
-	
+
 	public Cart() {
 		super();
 		cartEntries = new ArrayList<>();
@@ -39,7 +40,7 @@ public class Cart {
 		this.cartId = cartId;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "CART_ENTRIES", joinColumns = { @JoinColumn(name = "CART_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CART_ENTRY_ID") })
 	public List<CartEntry> getCartEntries() {
@@ -49,23 +50,23 @@ public class Cart {
 	public void setCartEntries(List<CartEntry> cartEntries) {
 		this.cartEntries = cartEntries;
 	}
-	
+
 	public void addToCart(CartEntry entry) {
 		cartEntries.add(entry);
 	}
-	
+
 	public void addEntries(List<CartEntry> entries) {
 		cartEntries.addAll(entries);
 	}
-	
+
 	public void removeFromCart(CartEntry entry) {
 		cartEntries.remove(entry);
 	}
-	
+
 	public void decreaseEntry(CartEntry entry, int decrement) {
 		cartEntries.remove(entry);
-		int nqty = entry.getQuantity()-decrement;
-		if(nqty <= 0)
+		int nqty = entry.getQuantity() - decrement;
+		if (nqty <= 0)
 			removeFromCart(entry);
 		else
 			entry.setQuantity(nqty);

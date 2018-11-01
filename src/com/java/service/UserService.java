@@ -1,7 +1,12 @@
 package com.java.service;
 
+import java.util.List;
+import java.util.Set;
+
+import com.java.components.Address;
+import com.java.components.Card;
+import com.java.components.Order;
 import com.java.components.User;
-import com.java.components.UserDetails;
 
 public interface UserService {
 
@@ -12,5 +17,15 @@ public interface UserService {
 	public User getUser(String email);
 	
 	public void deleteUser(User user);
-	
+
+	void updateAddress(User user, Address address);
+
+	void updateOrders(User user, List<Order> orders);
+
+	void updateUser(User user, Address address);
+
+	Set<Card> getCards(User user);
+
+	Set<Address> getAddresses(User user);
+
 }

@@ -1,7 +1,11 @@
 package com.java.repository;
 
+import java.util.Set;
+
 import org.hibernate.Session;
 
+import com.java.components.Address;
+import com.java.components.Card;
 import com.java.components.User;
 import com.java.components.UserDetails;
 
@@ -18,6 +22,10 @@ public interface UserRepository {
 	public void updateUserDetails(UserDetails userD, Session session);
 	
 	public void deleteUser(User user);
+
+	Set<Address> getAddresses(User user);
+
+	Set<Card> getCards(User user);
 	
 	
 }

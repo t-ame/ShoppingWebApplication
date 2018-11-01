@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+	pageEncoding="UTF-8" errorPage="errorPage.jsp"
 	import="java.util.List, com.java.components.Cart, com.java.components.CartEntry, com.java.components.Product"
 	isELIgnored="false"%>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
 	crossorigin="anonymous">
 <script
 	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<meta charset="UTF-8">
+
 <title>Cart</title>
 
 <link href="<c:url value="/style/styles.css" />" rel="stylesheet" />
@@ -25,27 +25,26 @@
 
 
 
-	<jsp:include page="./navbar.jsp" />
+	<jsp:include page="./headbar.jsp" />
 
 
 	<%
-		/* Cart cart = (Cart) session.getAttribute("cart"); */
-		Cart cart = (Cart) request.getAttribute("cart");
+		Cart cart = (Cart) session.getAttribute("cart");
+	
+		System.out.println("cart: "+ cart);
+	
+		/* Cart cart = (Cart) request.getAttribute("cart"); */
 	%>
 
-	<h3 style="color: green; font-size: 25px">
-		<%=request.getAttribute("paymentSuccess") == null ? "" : request.getAttribute("paymentSuccess")%>
-	</h3>
-
-	<section class="jumbotron text-center">
+	<section class="jumbotron text-center" style="opacity: 0.5">
 		<div class="container">
 			<h1 class="jumbotron-heading">MyCart</h1>
 			<%
-				if (cart == null) {
+				boolean cartActive = cart != null && cart.getCartEntries() != null && cart.getCartEntries().size() > 0;
+				if (!cartActive) {
 			%>
 			<div class="searchMsg">
 				<tag:message code="cartEmpty"></tag:message>
-				.
 			</div>
 			<%
 				}
@@ -56,7 +55,7 @@
 
 
 	<%
-		if (cart != null) {
+		if (cartActive) {
 
 			List<CartEntry> entries = cart.getCartEntries();
 
@@ -77,7 +76,7 @@
 					%>
 
 
-					<table class="table table-striped">
+					<table class="table table-striped mycartlogo">
 						<thead>
 							<tr>
 								<th scope="col"></th>
@@ -106,12 +105,12 @@
 								<td><a
 									href="<%=request.getContextPath()%>/displayProduct/<%=p.getProductId()%>"><%=p.getProductName()%></a></td>
 								<td><%=p.getStockQuantity() < entry.getQuantity() ? "Out of stock" : "In stock"%></td>
-								<td><input class="form-control" type="text" id=""
+								<td><input class="form-control" type="number" id=""
 									onchange="quantityChange(this.value, <%=count%>)"
 									value="<%=entry.getQuantity()%>" /></td>
 								<td class="text-right">$<%=p.getUnitPrice() * entry.getQuantity()%></td>
 								<td class="text-right"><a
-									href="<%=request.getContextPath()%>/removeFromCart/<%=count++%>"
+									href="<%=request.getContextPath()%>/removeFromCart?index=<%=count++%>"
 									class="btn btn-sm btn-danger"> <i class="fa fa-trash"></i>
 								</a></td>
 							</tr>
@@ -185,7 +184,7 @@
 	<script type="text/javascript">
 
 function quantityChange(value, id) {
-		var form = $('<form action="${pageContext.request.contextPath}/updateCartItem">' + 
+		var form = $('<form action="${pageContext.request.contextPath}/updateCartItems">' + 
 		    '<input type="hidden" name="index" value="' + id + '">' +
 		    '<input type="hidden" name="quantity" value="' + value + '">' +
 		    '</form>');

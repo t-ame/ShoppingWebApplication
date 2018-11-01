@@ -1,27 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" errorPage="errorPage.jsp"
-	import="com.java.components.User, com.java.components.UserDetails, com.java.components.Address, java.util.Set, java.util.HashSet"%>
+	import="com.java.components.Card, com.java.components.Address"
+	isELIgnored="false"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+
+<!-- If you're using Stripe for payments -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+
+<title>Edit card</title>
 
 <link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-<title>Profile</title>
-
-<link rel="stylesheet" href="<c:url value="/style/payment.css" />" />
+	href="<c:url value="<%=request.getContextPath()%>/style/payment.css" />"
+	rel="stylesheet" />
+<link
+	href="<c:url value="<%=request.getContextPath()%>/style/styles.css" />"
+	rel="stylesheet" />
 </head>
 <body>
+
 
 
 
@@ -35,6 +51,9 @@
 
 				<%
 					String conPath = request.getContextPath();
+					Address address = request.getAttribute("address") == null ? new Address()
+							: (Address) request.getAttribute("address");
+					
 				%>
 
 				<h1 class="my-4 mycartlogo">MyCart</h1>
@@ -54,126 +73,15 @@
 			<div class="col-md-9">
 				<div class="card">
 					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<h4>
-									<tag:message code="yourProfile"></tag:message>
-								</h4>
-								<hr>
-							</div>
-						</div>
 
-						<%
-							User user = (User) session.getAttribute("user");
-							UserDetails ud = null;
-							Address ad = null;
-							Set<Address> addset = new HashSet<>();
-							if (user != null && user.getUserDetails() != null) {
-								ud = user.getUserDetails();
-								addset = ud.getAddresses();
-								if (addset == null || addset.size() <= 0) {
-									ad = new Address();
-								} else {
-									ad = addset.iterator().next();
-								}
-							} else {
-								user = new User();
-								ud = new UserDetails();
-								ad = new Address();
-							}
-						%>
 
 						<div class="row">
 							<div class="col-md-12">
-								<form action="./updateProfile" method="post">
-
-									<div class="errorMsg"><%=request.getAttribute("formError") == null ? "" : request.getAttribute("formError")%></div>
-									<%
-										request.setAttribute("formError", "");
-									%>
-
-									<div class="form-group row">
-										<label for="email" class="col-4 col-form-label"><tag:message
-												code="email"></tag:message></label>
-										<div class="col-8">
-											<input id="email" name="userEmail"
-												placeholder="<tag:message code="email"></tag:message>"
-												class="form-control here" required="required" type="text"
-												value="<%=user.getUserEmail()%>">
-										</div>
-									</div>
-									<div class="form-group row">
-										<label for="firstName" class="col-4 col-form-label"><tag:message
-												code="firstName"></tag:message></label>
-										<div class="col-8">
-											<input id="name" name="firstName"
-												placeholder="<tag:message code="firstName"></tag:message>"
-												class="form-control here" type="text"
-												value="<%=ud.getFirstName()%>">
-										</div>
-									</div>
-									<div class="form-group row">
-										<label for="lastname" class="col-4 col-form-label"><tag:message
-												code="lastName"></tag:message></label>
-										<div class="col-8">
-											<input id="lastname" name="lastName"
-												placeholder="<tag:message code="lastName"></tag:message>"
-												class="form-control here" type="text"
-												value="<%=ud.getLastName()%>">
-										</div>
-									</div>
-									<div class="form-group row">
-										<label for="newpass" class="col-4 col-form-label"><tag:message
-												code="password"></tag:message></label>
-										<div class="col-8">
-											<input id="newpass" name="userPassword"
-												placeholder="<tag:message code="password"></tag:message>"
-												class="form-control here" type="password"
-												value="<%=user.getUserPassword()%>">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label for="email" class="col-4 col-form-label"><tag:message
-												code="mobileNumber"></tag:message></label>
-										<div class="col-8">
-											<input id="email" name="mobileNumber"
-												placeholder="<tag:message code="mobileNumber"></tag:message>"
-												class="form-control here" required="required" type="tel"
-												value="<%=ud.getMobileNumber()%>">
-										</div>
-									</div>
-
-
-									<div class="form-group row">
-										<label for="gender" class="col-4 col-form-label"><tag:message
-												code="gender"></tag:message> </label>
-										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input
-												class="form-check-input" type="radio" name="genders"
-												id="inlineRadio1"
-												value="<%=ud.getGender() == UserDetails.Gender.FEMALE ? "checked" : ""%>">
-												<tag:message code="female"></tag:message>
-											</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input
-												class="form-check-input" type="radio" name="genders"
-												id="inlineRadio2"
-												value="<%=ud.getGender() == UserDetails.Gender.MALE ? "checked" : ""%>">
-												<tag:message code="male"></tag:message>
-											</label>
-										</div>
-									</div>
-
-									<input type="hidden" name="userId" value="<%=ud.getUserId()%>">
+								<form action="./updateAddress" method="post">
 
 
 									<fieldset>
 										<!-- Address form -->
-
-										<input type="hidden" name="addressId"
-											value="<%=ad.getAddressId()%>">
 
 										<div class="col-md-12">
 											<h4>
@@ -182,15 +90,19 @@
 											<hr>
 										</div>
 
+										<input type="hidden" name="addressId"
+											value="<%=address.getAddressId()%>">
+
+										<!-- FILL IN ADDRESS FIELDS -->
+
 										<!-- full-name input-->
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message
+											<label for="addressLine1" class="col-4 col-form-label"><tag:message
 													code="addressLine"></tag:message> 1</label>
 											<div class="col-8">
-												<input id="name" name="addressLine1"
-													class="form-control here" type="text"
-													value="<%=ad.getAddressLine1() == null ? "" : ad.getAddressLine1()%>"
-													required>
+												<input id="addressLine1" name="addressLine1"
+													class="form-control here" type="text" required
+													value="<%=address.getAddressLine1() == null ? "" : address.getAddressLine1()%>">
 												<p class="help-block">
 													<tag:message code="streetAddress"></tag:message>
 													, c/o
@@ -198,13 +110,13 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message
+											<label for="addressLine2" class="col-4 col-form-label"><tag:message
 													code="addressLine"></tag:message> 2</label>
 											<div class="col-8">
-												<input id="name" name="addressLine2"
+												<input id="addressLine2" name="addressLine2"
 													class="form-control here" type="text"
-													placeholder="<tag:message code="optional"></tag:message>"
-													value="<%=ad.getAddressLine2() == null ? "" : ad.getAddressLine2()%>">
+													placeholder="(<tag:message code="optional"></tag:message>)"
+													value="<%=address.getAddressLine2() == null ? "" : address.getAddressLine2()%>">
 												<p class="help-block">
 													<tag:message code="apartment"></tag:message>
 													, etc.
@@ -212,31 +124,31 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message
+											<label for="city" class="col-4 col-form-label"><tag:message
 													code="cityTown"></tag:message></label>
 											<div class="col-8">
-												<input id="name" name="city" class="form-control here"
-													type="text"
-													value="<%=ad.getCity() == null ? "" : ad.getCity()%>"
-													required>
+												<input id="city" name="city" class="form-control here"
+													type="text" required
+													value="<%=address.getCity() == null ? "" : address.getCity()%>">
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message
+											<label for="state" class="col-4 col-form-label"><tag:message
 													code="stateRegion"></tag:message></label>
 											<div class="col-8">
-												<input id="name" name="state" class="form-control here"
-													type="text"
-													value="<%=ad.getState() == null ? "" : ad.getState()%>"
-													required>
+												<input id="state" name="state" class="form-control here"
+													type="text" required
+													value="<%=address.getState() == null ? "" : address.getState()%>">
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="firstName" class="col-4 col-form-label"><tag:message
-													code="zipcode"></tag:message></label>
+											<label for="zipcode" class="col-4 col-form-label"> <tag:message
+													code="zipcode"></tag:message>
+											</label>
 											<div class="col-8">
-												<input id="name" name="zipcode" class="form-control here"
-													type="number" value="<%=ad.getZipcode()%>" required>
+												<input id="zipcode" name="zipcode" class="form-control here"
+													type="number" required
+													value="<%=address.getZipcode() == 0 ? "" : address.getZipcode()%>">
 											</div>
 										</div>
 
@@ -246,8 +158,7 @@
 													code="country"></tag:message></label>
 											<div class="controls">
 												<select id="country" name="country" class=" col-8" required>
-													<option value="" selected disabled><tag:message
-															code="select"></tag:message></option>
+													<option value="" selected disabled>Select</option>
 													<option value="AF">Afghanistan</option>
 													<option value="AL">Albania</option>
 													<option value="DZ">Algeria</option>
@@ -499,13 +410,10 @@
 										</div>
 									</fieldset>
 
-									<div class="form-group row">
-										<div class="offset-4 col-8">
-											<button name="submit" type="submit" class="btn btn-primary">
-												<tag:message code="updateProfile"></tag:message>
-											</button>
-										</div>
-									</div>
+									<button class="btn btn-lg btn-primary btn-block text-uppercase"
+										type="submit">
+										<tag:message code="save"></tag:message>
+									</button>
 								</form>
 							</div>
 						</div>
@@ -515,6 +423,7 @@
 			</div>
 		</div>
 	</div>
+
 
 
 
@@ -533,7 +442,6 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-
 
 
 

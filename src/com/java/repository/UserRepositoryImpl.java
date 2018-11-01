@@ -1,16 +1,18 @@
 package com.java.repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.java.components.Address;
+import com.java.components.Card;
 import com.java.components.Cart;
+import com.java.components.CartEntry;
 import com.java.components.Order;
 import com.java.components.User;
 import com.java.components.UserDetails;
@@ -37,30 +39,26 @@ public class UserRepositoryImpl implements UserRepository {
 		User user = new User();
 		Session session = sf.openSession();
 		user = session.get(User.class, email);
-		System.out.println("from get method " + user);
 		session.close();
 		return user;
 	}
 
-	public void updateCart(User user, Cart cart) {
-		cart.setCartId(0);
+	@Override
+	public Set<Card> getCards(User user) {
 		Session session = sf.openSession();
-		session.beginTransaction();
 		user = session.get(User.class, user.getUserEmail());
-		UserDetails ud = user.getUserDetails();
-		if (ud != null) {
-			Cart temp = ud.getCart();
-			ud.setCart(cart);
-//			session.delete(temp);
-			if(temp != null)
-				session.evict(temp);
+		UserDetails details = user.getUserDetails();
+		Set<Card> cards = null;
+		if (details != null) {
+			cards = details.getCards();
+		} else {
+			cards = new HashSet<>();
 		}
-		session.update(user);
-		session.getTransaction().commit();
-		System.out.println("from update cart method " + user);
 		session.close();
+		if (cards == null)
+			cards = new HashSet<>();
+		return cards;
 	}
-	
 
 	public void updateAddress(User user, Address address) {
 		Session session = sf.openSession();
@@ -72,19 +70,17 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 		session.update(user);
 		session.getTransaction().commit();
-		System.out.println("from update cart method " + user);
 		session.close();
 	}
 
 	public void updateUser(User user) {
 		Session session = sf.openSession();
 		Set<Address> addresses = user.getUserDetails().getAddresses();
-		
+
 		session.beginTransaction();
-//		System.out.println("update " + user);
-		
+
 		session.get(User.class, user.getUserEmail()).getUserDetails().addAddress(addresses.iterator().next());
-		
+
 		session.update(user);
 		session.getTransaction().commit();
 		session.close();
@@ -128,7 +124,7 @@ public class UserRepositoryImpl implements UserRepository {
 		session.delete(userD);
 	}
 
-	//TO BE IMPLEMENTED
+	// TO BE IMPLEMENTED
 	public void updateUser(User user, Cart cart, Address address, List<Order> orders) {
 		Session session = sf.openSession();
 		session.beginTransaction();
@@ -141,28 +137,25 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 		session.update(user);
 		session.getTransaction().commit();
-		System.out.println("from update cart method " + user);
 		session.close();
 	}
 
-	//TO BE TESTED
+	// TO BE TESTED
 	public void updateUser(User user, Address address) {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		User us = session.get(User.class, user.getUserEmail());
-		UserDetails ud = us.getUserDetails();
-		if (ud != null) {
+		user = session.get(User.class, user.getUserEmail());
+		UserDetails ud = user.getUserDetails();
+		if (ud != null && address.getAddressId() == 0) {
+			session.save(address);
 			ud.addAddress(address);
-			user.getUserDetails().setAddresses(ud.getAddresses());
 		}
-		session.saveOrUpdate(user);
 		session.update(user);
 		session.getTransaction().commit();
-		System.out.println("from update cart method " + user);
 		session.close();
 	}
 
-	//TO BE TESTED
+	// TO BE TESTED
 	public void updateOrders(User user, List<Order> orders) {
 		Session session = sf.openSession();
 		session.beginTransaction();
@@ -172,14 +165,29 @@ public class UserRepositoryImpl implements UserRepository {
 			Cart temp = ud.getCart();
 			ud.setCart(new Cart());
 			ud.addOrders(orders);
-			if(temp != null)
+			if (temp != null)
 				session.delete(temp);
 		}
 		session.update(user);
 		session.getTransaction().commit();
-		System.out.println("from update cart method " + user);
 		session.close();
 	}
 
+	@Override
+	public Set<Address> getAddresses(User user) {
+		Session session = sf.openSession();
+		user = session.get(User.class, user.getUserEmail());
+		UserDetails details = user.getUserDetails();
+		Set<Address> addresses = null;
+		if (details != null) {
+			addresses = details.getAddresses();
+		} else {
+			addresses = new HashSet<>();
+		}
+		session.close();
+		if (addresses == null)
+			addresses = new HashSet<>();
+		return addresses;
+	}
 
 }

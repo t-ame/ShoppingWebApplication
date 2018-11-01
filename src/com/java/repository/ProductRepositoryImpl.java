@@ -29,9 +29,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Override
 	public Product getProduct(long id) {
 		Session session = sf.openSession();
-//		System.out.println(id);
 		Product p = session.get(Product.class, id);
-//		System.out.println(p);
 		session.close();
 		return p;
 	}
@@ -53,7 +51,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 		String qparam = "where";
 		if (substring == null)
 			substring = "";
-		if (substring.equals("")) {
+		if (substring.equals("") || substring.matches("^\\s+$")) {
 			qparam = "";
 		} else {
 			String[] searchKeys = substring.split(" ");
@@ -107,8 +105,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 		String qparam = "where";
 		if (substring == null)
 			substring = "";
-		if (substring.equals("") && !cat) {
-			qparam = "";
+		if (substring.equals("")  || substring.matches("^\\s+$")) {
+			if(!cat)
+				qparam = "";
 		} else {
 			String[] searchKeys = substring.split(" ");
 			qparam += "(";
@@ -141,7 +140,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 		String qparam = "where";
 		if (substring == null)
 			substring = "";
-		if (!substring.equals("")) {
+		if (!substring.equals("") && !substring.matches("^\\s+$")) {
 			String[] searchKeys = substring.split(" ");
 			qparam += "(";
 			for (int i = 0; i < searchKeys.length; ++i) {

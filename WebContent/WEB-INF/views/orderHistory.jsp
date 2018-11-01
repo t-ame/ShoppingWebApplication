@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+	pageEncoding="UTF-8" errorPage="errorPage.jsp"
 	import="java.util.List, java.util.Set, com.java.components.Order, com.java.components.Cart, com.java.components.CartEntry, com.java.components.Product"
 	isELIgnored="false"%>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
 
 
 
-	<jsp:include page="./navbar.jsp" />
+	<jsp:include page="./headbar.jsp" />
 
 
 	<%
@@ -36,7 +36,7 @@
 		<%=request.getAttribute("paymentSuccess") == null ? "" : request.getAttribute("paymentSuccess")%>
 	</h3>
 
-	<section class="jumbotron text-center">
+	<section class="jumbotron text-center" style="opacity: 0.5">
 		<div class="container">
 			<h1 class="jumbotron-heading">
 				<tag:message code="orders"></tag:message>
@@ -67,8 +67,7 @@
 			<div class="col-12">
 				<div class="table-responsive">
 
-
-					<table class="table table-striped">
+					<table class="table table-striped mycartlogo">
 						<thead>
 							<tr>
 								<th scope="col"></th>
@@ -99,7 +98,7 @@
 								<td class="text-center"><%=order.getQuantity()%></td>
 								<td class="text-right">$<%=p.getUnitPrice() * order.getQuantity()%></td>
 								<td class="text-right"><%=order.getOrderDate().toString()%></td>
-								
+
 							</tr>
 
 							<%
@@ -110,12 +109,9 @@
 						</tbody>
 					</table>
 
-
-
-
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
 

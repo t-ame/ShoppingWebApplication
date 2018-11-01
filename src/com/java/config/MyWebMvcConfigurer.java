@@ -70,7 +70,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 //		registry.addRedirectViewController("/add", "/addProduct");
 		registry.addRedirectViewController("/", "../../index");
-//		registry.addRedirectViewController("/cart", "/addToCart/displaycart");
+		registry.addViewController("/success").setViewName("paymentSuccess");
+		registry.addViewController("/cart").setViewName("displayCart");
 		registry.addViewController("/login").setViewName("loginPage");
 		registry.addViewController("/register").setViewName("registrationPage");
 		registry.addViewController("/home").setViewName("../../index");

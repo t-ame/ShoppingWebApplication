@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+	pageEncoding="UTF-8" errorPage="errorPage.jsp"
 	import="java.util.List, com.java.components.Product"
 	isELIgnored="false"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
@@ -55,7 +55,7 @@
 
 
 
-	<jsp:include page="./navbar.jsp" />
+	<jsp:include page="./headbar.jsp" />
 
 
 	<!-- Page Content -->
@@ -69,7 +69,7 @@
 					String conPath = request.getContextPath();
 				%>
 
-				<h1 class="my-4">MyCart</h1>
+				<h1 class="my-4 mycartlogo">MyCart</h1>
 				<div class="list-group">
 					<a href="<%=conPath%>/categoryProducts/Electronics?page=1"
 						class="list-group-item"><tag:message code="electronics"></tag:message></a>

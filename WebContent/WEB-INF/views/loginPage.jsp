@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false"%>
+	pageEncoding="UTF-8" isELIgnored="false" errorPage="errorPage.jsp"%>
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
@@ -61,11 +61,11 @@
 
 							<br>
 
-							<div class="custom-control custom-checkbox mb-3">
+							<%-- <div class="custom-control custom-checkbox mb-3">
 								<input type="checkbox" class="custom-control-input"
 									id="customCheck1"> <label class="custom-control-label"
 									for="customCheck1"><tag:message code="rememberMe"></tag:message></label>
-							</div>
+							</div> --%>
 							<button class="btn btn-lg btn-primary btn-block text-uppercase"
 								type="submit"><tag:message code="signIn"></tag:message></button>
 

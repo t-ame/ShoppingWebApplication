@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false"%>
+	pageEncoding="UTF-8" isELIgnored="false" isErrorPage="true"%>
 <!DOCTYPE html>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
@@ -38,23 +38,24 @@
 <body>
 
 
-	<jsp:include page="./navbar.jsp" />
+	<jsp:include page="./headbar.jsp" />
 
 
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="error-template">
-					<h1>Oops!</h1>
+					<h1 class="mycartlogo">Oops!</h1>
 					<div class="error-details">
 						<h4>
-							<tag:message code="anErrorOccured"></tag:message>: <br/> <span
-								style="color: red; font-size: 20px">${errorMsg}<%=request.getAttribute("errorMsg") == null ? "" : request.getAttribute("errorMsg")%></span>
+							<span class="mycartlogo"><tag:message code="anErrorOccured"></tag:message></span>
+							: <br /> <span style="color: red; font-size: 20px"><%=request.getAttribute("errorMsg") == null ? "" : request.getAttribute("errorMsg")%><%=exception == null ? "" : exception.getMessage()%></span>
 						</h4>
 					</div>
 					<div class="error-actions">
 						<a href="./home" class="btn btn-primary btn-sm"><span
-							class="glyphicon glyphicon-home"></span> <tag:message code="takeMeHome"></tag:message> </a>
+							class="glyphicon glyphicon-home"></span> <tag:message
+								code="takeMeHome"></tag:message> </a>
 					</div>
 				</div>
 			</div>

@@ -28,14 +28,8 @@ public class Card {
 	}
 
 	private long cardId;
-	@NonNull
-	@NotBlank
 	private long cardNumber;
-	@NonNull
-	@NotBlank
 	private int cvv;
-	@NonNull
-	@NotBlank
 	private String cardName;
 	
 	@CcardDateConstraint

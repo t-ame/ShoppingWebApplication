@@ -62,6 +62,7 @@ public class UserDetails {
 		super();
 		this.cards = new HashSet<>();
 		this.addresses = new HashSet<>();
+		this.cart = new Cart();
 	}
 
 	@Id
@@ -169,6 +170,14 @@ public class UserDetails {
 
 	public void addAddress(Address address) {
 		this.addresses.add(address);
+	}
+
+	public void addCard(Card card) {
+		this.cards.add(card);
+	}
+
+	public void addCartEntry(CartEntry entry) {
+		this.cart.getCartEntries().add(entry);
 	}
 	
 }

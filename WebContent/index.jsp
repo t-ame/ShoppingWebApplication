@@ -23,7 +23,7 @@
 
 <!-- <link rel="stylesheet" href="style/styles.css"> -->
 
-<link href="/WEB-INF/views/style/styles.css"  rel="stylesheet" />
+<!-- <link href="/WEB-INF/views/style/styles.css"  rel="stylesheet" /> -->
 
 <title>Home Page</title>
 </head>
@@ -32,8 +32,7 @@
 
 
 
-	<jsp:include page="./WEB-INF/views/navbar.jsp" />
-
+	<jsp:include page="./WEB-INF/views/headbar.jsp" />
 
 	<!-- Page Content -->
 	<div class="container">
@@ -46,7 +45,7 @@
 					String conPath = request.getContextPath();
 				%>
 
-				<h1 class="my-4">MyCart</h1>
+				<h1 class="my-4 mycartlogo">MyCart</h1>
 				<div class="list-group">
 					<a href="<%=conPath%>/categoryProducts/Electronics?page=1"
 						class="list-group-item"><tag:message code="electronics"></tag:message></a>
@@ -101,7 +100,7 @@
 					</a>
 				</div>
 
-				<div class="row">
+				<div class="row mycartlogo">
 
 					<div>
 						<a href="<%=conPath%>/categoryProducts/Electronics?page=1"> <img

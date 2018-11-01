@@ -2,7 +2,15 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body{
 	font-family: 'Poppins', sans-serif;
-    background: #fafafa}
+    /* background: #fafafa */
+    background-image: url("../images/hy_1.png");
+    opacity: 0.85;
+    }
+    
+ .mycartlogo{
+ color: white
+ }
+    
 p{font-family: 'Poppins', sans-serif;
     font-size: 1.1em;
     font-weight: 300;

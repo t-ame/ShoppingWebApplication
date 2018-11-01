@@ -1,6 +1,6 @@
 <%@page import="java.util.Iterator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+	pageEncoding="UTF-8" errorPage="errorPage.jsp"
 	import="java.util.List, java.util.Set, java.util.Iterator, com.java.components.Product, com.java.components.ProductDetailGroup, com.java.components.ProductDetail"
 	isELIgnored="false"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="tag"%>
@@ -14,7 +14,7 @@
 <meta name="author" content="Bootstrap-ecommerce by Vosidiy"> -->
 
 
-<link href="<c:url value="/style/homepage.css"/>" rel="stylesheet" />
+<link href="/style/homepage.css" rel="stylesheet" />
 
 <title>Product details</title>
 
@@ -33,11 +33,11 @@
 <body>
 
 
-	<jsp:include page="./navbar.jsp" />
+	<jsp:include page="./headbar.jsp" />
 
 
 
-	<section class="jumbotron text-center">
+	<section class="jumbotron text-center" style="opacity: 0.5">
 		<div class="container">
 
 			<%
@@ -112,8 +112,9 @@
 							<tag:message code="inStock"></tag:message>
 						</p>
 						<form
-							action="<%=request.getContextPath()%>/addToCart/<%=product.getProductId()%>">
+							action="<%=request.getContextPath()%>/addToCart">
 
+							<input type="hidden" name="id" value="<%=product.getProductId()%>">
 
 							<%
 								Set<ProductDetailGroup> dg = product.getProductDetails();
@@ -130,7 +131,8 @@
 								<label for="colors"><%=git.getGroupName()%></label> <select
 									class="custom-select" id="colors"
 									name="<%=git.getGroupName()%>" required>
-									<option selected disabled value=""><tag:message code="select"></tag:message></option>
+									<option selected disabled value=""><tag:message
+											code="select"></tag:message></option>
 
 
 									<%
@@ -171,7 +173,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<button type="submit"
 								class="btn btn-success btn-lg btn-block text-uppercase">
 								<i class="fa fa-shopping-cart"></i>

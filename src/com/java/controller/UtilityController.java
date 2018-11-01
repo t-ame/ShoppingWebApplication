@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.java.components.Cart;
 import com.java.components.User;
-import com.java.components.UserDetails;
 import com.java.exception.MyCustomException;
+import com.java.service.CartServiceImpl;
 import com.java.service.UserServiceImpl;
 
 @Controller
@@ -28,6 +28,9 @@ public class UtilityController {
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
+
+	@Autowired
+	private CartServiceImpl cartService;
 
 	@RequestMapping("./error")
 	public ModelAndView goToError() {
@@ -40,30 +43,30 @@ public class UtilityController {
 	}
 
 	@RequestMapping("/logout")
-	public ModelAndView doLogout(HttpServletRequest request, HttpServletResponse response, SessionStatus status) throws MyCustomException {
+	public ModelAndView doLogout(HttpServletRequest request, HttpServletResponse response, SessionStatus status)
+			throws MyCustomException {
 
+		ModelAndView mv = new ModelAndView("redirect:home");
+		
 		HttpSession session = request.getSession();
 		if (session != null && session.getAttribute("user") != null) {
-			User user = (User) session.getAttribute("user");
-			Cart cart = (Cart) session.getAttribute("cart");
-			if (user != null && user.getUserEmail() != null) {
-//				System.out.println("utility "+user);
-				if (cart != null) {
-					userService.updateCart(user, cart);
-				}
-				session.removeAttribute("user");
-				session.removeAttribute("userdetails");
-				try {
-					request.getRequestDispatcher("/home").forward(request, response);
-				} catch (ServletException | IOException e) {
-					throw new MyCustomException("Could not redirect to home page.");
-				}
-			}
+//			User user = (User) session.getAttribute("user");
+//			Cart cart = (Cart) session.getAttribute("cart");
+//			if (user != null && user.getUserEmail() != null) {
+////				System.out.println("utility "+user);
+//				if (cart != null) {
+//					cartService.updateCart(user, cart);
+//				}
+			session.removeAttribute("user");
+			session.removeAttribute("userdetails");
+			session.removeAttribute("cart");
+			status.setComplete();
+//			}
+		} else {
+			mv.setViewName("errorPage");
+			mv.addObject("errorMsg", "Cannot logout when not logged in.");
 		}
-		ModelAndView mv = new ModelAndView("errorPage");
-		mv.addObject("errorMsg", "Cannot logout when not logged in.");
 		return mv;
 	}
-
 
 }

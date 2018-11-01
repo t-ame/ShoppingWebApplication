@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false"
+	pageEncoding="UTF-8" isELIgnored="false" errorPage="errorPage.jsp"
 	import="com.java.components.Cart, com.java.components.User"%>
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -14,7 +14,8 @@
 <!-- Bootstrap CSS -->
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script> -->
 
@@ -25,7 +26,7 @@
 
 
 
-<link rel="stylesheet"  href="<c:url value="/style/styles.css" />"/>
+<link rel="stylesheet" href="<c:url value="/style/styles.css" />" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -54,11 +55,27 @@
 	margin-left: -10px;
 }
 
-.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
-.autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden; font-size:22px}
-.autocomplete-selected { background: #F0F0F0; }
-.autocomplete-suggestions strong { font-weight: bold; color: #3399FF; }
+.autocomplete-suggestions {
+	border: 1px solid #999;
+	background: #FFF;
+	overflow: auto;
+}
 
+.autocomplete-suggestion {
+	padding: 5px 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 22px
+}
+
+.autocomplete-selected {
+	background: #F0F0F0;
+}
+
+.autocomplete-suggestions strong {
+	font-weight: bold;
+	color: #3399FF;
+}
 </style>
 
 </head>
@@ -73,7 +90,7 @@
 		<%
 			int cartNo = request.getAttribute("cart") == null ? 0
 					: ((Cart) request.getAttribute("cart")).getCartEntries().size();
-		String conPath = request.getContextPath();
+			String conPath = request.getContextPath();
 		%>
 
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -85,23 +102,24 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto" style="display: flex">
-					<li class="nav-item active"><a class="nav-link" href="<%=conPath %>/home"
-						style="font-size: x-large"><span
+					<li class="nav-item active"><a class="nav-link"
+						href="<%=conPath%>/home" style="font-size: x-large"><span
 							style="font-family: 'Comic Sans MS'; color: yellow">My</span><span
 							style="font-family: 'Comic Sans MS'; color: #007bff">Cart</span>
 							<span class="sr-only">(current)</span> </a></li>
 
 					<li class="nav-item"><pre>								</pre></li>
-				
 
 
-					 <li class="nav-item"><pre>		</pre></li>
+
+					<li class="nav-item"><pre>		</pre></li>
 
 
-					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/addToCart/displaycart"><i
-							class="fa" style="font-size: 24px">&#xf07a;</i><span
+					<li class="nav-item"><a class="nav-link"
+						href="<%=conPath%>/cart"><i class="fa"
+							style="font-size: 24px">&#xf07a;</i><span
 							class='badge badge-warning' id='lblCartCount'> <%=session.getAttribute("cart") == null ? 0
-									: ((Cart) session.getAttribute("cart")).getCartEntries().size()%>
+					: ((Cart) session.getAttribute("cart")).getCartEntries().size()%>
 						</span></a></li>
 
 					<%
@@ -112,16 +130,17 @@
 						if (user != null && user.getUserEmail() != null) {
 					%>
 					<li class="nav-item"><a class="nav-link"
-						href="<%= request.getContextPath() %>/displayHistory"><tag:message code="myOrders"></tag:message></a></li>
+						href="<%=request.getContextPath()%>/displayHistory"><tag:message
+								code="myOrders"></tag:message></a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=conPath %>/profile"><tag:message code="myAccount"></tag:message></a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/logout"><tag:message
-								code="logout"></tag:message></a></li>
+						href="<%=conPath%>/profile"><tag:message code="myAccount"></tag:message></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=conPath%>/logout"><tag:message code="logout"></tag:message></a></li>
 					<%
 						} else {
 					%>
-					<li class="nav-item"><a class="nav-link" href="<%=conPath %>/login"><tag:message
-								code="loginRegister"></tag:message></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=conPath%>/login"><tag:message code="loginRegister"></tag:message></a></li>
 					<%
 						}
 					%>
@@ -142,7 +161,7 @@
 			</div>
 		</nav>
 
-		<section class="header-main">
+		<%-- <section class="header-main">
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-lg-13-24 col-sm-12 order-3 order-lg-2">
@@ -175,42 +194,12 @@
 				<!-- row.// -->
 			</div>
 			<!-- container.// -->
-		</section>
+		</section> --%>
 		<!-- header-main .// -->
 	</header>
 	<!-- section-header.// -->
 
 
-
-	<br>
-	
-	
-<script>
-  $(document).ready(function() {
-	  
-	  console.log('Hello');
-
-	/* $('#searchKeys').autocomplete({
-		serviceUrl: '${pageContext.request.contextPath}/productNames',
-		paramName: "searchKeys",
-		delimiter: ",",
-	   transformResult: function(response) {
-		    	
-		return {      	
-		  //must convert json to javascript object before process
-		  suggestions: $.map($.parseJSON(response), function(item) {
-		            	
-		      return { value: item.productName, data: item.productId };
-		   })
-		            
-		 };
-		        
-            }
-		    
-	 }); */
-				
-  });
-  </script>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -2,6 +2,7 @@ package com.java.controller;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import com.java.components.CartEntry;
 import com.java.components.User;
 import com.java.components.UserDetails;
 import com.java.exception.MyCustomException;
+import com.java.service.CartServiceImpl;
 import com.java.service.UserServiceImpl;
 import com.java.util.LastState;
 
@@ -55,55 +57,38 @@ public class UserController {
 	@Autowired
 	@Qualifier("userservice")
 	private UserServiceImpl userService;
-	
 
-	@RequestMapping(path = "/loggedin")
-	public ModelAndView loggedIn(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp) {
-//		ModelAndView mv = new ModelAndView("../../index");
-		
-		return new ModelAndView("../../index");
-	}
-			
+	@Autowired
+	private CartServiceImpl cartService;
+
 	@RequestMapping(path = "/loginUser", method = RequestMethod.POST)
 	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp)
 			throws MyCustomException {
 
-		ModelAndView mv = new ModelAndView("errorPage");
-		HttpSession session = req.getSession();
-		LastState ls = (LastState) session.getAttribute("laststate");
+		ModelAndView mv = new ModelAndView("redirect:home");
+		HttpSession session = req.getSession(true);
 
 		String email = user.getUserEmail();
 		String password = user.getUserPassword();
+
 		user = userService.getUser(email);
 		if (user != null && user.getUserEmail() != null && user.getUserPassword().equals(password)) {
+
 			System.out.println("login  " + user);
-			session.setAttribute("userdetails", user.getUserDetails());
+
+			UserDetails details = user.getUserDetails();
+
+			session.setAttribute("userdetails", details);
+			boolean set = false;
 
 			Cart cart = (Cart) session.getAttribute("cart");
-			if (cart != null&& user.getUserDetails() != null && user.getUserDetails().getCart() != null) {
-				cart.addEntries(user.getUserDetails().getCart().getCartEntries());
-			} else {
-				if(user.getUserDetails() != null ) {
-					cart = user.getUserDetails().getCart();
+			if (details != null && details.getCart() != null) {
+				if(cart != null) {
+					cartService.addEntriesToCart(user, cart.getCartEntries());
 				}
-				if(cart == null) {
-					cart = new Cart();
-				}
-			}
-			for (CartEntry entry : cart.getCartEntries()) {
-				entry.setCartEntryId(0);
+				cart = cartService.getCart(user);
 			}
 			session.setAttribute("cart", cart);
-
-			try {
-				if (ls != null) {
-					req.getRequestDispatcher(ls.getLastUri()).forward(req, resp);
-				} else {
-					mv.setViewName("redirect:loggedin");
-				}
-			} catch (ServletException | IOException e) {
-				throw new MyCustomException(e.getMessage());
-			}
 		} else {
 			req.getSession().removeAttribute("user");
 			mv.addObject("errorMsg", "Invalid username or password");
@@ -125,24 +110,12 @@ public class UserController {
 	@RequestMapping(value = "/deleteUser")
 	public ModelAndView deleteUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp)
 			throws MyCustomException {
-		ModelAndView mv = new ModelAndView("redirect:loggedin");
+		ModelAndView mv = new ModelAndView("redirect:home");
 		userService.deleteUser(user);
 
 		req.getSession().removeAttribute("user");
-		
+
 		return mv;
-	}
-
-	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	public ModelAndView updateUser(@ModelAttribute("user") User user,
-			@ModelAttribute("userdetails") UserDetails details) {
-
-		user.setUserDetails(details);
-		userService.updateUser(user);
-
-		// NOT COMPLETE!!!
-
-		return null;
 	}
 
 	@RequestMapping(value = "/profile")
