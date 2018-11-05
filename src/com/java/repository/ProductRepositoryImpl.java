@@ -24,8 +24,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Autowired
 	SessionFactory sf;
 
-	private static Object productLock = new Object();
-
 	@Override
 	public Product getProduct(long id) {
 		Session session = sf.openSession();
@@ -176,7 +174,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 		boolean status = false;
 		Session session = sf.openSession();
 		session.beginTransaction();
-//		synchronized (productLock) {
 		Product p = session.get(Product.class, product.getProductId());
 		int stock = p.getStockQuantity();
 		if (stock >= quantity) {
@@ -184,7 +181,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 			status = true;
 		}
 		session.getTransaction().commit();
-//		}
 		session.close();
 		return status;
 	}

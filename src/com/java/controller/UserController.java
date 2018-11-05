@@ -31,7 +31,7 @@ import com.java.service.UserServiceImpl;
 import com.java.util.LastState;
 
 @Controller
-@SessionAttributes(names = { "user", "login", "userdetails", "address", "cart" })
+@SessionAttributes(names = { "user", "login", "userdetails", "address" })
 public class UserController {
 
 	@ModelAttribute("user")
@@ -49,10 +49,6 @@ public class UserController {
 		return new Address();
 	}
 
-	@ModelAttribute("cart")
-	public Cart initCart() {
-		return new Cart();
-	}
 
 	@Autowired
 	@Qualifier("userservice")
@@ -64,37 +60,29 @@ public class UserController {
 	@RequestMapping(path = "/loginUser", method = RequestMethod.POST)
 	public ModelAndView loginUser(@ModelAttribute("user") User user, HttpServletRequest req, HttpServletResponse resp)
 			throws MyCustomException {
-
 		ModelAndView mv = new ModelAndView("redirect:home");
 		HttpSession session = req.getSession(true);
-
 		String email = user.getUserEmail();
 		String password = user.getUserPassword();
 
 		user = userService.getUser(email);
 		if (user != null && user.getUserEmail() != null && user.getUserPassword().equals(password)) {
-
-			System.out.println("login  " + user);
-
 			UserDetails details = user.getUserDetails();
-
 			session.setAttribute("userdetails", details);
-			boolean set = false;
-
 			Cart cart = (Cart) session.getAttribute("cart");
 			if (details != null && details.getCart() != null) {
-				if(cart != null) {
+				if (cart != null) {
 					cartService.addEntriesToCart(user, cart.getCartEntries());
 				}
 				cart = cartService.getCart(user);
 			}
 			session.setAttribute("cart", cart);
+			System.out.println("from session "+session.getAttribute("cart"));
 		} else {
 			req.getSession().removeAttribute("user");
 			mv.addObject("errorMsg", "Invalid username or password");
 			mv.setViewName("loginPage");
 		}
-
 		return mv;
 	}
 

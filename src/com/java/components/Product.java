@@ -1,6 +1,5 @@
 package com.java.components;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -36,7 +35,6 @@ public class Product {
 	private String productDescription;
 	private Set<ProductDetailGroup> productDetails;
 	
-	@Version
 	private int version;
 
 	@Column(name = "CATEGORY_NAME", nullable = false, length = 50)
@@ -139,6 +137,7 @@ public class Product {
 				+ ", " + productDetails + " ]";
 	}
 
+	@Version
 	public int getVersion() {
 		return version;
 	}

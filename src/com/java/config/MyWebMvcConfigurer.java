@@ -1,10 +1,12 @@
 package com.java.config;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 @Configuration
 @EnableWebMvc
@@ -56,9 +59,18 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/style/**").addResourceLocations("/style/");
-		registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-		registry.addResourceHandler("/images/**").addResourceLocations("/images/");
+		registry.addResourceHandler("/style/**").addResourceLocations("/style/")
+		.setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS))
+		.resourceChain(true)
+		.addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));;
+		registry.addResourceHandler("/js/**").addResourceLocations("/js/")
+		.setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS))
+		.resourceChain(true)
+		.addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));;
+		registry.addResourceHandler("/images/**").addResourceLocations("/images/")
+		.setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS))
+		.resourceChain(true)
+		.addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));;
 	}
 
 	@Override

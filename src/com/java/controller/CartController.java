@@ -34,7 +34,7 @@ import com.java.service.UserServiceImpl;
 import com.java.util.OrderSorter;
 
 @Controller
-@SessionAttributes(names = { "cart", "user", "card" })
+@SessionAttributes(names = { "user", "card" })
 public class CartController {
 
 	@Autowired

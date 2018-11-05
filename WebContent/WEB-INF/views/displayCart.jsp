@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" session="true"
 	pageEncoding="UTF-8" errorPage="errorPage.jsp"
 	import="java.util.List, com.java.components.Cart, com.java.components.CartEntry, com.java.components.Product"
 	isELIgnored="false"%>
